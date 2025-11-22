@@ -1,0 +1,31 @@
+declare const styles: {
+    organizationChart: string;
+    teams: string;
+    appShell: string;
+    topBar: string;
+    brand: string;
+    brandMark: string;
+    brandCopy: string;
+    brandTitle: string;
+    brandSubtitle: string;
+    tabBar: string;
+    tab: string;
+    searchControls: string;
+    filters: string;
+    filterDropdown: string;
+    searchLabel: string;
+    searchField: string;
+    clearSearch: string;
+    toolbar: string;
+    zoomControls: string;
+    zoomBtn: string;
+    hintText: string;
+    chartWrapper: string;
+    chartStage: string;
+    orgChartCanvas: string;
+    pulse: string;
+    fadeIn: string;
+    slideUp: string;
+};
+export default styles;
+//# sourceMappingURL=OrganizationChartWebPart.module.scss.d.ts.map

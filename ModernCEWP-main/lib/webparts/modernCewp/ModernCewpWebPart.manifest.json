@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "64390450-5941-4b3d-b1fa-1289bb9037bd",
+  "alias": "ModernCewpWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", 
+    "group": { "default": "Advanced" },
+    "title": { "default": "CEWP by Sagar" },
+    "description": { "default": "This webpart replicates the classic SharePoint Content Editor Web part and lets you link to a HTML file containing HTML / JS or insert HTML code directly into the page." },
+    "officeFabricIconFontName": "Embed",
+    "properties": {
+      "description": "This webpart replicates the classic SharePoint Content Editor Web part and lets you link to a HTML file containing HTML / JS or insert HTML code directly into the page."
+    }
+  }]
+}

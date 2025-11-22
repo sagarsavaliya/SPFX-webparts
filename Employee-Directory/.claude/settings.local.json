@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(npm run build:*)",
+      "Bash(dir /b \"f:\\Akshara Technologies\\Departments\\SharePoint\\spfx\\SPFX-webparts\")",
+      "Bash(findstr:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(dir:*)",
+      "Bash(gulp bundle:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

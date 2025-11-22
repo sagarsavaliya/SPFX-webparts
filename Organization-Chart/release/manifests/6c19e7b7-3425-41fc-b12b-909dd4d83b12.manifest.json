@@ -1,0 +1,64 @@
+{
+  "id": "6c19e7b7-3425-41fc-b12b-909dd4d83b12",
+  "alias": "OrganizationChartWebPart",
+  "componentType": "WebPart",
+  "version": "0.0.1",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Advanced"
+      },
+      "title": {
+        "default": "Organization Chart"
+      },
+      "description": {
+        "default": "Organization Chart description"
+      },
+      "officeFabricIconFontName": "Page",
+      "properties": {
+        "description": "Organization Chart"
+      }
+    }
+  ],
+  "loaderConfig": {
+    "internalModuleBaseUrls": [
+      "https://publiccdn.sharepointonline.com/ccmcnet.sharepoint.com/sites/AppCatalog/SiteAssets/organization-chart"
+    ],
+    "entryModuleId": "organization-chart-web-part",
+    "scriptResources": {
+      "organization-chart-web-part": {
+        "type": "path",
+        "path": "organization-chart-web-part_492824ebc1fb4d6e64c1.js"
+      },
+      "@microsoft/sp-core-library": {
+        "type": "component",
+        "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+        "version": "1.21.1"
+      },
+      "@microsoft/sp-property-pane": {
+        "type": "component",
+        "id": "f9e737b7-f0df-4597-ba8c-3060f82380db",
+        "version": "1.21.1"
+      },
+      "@microsoft/sp-webpart-base": {
+        "type": "component",
+        "id": "974a7777-0990-4136-8fa6-95d80114c2e0",
+        "version": "1.21.1"
+      },
+      "OrganizationChartWebPartStrings": {
+        "type": "path",
+        "path": "OrganizationChartWebPartStrings_en-us_eb42a517954fea904e022e89eb9f35e4.js"
+      }
+    }
+  }
+}
