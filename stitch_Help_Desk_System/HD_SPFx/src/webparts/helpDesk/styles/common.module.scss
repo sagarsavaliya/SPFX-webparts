@@ -1,0 +1,623 @@
+/**
+ * Common styles for Help Desk application
+ * Based on Google Stitch design - Dark theme with glass morphism
+ */
+
+/* Color Variables */
+$primary: #3b82f6;
+$primary-dark: #2563eb;
+$accent: #0d9488;
+$background-dark: #0f172a;
+$surface-dark: #1e293b;
+$surface-dark-highlight: #334155;
+$text-main: #f8fafc;
+$text-muted: #94a3b8;
+$border-color: rgba(71, 85, 105, 0.5);
+
+/* Status Colors */
+$status-new: #3b82f6;
+$status-open: #0d9488;
+$status-in-progress: #f59e0b;
+$status-waiting: #8b5cf6;
+$status-resolved: #10b981;
+$status-closed: #6b7280;
+
+/* Priority Colors */
+$priority-low: #94a3b8;
+$priority-medium: #3b82f6;
+$priority-high: #f59e0b;
+$priority-critical: #ef4444;
+
+/* Root Container */
+.helpDeskRoot {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: $background-dark;
+  color: $text-main;
+  min-height: 100vh;
+  position: relative;
+
+  /* Background gradient effects */
+  &::before {
+    content: '';
+    position: fixed;
+    top: -10%;
+    left: -5%;
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: fixed;
+    bottom: -10%;
+    right: -5%;
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(13, 148, 136, 0.05) 0%, transparent 70%);
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 10;
+}
+
+/* Glass Panel Effect */
+.glassPanel {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* Card */
+.card {
+  @extend .glassPanel;
+  padding: 24px;
+}
+
+/* Header Styles */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+  background: rgba(30, 41, 59, 0.9);
+  backdrop-filter: blur(12px);
+  padding: 12px 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navLink {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-muted;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s;
+
+  &:hover {
+    color: $text-main;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  &.active {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: $primary;
+    font-weight: 600;
+  }
+}
+
+/* Button Styles */
+.button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.buttonPrimary {
+  @extend .button;
+  background: linear-gradient(to right, $primary, $primary-dark);
+  color: white;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+.buttonSecondary {
+  @extend .button;
+  background: $surface-dark;
+  color: $text-main;
+  border: 1px solid $border-color;
+
+  &:hover:not(:disabled) {
+    background: $surface-dark-highlight;
+    border-color: $primary;
+  }
+}
+
+.buttonDanger {
+  @extend .button;
+  background: #ef4444;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background: #dc2626;
+  }
+}
+
+.buttonSmall {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.buttonLarge {
+  padding: 14px 28px;
+  font-size: 16px;
+}
+
+/* Input Styles */
+.input {
+  background-color: rgba(30, 41, 59, 0.5);
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  color: $text-main;
+  padding: 12px 16px;
+  font-size: 14px;
+  width: 100%;
+  transition: all 0.2s;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    border-color: $primary;
+    background-color: rgba(30, 41, 59, 0.8);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: rgba(15, 23, 42, 0.4);
+    color: #64748b;
+    cursor: not-allowed;
+  }
+}
+
+.textarea {
+  @extend .input;
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.select {
+  @extend .input;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+/* Label */
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-main;
+  margin-bottom: 8px;
+}
+
+/* Form Group */
+.formGroup {
+  margin-bottom: 20px;
+}
+
+/* Badge Styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badgeNew {
+  @extend .badge;
+  background: rgba(59, 130, 246, 0.1);
+  color: $status-new;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.badgeOpen {
+  @extend .badge;
+  background: rgba(13, 148, 136, 0.1);
+  color: $status-open;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.badgeInProgress {
+  @extend .badge;
+  background: rgba(245, 158, 11, 0.1);
+  color: $status-in-progress;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badgeResolved {
+  @extend .badge;
+  background: rgba(16, 185, 129, 0.1);
+  color: $status-resolved;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badgeClosed {
+  @extend .badge;
+  background: rgba(107, 114, 128, 0.1);
+  color: $status-closed;
+  border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+/* Priority Badges */
+.badgeLow {
+  @extend .badge;
+  background: rgba(148, 163, 184, 0.1);
+  color: $priority-low;
+}
+
+.badgeMedium {
+  @extend .badge;
+  background: rgba(59, 130, 246, 0.1);
+  color: $priority-medium;
+}
+
+.badgeHigh {
+  @extend .badge;
+  background: rgba(245, 158, 11, 0.1);
+  color: $priority-high;
+}
+
+.badgeCritical {
+  @extend .badge;
+  background: rgba(239, 68, 68, 0.1);
+  color: $priority-critical;
+}
+
+/* Stat Card */
+.statCard {
+  @extend .glassPanel;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.statCardHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.statCardIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: $primary;
+  transition: all 0.3s ease;
+
+  .statCard:hover & {
+    transform: scale(1.1);
+  }
+}
+
+.statCardLabel {
+  font-size: 14px;
+  color: $text-muted;
+  font-weight: 500;
+}
+
+.statCardValue {
+  font-size: 36px;
+  font-weight: 700;
+  color: $text-main;
+  margin: 8px 0;
+}
+
+.statCardChange {
+  font-size: 12px;
+  color: $text-muted;
+}
+
+/* Loading Spinner */
+.spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(59, 130, 246, 0.1);
+  border-top-color: $primary;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+}
+
+.loadingText {
+  color: $text-muted;
+  font-size: 14px;
+}
+
+/* Error Message */
+.errorMessage {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  color: #fca5a5;
+  margin: 16px 0;
+}
+
+/* Success Message */
+.successMessage {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  color: #6ee7b7;
+  margin: 16px 0;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.tableHeader {
+  background: $surface-dark-highlight;
+  border-bottom: 2px solid $border-color;
+}
+
+.tableHeaderCell {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: $text-main;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tableRow {
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+}
+
+.tableCell {
+  padding: 16px;
+  font-size: 14px;
+  color: $text-main;
+}
+
+/* Custom Scrollbar */
+:global {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+}
+
+/* Utility Classes */
+.textCenter {
+  text-align: center;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.mt1 {
+  margin-top: 8px;
+}
+
+.mt2 {
+  margin-top: 16px;
+}
+
+.mt3 {
+  margin-top: 24px;
+}
+
+.mt4 {
+  margin-top: 32px;
+}
+
+.mb1 {
+  margin-bottom: 8px;
+}
+
+.mb2 {
+  margin-bottom: 16px;
+}
+
+.mb3 {
+  margin-bottom: 24px;
+}
+
+.mb4 {
+  margin-bottom: 32px;
+}
+
+.p1 {
+  padding: 8px;
+}
+
+.p2 {
+  padding: 16px;
+}
+
+.p3 {
+  padding: 24px;
+}
+
+.p4 {
+  padding: 32px;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid2 {
+  @extend .grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid3 {
+  @extend .grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid4 {
+  @extend .grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.flex {
+  display: flex;
+}
+
+.flexColumn {
+  @extend .flex;
+  flex-direction: column;
+}
+
+.flexCenter {
+  @extend .flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gap1 {
+  gap: 8px;
+}
+
+.gap2 {
+  gap: 16px;
+}
+
+.gap3 {
+  gap: 24px;
+}
+
+.gap4 {
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+
+  .grid2,
+  .grid3,
+  .grid4 {
+    grid-template-columns: 1fr;
+  }
+}

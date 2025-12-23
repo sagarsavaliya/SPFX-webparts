@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "help-desk-ticketing-tool-client-side-solution",
+    "id": "aa033c34-1c97-4f4b-85a5-46d116b695de",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "HelpDesk Ticketing Tool description"
+      },
+      "longDescription": {
+        "default": "HelpDesk Ticketing Tool description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "help-desk-ticketing-tool Feature",
+        "description": "The feature that activates elements of the help-desk-ticketing-tool solution.",
+        "id": "64a38ebf-f1f3-41aa-bb7d-d4ec56845234",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/help-desk-ticketing-tool.sppkg"
+  }
+}

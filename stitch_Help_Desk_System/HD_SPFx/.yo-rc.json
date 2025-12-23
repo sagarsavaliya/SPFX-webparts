@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.16.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "help-desk-ticketing-tool",
+    "libraryId": "aa033c34-1c97-4f4b-85a5-46d116b695de",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "HelpDesk Ticketing Tool",
+    "solutionShortDescription": "HelpDesk Ticketing Tool description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
