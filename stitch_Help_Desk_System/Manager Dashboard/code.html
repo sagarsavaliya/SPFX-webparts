@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manager Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6","primary-dark": "#2563eb",
+                        "accent": "#0d9488","background-dark": "#0f172a","surface-dark": "#1e293b","surface-dark-highlight": "#334155",
+                        "text-main": "#f8fafc",
+                        "text-muted": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.75rem", "lg": "1rem", "xl": "1.5rem" },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'dark-gradient': 'linear-gradient(to bottom right, #1e293b, #0f172a)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .chart-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-main font-display antialiased min-h-screen selection:bg-primary/30">
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-accent/5 blur-[100px]"></div>
+</div>
+<div class="relative z-10 flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-40 flex items-center justify-between border-b border-slate-700/50 bg-surface-dark/90 backdrop-blur-md px-6 py-3 shadow-lg shadow-black/20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+</div>
+<div>
+<h2 class="text-lg font-bold tracking-tight text-white leading-tight">Manager Portal</h2>
+<div class="text-[10px] uppercase tracking-wider text-accent font-semibold">Executive Overview</div>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-1 ml-4">
+<a class="rounded-lg bg-primary/10 border border-primary/20 px-4 py-2 text-sm font-bold text-primary shadow-sm shadow-primary/5" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Team</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Reports</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors text-xl">search</span>
+<input class="h-10 w-64 rounded-lg border border-slate-700/50 bg-slate-800/50 pl-10 pr-4 text-sm text-white focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:bg-slate-800 transition-all placeholder:text-slate-500" placeholder="Search metrics..." type="text"/>
+</div>
+<button class="relative rounded-full p-2 text-slate-400 hover:bg-white/5 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 rounded-full bg-red-500 border border-surface-dark"></span>
+</button>
+<div class="h-8 w-[1px] bg-slate-700 mx-1"></div>
+<div class="flex items-center gap-3 pl-1 cursor-pointer hover:opacity-80 transition-opacity">
+<div class="text-right hidden sm:block">
+<div class="text-sm font-semibold text-white">Sarah Jenkins</div>
+<div class="text-xs text-slate-400">Help Desk Manager</div>
+</div>
+<div class="relative size-9 overflow-hidden rounded-lg border border-slate-600 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpLTs7OX2YZvOgw9VOuPG0d9XYZUd66XIKiYzELBuHu_xxZrxmMSqk_ZmVfB19CukC4O26ES67kL3AnZrTy2uViDcmv-5DNLYucIplHYsAJvvVMyiaPhH-OAQQ2_Bsvk6jAwPta-StUW-rrTp5rLLQzF7oHEJhpk7hQ0TjL_1Q65njOz6Mq6fpSR5D2Mz9qzWDPo4n2MGDmjiA-q0Z8A_wvGBONYmPTox9mltcQLOErmFMUQTaS3iCBF_UpKIbD0vZRU2U-zIil-0'); background-size: cover;"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-8 md:px-8 lg:px-12 xl:px-16 max-w-[1600px] mx-auto w-full">
+<div class="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+<div>
+<h1 class="text-3xl font-bold tracking-tight text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Dashboard Overview</h1>
+<p class="text-slate-400 max-w-2xl">Real-time insights into ticket volume, team performance, and service level compliance.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<select class="h-11 appearance-none rounded-lg border border-slate-700 bg-slate-800/80 pl-4 pr-10 text-sm font-medium text-slate-300 shadow-sm focus:ring-primary focus:text-white hover:bg-slate-700/80 transition-colors cursor-pointer">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+<option>This Quarter</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">expand_more</span>
+</div>
+<button class="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/40">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Export Report
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+<div class="relative overflow-hidden rounded-xl glass-panel p-6 shadow-lg transition-all hover:shadow-primary/10 hover:border-primary/30 group">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2.5 rounded-lg bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-xl">confirmation_number</span>
+</div>
+<span class="flex items-center text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span> 12.5%
+                        </span>
+</div>
+<div class="relative z-10">
+<p class="text-sm font-medium text-slate-400">Total Tickets</p>
+<h3 class="text-3xl font-bold text-white mt-1">1,248</h3>
+<p class="text-xs text-slate-500 mt-2">vs 1,109 last period</p>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl glass-panel p-6 shadow-lg transition-all hover:shadow-accent/10 hover:border-accent/30 group">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2.5 rounded-lg bg-accent/10 text-accent">
+<span class="material-symbols-outlined text-xl">verified_user</span>
+</div>
+<div class="size-10 relative">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<path class="text-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-accent" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="94, 100" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center text-[8px] font-bold text-white">94%</div>
+</div>
+</div>
+<div class="relative z-10">
+<p class="text-sm font-medium text-slate-400">SLA Compliance</p>
+<h3 class="text-3xl font-bold text-white mt-1">94.2%</h3>
+<p class="text-xs text-slate-500 mt-2">Target: 95.0%</p>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl glass-panel p-6 shadow-lg transition-all hover:shadow-purple-500/10 hover:border-purple-500/30 group">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2.5 rounded-lg bg-purple-500/10 text-purple-400">
+<span class="material-symbols-outlined text-xl">timer</span>
+</div>
+<span class="flex items-center text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">
+                            -15m
+                        </span>
+</div>
+<div class="relative z-10">
+<p class="text-sm font-medium text-slate-400">Avg Resolution</p>
+<h3 class="text-3xl font-bold text-white mt-1">4h 12m</h3>
+<p class="text-xs text-slate-500 mt-2">Improved from 4h 27m</p>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl glass-panel p-6 shadow-lg transition-all hover:shadow-orange-500/10 hover:border-orange-500/30 group">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2.5 rounded-lg bg-orange-500/10 text-orange-400">
+<span class="material-symbols-outlined text-xl">compare_arrows</span>
+</div>
+</div>
+<div class="relative z-10">
+<p class="text-sm font-medium text-slate-400">Active Pipeline</p>
+<div class="flex items-baseline gap-1 mt-1">
+<h3 class="text-3xl font-bold text-white">85</h3>
+<span class="text-sm text-slate-400 font-normal">Open</span>
+<span class="mx-2 text-slate-600">|</span>
+<h3 class="text-xl font-semibold text-slate-300">1163</h3>
+<span class="text-sm text-slate-500 font-normal">Closed</span>
+</div>
+<div class="w-full h-1.5 bg-slate-700 rounded-full mt-3 overflow-hidden flex">
+<div class="bg-orange-400 h-full" style="width: 7%"></div>
+<div class="bg-slate-500 h-full" style="width: 93%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<div class="glass-panel rounded-xl p-6 shadow-lg">
+<h3 class="text-sm font-bold text-slate-200 mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">category</span>
+                        Tickets by Category
+                    </h3>
+<div class="space-y-4">
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="text-slate-300 font-medium">Hardware</span>
+<span class="text-slate-400">42% (524)</span>
+</div>
+<div class="w-full bg-slate-700/50 rounded-full h-2">
+<div class="bg-blue-500 h-2 rounded-full transition-all group-hover:bg-blue-400" style="width: 42%"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="text-slate-300 font-medium">Software Access</span>
+<span class="text-slate-400">28% (349)</span>
+</div>
+<div class="w-full bg-slate-700/50 rounded-full h-2">
+<div class="bg-teal-500 h-2 rounded-full transition-all group-hover:bg-teal-400" style="width: 28%"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="text-slate-300 font-medium">Network</span>
+<span class="text-slate-400">18% (225)</span>
+</div>
+<div class="w-full bg-slate-700/50 rounded-full h-2">
+<div class="bg-purple-500 h-2 rounded-full transition-all group-hover:bg-purple-400" style="width: 18%"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="text-slate-300 font-medium">Other</span>
+<span class="text-slate-400">12% (150)</span>
+</div>
+<div class="w-full bg-slate-700/50 rounded-full h-2">
+<div class="bg-slate-500 h-2 rounded-full transition-all group-hover:bg-slate-400" style="width: 12%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-6 shadow-lg flex flex-col">
+<h3 class="text-sm font-bold text-slate-200 mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-400 text-base">priority_high</span>
+                        Volume by Priority
+                    </h3>
+<div class="flex-1 flex items-center justify-center gap-8">
+<div class="relative size-40 rounded-full" style="background: conic-gradient(#ef4444 0% 15%, #f97316 15% 45%, #3b82f6 45% 85%, #64748b 85% 100%);">
+<div class="absolute inset-4 rounded-full bg-surface-dark flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-white">1.2k</span>
+<span class="text-[10px] text-slate-400 uppercase tracking-widest">Total</span>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<span class="size-2.5 rounded-full bg-red-500"></span>
+<span class="text-xs text-slate-300">Critical (15%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="size-2.5 rounded-full bg-orange-500"></span>
+<span class="text-xs text-slate-300">High (30%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="size-2.5 rounded-full bg-blue-500"></span>
+<span class="text-xs text-slate-300">Medium (40%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="size-2.5 rounded-full bg-slate-500"></span>
+<span class="text-xs text-slate-300">Low (15%)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-6 shadow-lg flex flex-col">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-red-400 text-base">trending_down</span>
+                            SLA Breaches (Week)
+                        </h3>
+<div class="text-xs font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded">
+                            +2 today
+                        </div>
+</div>
+<div class="flex-1 relative w-full h-32 chart-grid border-l border-b border-slate-700/50 mt-2">
+<svg class="absolute inset-0 h-full w-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
+<defs>
+<linearGradient id="gradientRed" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#ef4444" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#ef4444" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path d="M0,80 L20,70 L40,85 L60,40 L80,50 L100,20 L100,100 L0,100 Z" fill="url(#gradientRed)"></path>
+<path d="M0,80 L20,70 L40,85 L60,40 L80,50 L100,20" fill="none" stroke="#f87171" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="20" cy="70" fill="#1e293b" r="3" stroke="#f87171" stroke-width="2"></circle>
+<circle cx="40" cy="85" fill="#1e293b" r="3" stroke="#f87171" stroke-width="2"></circle>
+<circle cx="60" cy="40" fill="#1e293b" r="3" stroke="#f87171" stroke-width="2"></circle>
+<circle cx="80" cy="50" fill="#1e293b" r="3" stroke="#f87171" stroke-width="2"></circle>
+<circle cx="100" cy="20" fill="#1e293b" r="3" stroke="#f87171" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="flex justify-between text-[10px] text-slate-500 mt-2 uppercase tracking-wide font-semibold">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 glass-panel rounded-xl border border-slate-700/50 shadow-xl overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between">
+<h3 class="text-base font-bold text-white">Technician Performance</h3>
+<button class="text-xs text-primary hover:text-white transition-colors">View All Agents</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-800/50 text-slate-400">
+<tr>
+<th class="px-6 py-3 font-semibold text-xs uppercase tracking-wider">Agent</th>
+<th class="px-6 py-3 font-semibold text-xs uppercase tracking-wider">Active Tickets</th>
+<th class="px-6 py-3 font-semibold text-xs uppercase tracking-wider">Closed (Wk)</th>
+<th class="px-6 py-3 font-semibold text-xs uppercase tracking-wider">Avg Time</th>
+<th class="px-6 py-3 font-semibold text-xs uppercase tracking-wider">CSAT</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-700/50">
+<tr class="hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-3.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs font-bold border border-indigo-500/30">JD</div>
+<div class="font-medium text-slate-200">John Doe</div>
+</div>
+</td>
+<td class="px-6 py-3.5 text-slate-300">12</td>
+<td class="px-6 py-3.5 text-slate-300">45</td>
+<td class="px-6 py-3.5 text-slate-400">2.5h</td>
+<td class="px-6 py-3.5">
+<span class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">4.9 ★</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-3.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-rose-500/20 text-rose-300 flex items-center justify-center text-xs font-bold border border-rose-500/30">AS</div>
+<div class="font-medium text-slate-200">Alice Smith</div>
+</div>
+</td>
+<td class="px-6 py-3.5 text-slate-300">8</td>
+<td class="px-6 py-3.5 text-slate-300">38</td>
+<td class="px-6 py-3.5 text-slate-400">3.1h</td>
+<td class="px-6 py-3.5">
+<span class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">4.7 ★</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-3.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs font-bold border border-amber-500/30">MK</div>
+<div class="font-medium text-slate-200">Mike Khan</div>
+</div>
+</td>
+<td class="px-6 py-3.5 text-slate-300">15</td>
+<td class="px-6 py-3.5 text-slate-300">32</td>
+<td class="px-6 py-3.5 text-slate-400">4.0h</td>
+<td class="px-6 py-3.5">
+<span class="inline-flex items-center rounded-md bg-yellow-500/10 px-2 py-1 text-xs font-medium text-yellow-400 ring-1 ring-inset ring-yellow-500/20">4.2 ★</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-3.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-xs font-bold border border-cyan-500/30">EL</div>
+<div class="font-medium text-slate-200">Emma Lee</div>
+</div>
+</td>
+<td class="px-6 py-3.5 text-slate-300">5</td>
+<td class="px-6 py-3.5 text-slate-300">29</td>
+<td class="px-6 py-3.5 text-slate-400">1.8h</td>
+<td class="px-6 py-3.5">
+<span class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">4.8 ★</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="glass-panel rounded-xl border border-slate-700/50 shadow-xl p-0">
+<div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between bg-red-500/5">
+<h3 class="text-base font-bold text-white flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+</span>
+                            Active Escalations
+                        </h3>
+<span class="text-xs font-bold text-red-400 bg-red-500/10 px-2 py-1 rounded">3 Critical</span>
+</div>
+<div class="p-4 space-y-3">
+<div class="p-3 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-red-500/30 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-blue-400">#TK-9821</span>
+<span class="text-[10px] text-slate-500">2h ago</span>
+</div>
+<h4 class="text-sm font-semibold text-white mb-1 group-hover:text-primary transition-colors">Server Cluster Down</h4>
+<div class="flex items-center justify-between mt-2">
+<span class="text-xs text-slate-400">Level 2 Breach</span>
+<div class="size-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-slate-300 border border-slate-600">MK</div>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-red-500/30 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-blue-400">#TK-9844</span>
+<span class="text-[10px] text-slate-500">4h ago</span>
+</div>
+<h4 class="text-sm font-semibold text-white mb-1 group-hover:text-primary transition-colors">CEO Email Sync Fail</h4>
+<div class="flex items-center justify-between mt-2">
+<span class="text-xs text-slate-400">VIP Priority</span>
+<div class="size-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-slate-300 border border-slate-600">JD</div>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-red-500/30 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-blue-400">#TK-9710</span>
+<span class="text-[10px] text-slate-500">1d ago</span>
+</div>
+<h4 class="text-sm font-semibold text-white mb-1 group-hover:text-primary transition-colors">ERP License Expiry</h4>
+<div class="flex items-center justify-between mt-2">
+<span class="text-xs text-slate-400">SLA Missed</span>
+<div class="size-6 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-slate-300 border border-slate-600">EL</div>
+</div>
+</div>
+</div>
+<div class="px-4 py-3 border-t border-slate-700/50 text-center">
+<button class="text-xs font-medium text-slate-400 hover:text-white transition-colors flex items-center justify-center w-full gap-1">
+                            View all escalations <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

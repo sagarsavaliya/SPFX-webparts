@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KB Article Detail View</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#1c252e", // Slightly lighter than background-dark for cards
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a cleaner look in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101922; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3748; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a5568; 
+        }
+        
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .article-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #e2e8f0;
+        }
+        .article-content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.75;
+            color: #cbd5e0;
+        }
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.25rem;
+            padding-left: 1.5rem;
+            color: #cbd5e0;
+        }
+        .article-content li {
+            margin-bottom: 0.5rem;
+            list-style-type: disc;
+        }
+        .article-content pre {
+            background-color: #0d1117;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            border: 1px solid #30363d;
+        }
+        .article-content code {
+            font-family: monospace;
+            color: #a5d6ff;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#283039] bg-[#111418] dark:bg-[#101922] px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">local_convenience_store</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Help Desk</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full group focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<div class="text-[#9dabb9] flex border-none bg-[#1c252e] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#1c252e] focus:border-none h-full placeholder:text-[#9dabb9] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search articles..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden lg:flex items-center gap-8">
+<a class="text-[#9dabb9] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-[#9dabb9] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">My Tickets</a>
+<a class="text-white text-sm font-medium leading-normal relative after:content-[''] after:absolute after:-bottom-5 after:left-0 after:h-[2px] after:w-full after:bg-primary" href="#">Knowledge Base</a>
+<a class="text-[#9dabb9] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">FAQs</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-blue-600 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-lg shadow-blue-900/20">
+<span class="truncate">New Ticket</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-[#283039]" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBUZ0fuvtNDtm5iW39jKWmzcchaKoF1ktwWih4zEEvQ4lYRIqKQ_tPRDi5LAxynUY8lW6-d8VdBFGYddDsrC-UL9pKRPlRKFxvNmFDplFcZ1EN_tGgffYqMpl7ZVfGc4O4CdHbP-wxVlq_AinjIaazyMZ0oAXXvatsJN6kQookR58kNf3Ln5JwBx6j2q3e7RXR9TDIKKxfABnkIoHdpZMmI4Q69COtCxiMxhdAFNzPFwUiWTGWz93dNddE8fEdNXAeOoSnXcyJbLjY");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Layout -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Article Column (Left) -->
+<article class="flex-1 min-w-0">
+<!-- Breadcrumbs -->
+<nav class="flex flex-wrap gap-2 pb-4 text-sm">
+<a class="text-[#9dabb9] hover:text-primary transition-colors font-medium" href="#">Home</a>
+<span class="text-[#64748b] font-medium">/</span>
+<a class="text-[#9dabb9] hover:text-primary transition-colors font-medium" href="#">Knowledge Base</a>
+<span class="text-[#64748b] font-medium">/</span>
+<span class="text-white font-medium">Software Configuration</span>
+</nav>
+<!-- Article Header -->
+<div class="mb-8">
+<div class="flex flex-wrap gap-2 mb-4">
+<div class="flex h-6 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#1c252e] border border-[#283039] px-3">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+<p class="text-[#9dabb9] text-xs font-medium">Published</p>
+</div>
+<div class="flex h-6 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#1c252e] border border-[#283039] px-3">
+<p class="text-[#9dabb9] text-xs font-medium">VPN</p>
+</div>
+<div class="flex h-6 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#1c252e] border border-[#283039] px-3">
+<p class="text-[#9dabb9] text-xs font-medium">Remote Work</p>
+</div>
+<div class="flex h-6 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#1c252e] border border-[#283039] px-3">
+<p class="text-[#9dabb9] text-xs font-medium">Security</p>
+</div>
+</div>
+<h1 class="text-white tracking-tight text-3xl md:text-4xl font-bold leading-tight mb-4">How to Configure VPN for Remote Access</h1>
+<div class="flex items-center gap-4 text-sm text-[#9dabb9] border-b border-[#283039] pb-6">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Author portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcx7rmwbe_Iek1SfOHLC9BFxK_qm3Oa-RZp6lmEqEA2JKnRGHYuon4WcfA63JBpOJ08dBs21AiJZfZ3uR_lUm_o6SN1zuqzxYjDbYFsYeDZ7wVBoq7S5FiS9Yp_gUPerhgt90mpu01H_di2LSLiLErqbOMy-hCj2aKPhk8EMuX2H_3iCzp6tGVwPU6pXJAVsImi_Ukbw3q-CgJwy4myiN1ykEvzry67sFI8akUL8rDXPaBERnNuNwYe6S4ia1J6LlIh2rMxy_i_HM')"></div>
+<span class="font-medium text-white">Sarah Jenkins</span>
+</div>
+<span class="w-1 h-1 rounded-full bg-[#283039]"></span>
+<span>Updated 2 hours ago</span>
+<span class="w-1 h-1 rounded-full bg-[#283039]"></span>
+<span>Version 1.2</span>
+</div>
+</div>
+<!-- Article Body -->
+<div class="article-content max-w-none text-[#cbd5e0]">
+<p class="lead text-lg text-[#9dabb9] mb-8">
+                        This guide provides step-by-step instructions for configuring the corporate Virtual Private Network (VPN) client on Windows and macOS devices. Following these steps ensures secure access to internal resources while working remotely.
+                    </p>
+<div class="bg-blue-900/20 border-l-4 border-primary p-4 rounded-r-lg mb-8">
+<div class="flex">
+<div class="flex-shrink-0">
+<span class="material-symbols-outlined text-primary">info</span>
+</div>
+<div class="ml-3">
+<h3 class="text-sm font-medium text-white !mt-0 !mb-1">Prerequisite</h3>
+<p class="text-sm text-blue-200 !mb-0">
+                                    Before proceeding, ensure you have your Multi-Factor Authentication (MFA) token ready, as it will be required during the initial setup process.
+                                </p>
+</div>
+</div>
+</div>
+<h2 id="installation">1. Installing the VPN Client</h2>
+<p>
+                        To begin, you must download the authorized VPN client from the software center. Do not use third-party VPN clients as they are not supported by our security protocols.
+                    </p>
+<ol>
+<li>Navigate to the <strong>Software Center</strong> portal.</li>
+<li>Search for "SecureConnect VPN Client".</li>
+<li>Click <strong>Install</strong> and wait for the process to complete.</li>
+<li>Once installed, launch the application from your Start Menu or Applications folder.</li>
+</ol>
+<div class="my-8 rounded-xl overflow-hidden border border-[#283039] shadow-lg">
+<img alt="Screenshot showing the software center interface with VPN client download button" class="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity" data-alt="Screenshot of VPN software interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMm1DsVsmEDq9XSXeN7ZWwztBky2l8_TwM_suYYNj8KlLsGKrOwPl0TY0jyTWzDrC3wYGCk8aoJmi_3QW7OprAEBCF7ZAL-yUtMgKDLb0PStBZiAvYsjTSljrc3X_jXkpOxDgo8nxWrXAOfjc5mLTmMGcXfawdV2TVHRTGPXw6ayBQJL0PnTo2j__dAS8IDsF1D4iR5-q8KR-RsYtERSVB7M7xBOt_8juR1odGxsRoy7d2nMxZXNQx9hcFOkd2w5A1Ie_l6bHln48"/>
+<div class="bg-[#1c252e] p-3 text-xs text-center text-[#9dabb9]">Figure 1: Software Center Download Page</div>
+</div>
+<h2 id="configuration">2. Configuring Server Settings</h2>
+<p>
+                        After launching the client, you will need to input the server gateway address manually if it does not auto-populate.
+                    </p>
+<p>Use the following configuration parameters:</p>
+<pre><code class="language-bash">Gateway Address: vpn.enterprise-access.com
+Port: 443 (Default)
+Protocol: SSL-VPN</code></pre>
+<h2 id="troubleshooting">3. Troubleshooting Common Errors</h2>
+<p>If you encounter "Error 403: Access Denied", please verify the following:</p>
+<ul>
+<li>Your network password has not expired.</li>
+<li>You are not connected to another VPN simultaneously.</li>
+<li>Your internet connection is stable.</li>
+</ul>
+<p>For persistent issues, please check the related articles section or submit a ticket with the error log attached.</p>
+</div>
+<!-- Divider -->
+<hr class="border-[#283039] my-10"/>
+<!-- Feedback Section -->
+<div class="bg-[#1c252e] rounded-xl p-6 border border-[#283039]">
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+<div>
+<h3 class="text-white font-semibold text-base mb-1">Was this article helpful?</h3>
+<p class="text-[#9dabb9] text-sm">Your feedback helps us improve our knowledge base.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#283039] hover:bg-[#343e4a] text-white transition-colors border border-transparent hover:border-[#4a5568]">
+<span class="material-symbols-outlined text-sm">thumb_up</span>
+<span class="text-sm font-medium">Yes</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#283039] hover:bg-[#343e4a] text-white transition-colors border border-transparent hover:border-[#4a5568]">
+<span class="material-symbols-outlined text-sm">thumb_down</span>
+<span class="text-sm font-medium">No</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Sidebar (Right) -->
+<aside class="w-full lg:w-80 shrink-0 space-y-6">
+<!-- Table of Contents -->
+<div class="bg-[#1c252e] rounded-xl border border-[#283039] p-5 sticky top-24">
+<h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4 border-b border-[#283039] pb-2">On this page</h3>
+<nav class="flex flex-col space-y-1">
+<a class="text-primary text-sm font-medium border-l-2 border-primary pl-3 py-1" href="#installation">1. Installing the Client</a>
+<a class="text-[#9dabb9] hover:text-white text-sm border-l-2 border-transparent hover:border-[#4a5568] pl-3 py-1 transition-colors" href="#configuration">2. Server Settings</a>
+<a class="text-[#9dabb9] hover:text-white text-sm border-l-2 border-transparent hover:border-[#4a5568] pl-3 py-1 transition-colors" href="#troubleshooting">3. Troubleshooting</a>
+</nav>
+</div>
+<!-- Related Articles -->
+<div class="bg-[#1c252e] rounded-xl border border-[#283039] p-5">
+<h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Related Articles</h3>
+<div class="flex flex-col gap-4">
+<a class="group" href="#">
+<h4 class="text-sm text-white font-medium group-hover:text-primary transition-colors mb-1">Troubleshooting VPN Connection Drops</h4>
+<p class="text-xs text-[#9dabb9]">Network &amp; Connectivity</p>
+</a>
+<hr class="border-[#283039]"/>
+<a class="group" href="#">
+<h4 class="text-sm text-white font-medium group-hover:text-primary transition-colors mb-1">Resetting Your MFA Token</h4>
+<p class="text-xs text-[#9dabb9]">Security &amp; Access</p>
+</a>
+<hr class="border-[#283039]"/>
+<a class="group" href="#">
+<h4 class="text-sm text-white font-medium group-hover:text-primary transition-colors mb-1">Mac OS Catalina VPN Issues</h4>
+<p class="text-xs text-[#9dabb9]">Software Configuration</p>
+</a>
+</div>
+</div>
+<!-- Support CTA -->
+<div class="bg-gradient-to-br from-[#1c252e] to-[#161e26] rounded-xl border border-[#283039] p-5 text-center shadow-lg">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+<span class="material-symbols-outlined text-primary">support_agent</span>
+</div>
+<h3 class="text-white font-semibold mb-2">Still need help?</h3>
+<p class="text-[#9dabb9] text-sm mb-4">If you couldn't find the answer you were looking for, our team is here to help.</p>
+<button class="w-full py-2 px-4 bg-[#283039] hover:bg-[#343e4a] text-white rounded-lg text-sm font-medium transition-colors border border-[#3e4a56]">
+                        Open a Support Ticket
+                    </button>
+</div>
+</aside>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="border-t border-[#283039] py-8 mt-auto">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-[#9dabb9] text-sm">© 2023 Enterprise Help Desk. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-[#9dabb9] hover:text-white text-sm" href="#">Privacy Policy</a>
+<a class="text-[#9dabb9] hover:text-white text-sm" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

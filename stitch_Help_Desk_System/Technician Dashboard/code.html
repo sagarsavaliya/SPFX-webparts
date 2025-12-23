@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Technician Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6","primary-dark": "#2563eb",
+                        "accent": "#0d9488","background-dark": "#0f172a","surface-dark": "#1e293b","surface-dark-highlight": "#334155",
+                        "text-main": "#f8fafc",
+                        "text-muted": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem" },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'dark-gradient': 'linear-gradient(to bottom right, #1e293b, #0f172a)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .progress-bar-striped {
+            background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+            background-size: 1rem 1rem;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-main font-display antialiased min-h-screen selection:bg-primary/30">
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-accent/5 blur-[100px]"></div>
+</div>
+<div class="relative z-10 flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-40 flex items-center justify-between border-b border-slate-700/50 bg-surface-dark/95 backdrop-blur-md px-6 py-3 shadow-lg shadow-black/20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-xl">support_agent</span>
+</div>
+<div>
+<h2 class="text-base font-bold tracking-tight text-white leading-tight">HelpDesk Pro</h2>
+<div class="text-[10px] uppercase tracking-wider text-primary font-semibold">Technician Portal</div>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-1 ml-4">
+<a class="rounded-lg bg-primary/10 border border-primary/20 px-3 py-1.5 text-sm font-bold text-primary shadow-sm shadow-primary/5" href="#">My Dashboard</a>
+<a class="px-3 py-1.5 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Team Queue</a>
+<a class="px-3 py-1.5 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Unassigned</a>
+<a class="px-3 py-1.5 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Resolved</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors text-xl">search</span>
+<input class="h-9 w-64 rounded-lg border border-slate-700/50 bg-slate-800/50 pl-10 pr-4 text-sm text-white focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:bg-slate-800 transition-all placeholder:text-slate-500" placeholder="Search ticket # or keyword..." type="text"/>
+</div>
+<button class="relative rounded-full p-2 text-slate-400 hover:bg-white/5 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 rounded-full bg-red-500 border border-surface-dark"></span>
+</button>
+<div class="h-6 w-[1px] bg-slate-700 mx-1"></div>
+<div class="flex items-center gap-3 pl-1 cursor-pointer hover:opacity-80 transition-opacity">
+<div class="text-right hidden sm:block">
+<div class="text-sm font-semibold text-white">Alex Morgan</div>
+<div class="text-xs text-slate-400">L2 Support Technician</div>
+</div>
+<div class="relative size-8 overflow-hidden rounded-lg border border-slate-600 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpLTs7OX2YZvOgw9VOuPG0d9XYZUd66XIKiYzELBuHu_xxZrxmMSqk_ZmVfB19CukC4O26ES67kL3AnZrTy2uViDcmv-5DNLYucIplHYsAJvvVMyiaPhH-OAQQ2_Bsvk6jAwPta-StUW-rrTp5rLLQzF7oHEJhpk7hQ0TjL_1Q65njOz6Mq6fpSR5D2Mz9qzWDPo4n2MGDmjiA-q0Z8A_wvGBONYmPTox9mltcQLOErmFMUQTaS3iCBF_UpKIbD0vZRU2U-zIil-0'); background-size: cover;"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-6 md:px-8 lg:px-12 xl:px-16 max-w-[1600px] mx-auto w-full">
+<div class="mb-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+<div>
+<div class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2 uppercase tracking-wider">
+<span>Workspace</span>
+<span class="material-symbols-outlined text-[10px] text-slate-600">chevron_right</span>
+<span class="text-primary font-bold">My Queue</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-white mb-1">Technician Dashboard</h1>
+<p class="text-slate-400 text-sm">Prioritize your work based on SLA commitments and impact.</p>
+</div>
+<div class="flex gap-3">
+<button class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-surface-dark border border-slate-600 px-4 text-sm font-semibold text-slate-300 shadow-sm transition-all hover:bg-slate-700 hover:text-white">
+<span class="material-symbols-outlined text-lg">refresh</span>
+                        Refresh
+                    </button>
+<button class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/40 active:scale-95 border border-primary-dark">
+<span class="material-symbols-outlined text-lg">add</span>
+                        Create Ticket
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+<div class="group relative overflow-hidden rounded-xl glass-panel p-5 shadow-lg transition-all hover:shadow-blue-500/10 hover:border-blue-500/30">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Assigned to Me</p>
+<h3 class="mt-2 text-3xl font-bold text-white">24</h3>
+</div>
+<div class="rounded-lg bg-blue-500/10 p-2 text-blue-400 ring-1 ring-inset ring-blue-500/20">
+<span class="material-symbols-outlined text-2xl">assignment_ind</span>
+</div>
+</div>
+<div class="mt-4 flex items-center text-xs text-slate-400">
+<span class="text-blue-400 font-medium mr-1">+3</span> since yesterday
+                    </div>
+</div>
+<div class="group relative overflow-hidden rounded-xl glass-panel p-5 shadow-lg transition-all hover:shadow-red-500/10 hover:border-red-500/30 border-l-4 border-l-red-500">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Overdue Tickets</p>
+<h3 class="mt-2 text-3xl font-bold text-white">4</h3>
+</div>
+<div class="rounded-lg bg-red-500/10 p-2 text-red-400 ring-1 ring-inset ring-red-500/20 animate-pulse">
+<span class="material-symbols-outlined text-2xl">timer_off</span>
+</div>
+</div>
+<div class="mt-4 flex items-center text-xs text-red-400 font-medium">
+                        Action Required Immediately
+                    </div>
+</div>
+<div class="group relative overflow-hidden rounded-xl glass-panel p-5 shadow-lg transition-all hover:shadow-amber-500/10 hover:border-amber-500/30">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-semibold uppercase tracking-wider text-slate-400">SLA At Risk</p>
+<h3 class="mt-2 text-3xl font-bold text-white">7</h3>
+</div>
+<div class="rounded-lg bg-amber-500/10 p-2 text-amber-400 ring-1 ring-inset ring-amber-500/20">
+<span class="material-symbols-outlined text-2xl">warning</span>
+</div>
+</div>
+<div class="mt-4 flex items-center text-xs text-slate-400">
+                        Breach within <span class="text-white font-bold mx-1">4 hours</span>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-xl glass-panel p-5 shadow-lg transition-all hover:shadow-purple-500/10 hover:border-purple-500/30">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-semibold uppercase tracking-wider text-slate-400">High Priority</p>
+<h3 class="mt-2 text-3xl font-bold text-white">12</h3>
+</div>
+<div class="rounded-lg bg-purple-500/10 p-2 text-purple-400 ring-1 ring-inset ring-purple-500/20">
+<span class="material-symbols-outlined text-2xl">priority_high</span>
+</div>
+</div>
+<div class="mt-4 flex items-center text-xs text-slate-400">
+<span class="w-16 h-1 bg-slate-700 rounded-full overflow-hidden block mr-2">
+<span class="block h-full bg-purple-500 w-2/3"></span>
+</span>
+                        50% of workload
+                    </div>
+</div>
+</div>
+<div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-surface-dark/50 p-2 rounded-xl border border-slate-700/50">
+<div class="flex items-center gap-2 flex-1 overflow-x-auto pb-1 sm:pb-0 hide-scrollbar">
+<button class="px-3 py-1.5 rounded-lg bg-slate-700 text-white text-xs font-medium shadow-sm ring-1 ring-inset ring-slate-600 whitespace-nowrap">
+                        All Open (24)
+                    </button>
+<button class="px-3 py-1.5 rounded-lg bg-transparent hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
+                        In Progress (8)
+                    </button>
+<button class="px-3 py-1.5 rounded-lg bg-transparent hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
+                        Waiting on User (5)
+                    </button>
+<button class="px-3 py-1.5 rounded-lg bg-transparent hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
+                        Vendor (2)
+                    </button>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-8 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
+<div class="relative">
+<select class="h-9 appearance-none rounded-lg border-none bg-slate-800 pl-3 pr-8 text-xs font-medium text-slate-300 shadow-sm ring-1 ring-slate-700 focus:ring-primary focus:text-white transition-colors cursor-pointer hover:bg-slate-750">
+<option>SLA: All</option>
+<option>SLA: At Risk</option>
+<option>SLA: Breached</option>
+<option>SLA: On Track</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-base">expand_more</span>
+</div>
+<div class="relative">
+<select class="h-9 appearance-none rounded-lg border-none bg-slate-800 pl-3 pr-8 text-xs font-medium text-slate-300 shadow-sm ring-1 ring-slate-700 focus:ring-primary focus:text-white transition-colors cursor-pointer hover:bg-slate-750">
+<option>Priority: All</option>
+<option>Critical</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-base">expand_more</span>
+</div>
+<button class="h-9 w-9 flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 hover:border-slate-600 transition-all">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-hidden rounded-xl border border-slate-700/50 bg-surface-dark shadow-xl">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-800/80 text-slate-400 border-b border-slate-700/80 backdrop-blur-sm">
+<tr>
+<th class="pl-6 pr-4 py-3 font-semibold uppercase tracking-wider text-[11px] w-16">ID</th>
+<th class="px-4 py-3 font-semibold uppercase tracking-wider text-[11px]">Subject / Requester</th>
+<th class="px-4 py-3 font-semibold uppercase tracking-wider text-[11px]">Priority</th>
+<th class="px-4 py-3 font-semibold uppercase tracking-wider text-[11px]">SLA Timer</th>
+<th class="px-4 py-3 font-semibold uppercase tracking-wider text-[11px]">Status</th>
+<th class="px-4 py-3 font-semibold uppercase tracking-wider text-[11px]">Due</th>
+<th class="px-4 py-3 font-semibold uppercase tracking-wider text-[11px] text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-700/50">
+<tr class="group hover:bg-slate-800/40 transition-colors bg-red-500/5">
+<td class="pl-6 pr-4 py-3 text-xs font-mono text-slate-400 group-hover:text-white transition-colors">#4829</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<a class="font-bold text-white text-sm hover:text-primary transition-colors hover:underline" href="#">PROD DB Server Latency</a>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">person</span> Michael Chen
+                                            <span class="mx-1">•</span>
+<span class="text-slate-400">Infrastructure</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center rounded-full bg-red-500/10 px-2.5 py-0.5 text-xs font-bold text-red-400 ring-1 ring-inset ring-red-500/20">Critical</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-full max-w-[140px]">
+<div class="flex justify-between text-[10px] mb-1">
+<span class="font-bold text-red-400">-1h 20m</span>
+<span class="text-red-400">BREACHED</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-700 overflow-hidden">
+<div class="h-1.5 rounded-full bg-red-500 w-full animate-pulse"></div>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium text-slate-300 bg-slate-700/50 border border-slate-600">
+<span class="size-1.5 rounded-full bg-blue-400"></span> In Progress
+                                    </span>
+</td>
+<td class="px-4 py-3 text-xs font-medium text-red-400">
+                                    Today, 10:00 AM
+                                </td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Quick Resolve">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+</button>
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Details">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-slate-800/40 transition-colors">
+<td class="pl-6 pr-4 py-3 text-xs font-mono text-slate-400 group-hover:text-white transition-colors">#4832</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<a class="font-bold text-white text-sm hover:text-primary transition-colors hover:underline" href="#">VPN Access for New Hires</a>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">person</span> Sarah Jones
+                                            <span class="mx-1">•</span>
+<span class="text-slate-400">Security</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center rounded-full bg-orange-500/10 px-2.5 py-0.5 text-xs font-bold text-orange-400 ring-1 ring-inset ring-orange-500/20">High</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-full max-w-[140px]">
+<div class="flex justify-between text-[10px] mb-1">
+<span class="font-bold text-amber-400">45m left</span>
+<span class="text-slate-400">85%</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-700 overflow-hidden">
+<div class="h-1.5 rounded-full bg-amber-500 w-[85%]"></div>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium text-slate-300 bg-slate-700/50 border border-slate-600">
+<span class="size-1.5 rounded-full bg-slate-400"></span> Open
+                                    </span>
+</td>
+<td class="px-4 py-3 text-xs font-medium text-slate-300">
+                                    Today, 2:30 PM
+                                </td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Start Work">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Details">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-slate-800/40 transition-colors">
+<td class="pl-6 pr-4 py-3 text-xs font-mono text-slate-400 group-hover:text-white transition-colors">#4811</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<a class="font-bold text-white text-sm hover:text-primary transition-colors hover:underline" href="#">Monitor flickering in Conf Room B</a>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">person</span> David Ross
+                                            <span class="mx-1">•</span>
+<span class="text-slate-400">Hardware</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-bold text-blue-400 ring-1 ring-inset ring-blue-500/20">Medium</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-full max-w-[140px]">
+<div class="flex justify-between text-[10px] mb-1">
+<span class="font-medium text-slate-300">23h left</span>
+<span class="text-slate-500">10%</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-700 overflow-hidden">
+<div class="h-1.5 rounded-full bg-emerald-500 w-[10%]"></div>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium text-slate-300 bg-slate-700/50 border border-slate-600">
+<span class="size-1.5 rounded-full bg-amber-400"></span> Waiting
+                                    </span>
+</td>
+<td class="px-4 py-3 text-xs font-medium text-slate-300">
+                                    Tomorrow, 5:00 PM
+                                </td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Add Note">
+<span class="material-symbols-outlined text-lg">edit_note</span>
+</button>
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Details">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-slate-800/40 transition-colors">
+<td class="pl-6 pr-4 py-3 text-xs font-mono text-slate-400 group-hover:text-white transition-colors">#4798</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<a class="font-bold text-white text-sm hover:text-primary transition-colors hover:underline" href="#">Update Sharepoint License</a>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">person</span> Amanda Lee
+                                            <span class="mx-1">•</span>
+<span class="text-slate-400">Software</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center rounded-full bg-slate-700/50 px-2.5 py-0.5 text-xs font-bold text-slate-300 ring-1 ring-inset ring-slate-600/50">Low</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-full max-w-[140px]">
+<div class="flex justify-between text-[10px] mb-1">
+<span class="font-medium text-slate-300">2d left</span>
+<span class="text-slate-500">5%</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-700 overflow-hidden">
+<div class="h-1.5 rounded-full bg-blue-500 w-[5%]"></div>
+</div>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium text-slate-300 bg-slate-700/50 border border-slate-600">
+<span class="size-1.5 rounded-full bg-slate-400"></span> Open
+                                    </span>
+</td>
+<td class="px-4 py-3 text-xs font-medium text-slate-300">
+                                    Fri, 12:00 PM
+                                </td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Assign">
+<span class="material-symbols-outlined text-lg">person_add</span>
+</button>
+<button class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white" title="Details">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between border-t border-slate-700 bg-slate-800/30 px-6 py-3">
+<p class="text-xs text-slate-400">Showing <span class="font-bold text-white">1-4</span> of <span class="font-bold text-white">24</span> tickets</p>
+<div class="flex gap-2">
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-400 hover:bg-slate-700 disabled:opacity-50 transition-colors" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

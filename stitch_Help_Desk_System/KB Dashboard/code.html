@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Base</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        "accent": "#0d9488",
+                        "background-dark": "#0f172a",
+                        "surface-dark": "#1e293b",
+                        "surface-dark-highlight": "#334155",
+                        "text-main": "#f8fafc",
+                        "text-muted": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.75rem", "lg": "1rem", "xl": "1.5rem" },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'dark-gradient': 'linear-gradient(to bottom right, #1e293b, #0f172a)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-hover:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .search-glow {
+            box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-main font-display antialiased min-h-screen selection:bg-primary/30">
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-accent/5 blur-[100px]"></div>
+<div class="absolute top-[20%] right-[30%] w-[20%] h-[20%] rounded-full bg-purple-500/5 blur-[80px]"></div>
+</div>
+<div class="relative z-10 flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-40 flex items-center justify-between border-b border-slate-700/50 bg-surface-dark/90 backdrop-blur-md px-6 py-3 shadow-lg shadow-black/20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-2xl">confirmation_number</span>
+</div>
+<div>
+<h2 class="text-lg font-bold tracking-tight text-white leading-tight">Help Desk</h2>
+<div class="text-[10px] uppercase tracking-wider text-accent font-semibold">Enterprise Portal</div>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-1 ml-4">
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">My Tickets</a>
+<a class="rounded-lg bg-primary/10 border border-primary/20 px-4 py-2 text-sm font-bold text-primary shadow-sm shadow-primary/5 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-base">menu_book</span>
+                        Knowledge Base
+                    </a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">FAQs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-primary hover:text-white border border-primary/30 hover:bg-primary/20 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Ticket
+            </button>
+<button class="relative rounded-full p-2 text-slate-400 hover:bg-white/5 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 rounded-full bg-red-500 border border-surface-dark"></span>
+</button>
+<div class="h-8 w-[1px] bg-slate-700 mx-1"></div>
+<div class="flex items-center gap-3 pl-1 cursor-pointer hover:opacity-80 transition-opacity">
+<div class="text-right hidden sm:block">
+<div class="text-sm font-semibold text-white">Alex Morgan</div>
+<div class="text-xs text-slate-400">Marketing Dept</div>
+</div>
+<div class="relative size-9 overflow-hidden rounded-lg border border-slate-600 shadow-sm bg-slate-700 flex items-center justify-center text-slate-300">
+<span class="material-symbols-outlined">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-8 md:px-8 lg:px-12 xl:px-16 max-w-[1600px] mx-auto w-full">
+<div class="relative mb-12 flex flex-col items-center justify-center pt-8 pb-4 text-center">
+<div class="mb-6 inline-flex items-center rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1 text-xs text-slate-300 backdrop-blur-sm">
+<span class="mr-2 flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+</span>
+                52 new articles added this week
+            </div>
+<h1 class="mb-4 text-4xl md:text-5xl font-bold tracking-tight text-white">
+                How can we <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">help you</span> today?
+            </h1>
+<p class="mb-8 max-w-2xl text-slate-400">
+                Search our comprehensive knowledge base for solutions, guides, and troubleshooting tips before raising a ticket.
+            </p>
+<div class="relative w-full max-w-2xl group z-20">
+<div class="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary via-accent to-primary opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
+<div class="relative flex items-center rounded-xl bg-surface-dark shadow-2xl search-glow border border-slate-600/50 focus-within:border-primary/50 transition-colors">
+<span class="material-symbols-outlined ml-4 text-2xl text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-transparent px-4 py-4 text-lg text-white placeholder:text-slate-500 focus:outline-none" placeholder="Search for error codes, installation guides, or policies..." type="text"/>
+<div class="pr-2 hidden sm:block">
+<kbd class="hidden rounded border border-slate-600 bg-slate-800 px-2 py-1 text-xs font-medium text-slate-400 md:inline-block">⌘ K</kbd>
+</div>
+<button class="mr-2 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-primary-dark transition-colors">
+                        Search
+                    </button>
+</div>
+</div>
+<div class="mt-4 flex flex-wrap justify-center gap-2 text-xs text-slate-400">
+<span>Popular:</span>
+<a class="hover:text-primary hover:underline cursor-pointer" href="#">VPN Access</a>
+<span class="text-slate-700">•</span>
+<a class="hover:text-primary hover:underline cursor-pointer" href="#">Password Reset</a>
+<span class="text-slate-700">•</span>
+<a class="hover:text-primary hover:underline cursor-pointer" href="#">Outlook Setup</a>
+<span class="text-slate-700">•</span>
+<a class="hover:text-primary hover:underline cursor-pointer" href="#">Printer Config</a>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-8 xl:grid-cols-12">
+<div class="xl:col-span-8 space-y-8">
+<section>
+<h3 class="mb-5 text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">category</span>
+                        Browse Categories
+                    </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<a class="glass-panel glass-panel-hover rounded-xl p-5 transition-all group cursor-pointer" href="#">
+<div class="mb-4 inline-flex rounded-lg bg-blue-500/10 p-3 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">devices</span>
+</div>
+<h4 class="mb-1 font-bold text-slate-100">Hardware</h4>
+<p class="text-xs text-slate-400 mb-3">Laptops, Peripherals, Phones</p>
+<div class="text-[10px] font-medium text-slate-500 bg-slate-800/50 inline-block px-2 py-0.5 rounded border border-slate-700">124 Articles</div>
+</a>
+<a class="glass-panel glass-panel-hover rounded-xl p-5 transition-all group cursor-pointer" href="#">
+<div class="mb-4 inline-flex rounded-lg bg-emerald-500/10 p-3 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">terminal</span>
+</div>
+<h4 class="mb-1 font-bold text-slate-100">Software</h4>
+<p class="text-xs text-slate-400 mb-3">OS, Creative Cloud, Office 365</p>
+<div class="text-[10px] font-medium text-slate-500 bg-slate-800/50 inline-block px-2 py-0.5 rounded border border-slate-700">86 Articles</div>
+</a>
+<a class="glass-panel glass-panel-hover rounded-xl p-5 transition-all group cursor-pointer" href="#">
+<div class="mb-4 inline-flex rounded-lg bg-purple-500/10 p-3 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">wifi</span>
+</div>
+<h4 class="mb-1 font-bold text-slate-100">Network &amp; VPN</h4>
+<p class="text-xs text-slate-400 mb-3">Connectivity, Remote Access</p>
+<div class="text-[10px] font-medium text-slate-500 bg-slate-800/50 inline-block px-2 py-0.5 rounded border border-slate-700">42 Articles</div>
+</a>
+<a class="glass-panel glass-panel-hover rounded-xl p-5 transition-all group cursor-pointer" href="#">
+<div class="mb-4 inline-flex rounded-lg bg-amber-500/10 p-3 text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">lock_person</span>
+</div>
+<h4 class="mb-1 font-bold text-slate-100">Access &amp; ID</h4>
+<p class="text-xs text-slate-400 mb-3">Passwords, MFA, Permissions</p>
+<div class="text-[10px] font-medium text-slate-500 bg-slate-800/50 inline-block px-2 py-0.5 rounded border border-slate-700">65 Articles</div>
+</a>
+<a class="glass-panel glass-panel-hover rounded-xl p-5 transition-all group cursor-pointer" href="#">
+<div class="mb-4 inline-flex rounded-lg bg-rose-500/10 p-3 text-rose-400 group-hover:bg-rose-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">shield</span>
+</div>
+<h4 class="mb-1 font-bold text-slate-100">Security</h4>
+<p class="text-xs text-slate-400 mb-3">Policies, Compliance, Phishing</p>
+<div class="text-[10px] font-medium text-slate-500 bg-slate-800/50 inline-block px-2 py-0.5 rounded border border-slate-700">38 Articles</div>
+</a>
+<a class="glass-panel glass-panel-hover rounded-xl p-5 transition-all group cursor-pointer" href="#">
+<div class="mb-4 inline-flex rounded-lg bg-cyan-500/10 p-3 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">mail</span>
+</div>
+<h4 class="mb-1 font-bold text-slate-100">Communication</h4>
+<p class="text-xs text-slate-400 mb-3">Email, Teams, Slack</p>
+<div class="text-[10px] font-medium text-slate-500 bg-slate-800/50 inline-block px-2 py-0.5 rounded border border-slate-700">51 Articles</div>
+</a>
+</div>
+</section>
+<section class="glass-panel rounded-xl p-6 shadow-lg">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-accent">star</span>
+                            Most Popular Articles
+                        </h3>
+<button class="text-xs font-medium text-primary hover:text-white transition-colors">View All</button>
+</div>
+<div class="space-y-4">
+<div class="group flex items-start gap-4 rounded-lg border border-transparent p-3 hover:bg-slate-800/50 hover:border-slate-700/50 transition-all cursor-pointer">
+<div class="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded bg-slate-700 text-slate-400 group-hover:bg-primary/20 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-semibold text-slate-200 group-hover:text-primary transition-colors">How to configure VPN on macOS (Ventura &amp; Sonoma)</h4>
+<p class="mt-1 text-xs text-slate-400 line-clamp-1">Step-by-step guide to installing the GlobalProtect client and certificates on newer Macs.</p>
+<div class="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">folder</span> Network</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">visibility</span> 1.2k views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">calendar_today</span> Updated 2 days ago</span>
+</div>
+</div>
+<div class="self-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<div class="group flex items-start gap-4 rounded-lg border border-transparent p-3 hover:bg-slate-800/50 hover:border-slate-700/50 transition-all cursor-pointer">
+<div class="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded bg-slate-700 text-slate-400 group-hover:bg-primary/20 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-semibold text-slate-200 group-hover:text-primary transition-colors">Requesting Adobe Creative Cloud Licenses</h4>
+<p class="mt-1 text-xs text-slate-400 line-clamp-1">Process for managers to approve and assign Creative Cloud licenses to team members.</p>
+<div class="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">folder</span> Software</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">visibility</span> 850 views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">calendar_today</span> Updated 1 week ago</span>
+</div>
+</div>
+<div class="self-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<div class="group flex items-start gap-4 rounded-lg border border-transparent p-3 hover:bg-slate-800/50 hover:border-slate-700/50 transition-all cursor-pointer">
+<div class="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded bg-slate-700 text-slate-400 group-hover:bg-primary/20 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-semibold text-slate-200 group-hover:text-primary transition-colors">Outlook Mobile App Configuration</h4>
+<p class="mt-1 text-xs text-slate-400 line-clamp-1">Setting up enterprise email on iOS and Android devices securely.</p>
+<div class="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">folder</span> Communication</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">visibility</span> 640 views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">calendar_today</span> Updated 3 weeks ago</span>
+</div>
+</div>
+<div class="self-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<div class="group flex items-start gap-4 rounded-lg border border-transparent p-3 hover:bg-slate-800/50 hover:border-slate-700/50 transition-all cursor-pointer">
+<div class="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded bg-slate-700 text-slate-400 group-hover:bg-primary/20 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-semibold text-slate-200 group-hover:text-primary transition-colors">Guest Wi-Fi Policy and Access</h4>
+<p class="mt-1 text-xs text-slate-400 line-clamp-1">How to generate temporary Wi-Fi credentials for office visitors.</p>
+<div class="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">folder</span> Network</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">visibility</span> 520 views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">calendar_today</span> Updated 1 month ago</span>
+</div>
+</div>
+<div class="self-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<div class="xl:col-span-4 space-y-8">
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary to-primary-dark p-6 text-white shadow-lg">
+<div class="absolute right-0 top-0 -mr-8 -mt-8 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+<div class="relative z-10">
+<div class="mb-4 inline-flex items-center justify-center rounded-lg bg-white/20 p-2 backdrop-blur-sm">
+<span class="material-symbols-outlined text-2xl">support_agent</span>
+</div>
+<h3 class="mb-2 text-lg font-bold">Can't find what you need?</h3>
+<p class="mb-6 text-sm text-blue-100">Our support team is ready to help you resolve any issues you might be facing.</p>
+<button class="w-full rounded-lg bg-white py-2.5 text-sm font-bold text-primary shadow-lg hover:bg-blue-50 transition-colors">
+                        Submit a Ticket
+                    </button>
+</div>
+</div>
+<section class="glass-panel rounded-xl p-5 shadow-lg">
+<h3 class="mb-4 text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">trending_up</span>
+                    Trending Topics
+                </h3>
+<div class="flex flex-wrap gap-2">
+<a class="rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1 text-xs font-medium text-slate-300 hover:border-primary hover:text-primary transition-colors cursor-pointer">#Windows11Upgrade</a>
+<a class="rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1 text-xs font-medium text-slate-300 hover:border-primary hover:text-primary transition-colors cursor-pointer">#MFA</a>
+<a class="rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1 text-xs font-medium text-slate-300 hover:border-primary hover:text-primary transition-colors cursor-pointer">#PasswordReset</a>
+<a class="rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1 text-xs font-medium text-slate-300 hover:border-primary hover:text-primary transition-colors cursor-pointer">#TeamsMeeting</a>
+<a class="rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1 text-xs font-medium text-slate-300 hover:border-primary hover:text-primary transition-colors cursor-pointer">#NewHire</a>
+<a class="rounded-full border border-slate-700 bg-slate-800/50 px-3 py-1 text-xs font-medium text-slate-300 hover:border-primary hover:text-primary transition-colors cursor-pointer">#SharePoint</a>
+</div>
+</section>
+<section class="glass-panel rounded-xl p-5 shadow-lg">
+<h3 class="mb-4 text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500 text-lg">campaign</span>
+                    Announcements
+                </h3>
+<div class="space-y-4">
+<div class="border-l-2 border-primary pl-3">
+<p class="text-[10px] font-semibold text-primary uppercase">Today</p>
+<h4 class="text-xs font-bold text-slate-200 mt-0.5">Scheduled Maintenance</h4>
+<p class="text-xs text-slate-400 mt-1">ERP System will be down for upgrades from 10 PM to 2 AM EST.</p>
+</div>
+<div class="border-l-2 border-slate-700 pl-3">
+<p class="text-[10px] font-semibold text-slate-500 uppercase">Yesterday</p>
+<h4 class="text-xs font-bold text-slate-200 mt-0.5">Phishing Alert</h4>
+<p class="text-xs text-slate-400 mt-1">Be aware of suspicious emails claiming to be from HR.</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</body></html>

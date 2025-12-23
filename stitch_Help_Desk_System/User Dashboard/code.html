@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>End User Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        "accent": "#0d9488",
+                        "background-dark": "#0f172a",
+                        "surface-dark": "#1e293b",
+                        "surface-dark-highlight": "#334155",
+                        "text-main": "#f8fafc",
+                        "text-muted": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.75rem", "lg": "1rem", "xl": "1.5rem" },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'dark-gradient': 'linear-gradient(to bottom right, #1e293b, #0f172a)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-main font-display antialiased min-h-screen selection:bg-primary/30">
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-accent/5 blur-[100px]"></div>
+</div>
+<div class="relative z-10 flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-40 flex items-center justify-between border-b border-slate-700/50 bg-surface-dark/90 backdrop-blur-md px-6 py-3 shadow-lg shadow-black/20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-cyan-500 text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-2xl">support_agent</span>
+</div>
+<div>
+<h2 class="text-lg font-bold tracking-tight text-white leading-tight">Help Desk</h2>
+<div class="text-[10px] uppercase tracking-wider text-accent font-semibold">Employee Portal</div>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-1 ml-4">
+<a class="rounded-lg bg-primary/10 border border-primary/20 px-4 py-2 text-sm font-bold text-primary shadow-sm shadow-primary/5" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">My Tickets</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Knowledge Base</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">FAQs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors text-xl">search</span>
+<input class="h-10 w-64 rounded-lg border border-slate-700/50 bg-slate-800/50 pl-10 pr-4 text-sm text-white focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:bg-slate-800 transition-all placeholder:text-slate-500" placeholder="Search KB articles..." type="text"/>
+</div>
+<button class="relative rounded-full p-2 text-slate-400 hover:bg-white/5 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 rounded-full bg-red-500 border border-surface-dark"></span>
+</button>
+<div class="h-8 w-[1px] bg-slate-700 mx-1"></div>
+<div class="flex items-center gap-3 pl-1 cursor-pointer hover:opacity-80 transition-opacity">
+<div class="text-right hidden sm:block">
+<div class="text-sm font-semibold text-white">Alex Morgan</div>
+<div class="text-xs text-slate-400">Product Designer</div>
+</div>
+<div class="relative size-9 overflow-hidden rounded-lg border border-slate-600 shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpLTs7OX2YZvOgw9VOuPG0d9XYZUd66XIKiYzELBuHu_xxZrxmMSqk_ZmVfB19CukC4O26ES67kL3AnZrTy2uViDcmv-5DNLYucIplHYsAJvvVMyiaPhH-OAQQ2_Bsvk6jAwPta-StUW-rrTp5rLLQzF7oHEJhpk7hQ0TjL_1Q65njOz6Mq6fpSR5D2Mz9qzWDPo4n2MGDmjiA-q0Z8A_wvGBONYmPTox9mltcQLOErmFMUQTaS3iCBF_UpKIbD0vZRU2U-zIil-0'); background-size: cover;"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-8 md:px-8 lg:px-12 xl:px-16 max-w-[1600px] mx-auto w-full">
+<div class="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+<div>
+<h1 class="text-3xl font-bold tracking-tight text-white mb-2">Good morning, Alex 👋</h1>
+<p class="text-slate-400">Here's what's happening with your support requests today.</p>
+</div>
+<button class="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-dark hover:shadow-primary/40 active:scale-95 border border-primary-dark">
+<span class="material-symbols-outlined text-lg">add</span>
+                Create New Ticket
+            </button>
+</div>
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+<div class="group relative overflow-hidden rounded-xl glass-panel p-5 shadow-lg transition-all hover:shadow-primary/10 hover:border-primary/30">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-400">Open Tickets</p>
+<h3 class="text-3xl font-bold text-white mt-1">3</h3>
+</div>
+<div class="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">folder_open</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2 text-xs text-slate-400">
+<span class="material-symbols-outlined text-sm">schedule</span> Last opened 2h ago
+                </div>
+</div>
+<div class="group relative overflow-hidden rounded-xl glass-panel p-5 shadow-lg transition-all hover:shadow-purple-500/10 hover:border-purple-500/30">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-400">In Progress</p>
+<h3 class="text-3xl font-bold text-white mt-1">1</h3>
+</div>
+<div class="flex size-10 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400">
+<span class="material-symbols-outlined">engineering</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2 text-xs text-purple-400">
+<span class="size-1.5 rounded-full bg-purple-500 animate-pulse"></span>
+                    Technician working now
+                </div>
+</div>
+<div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-amber-500/10 to-orange-600/5 border border-amber-500/20 p-5 shadow-lg transition-all hover:shadow-amber-500/10 hover:border-amber-500/40">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-bold text-amber-200/90">Waiting for Me</p>
+<h3 class="text-3xl font-bold text-white mt-1">2</h3>
+</div>
+<div class="flex size-10 items-center justify-center rounded-lg bg-amber-500/20 text-amber-400 shadow-inner shadow-amber-500/10">
+<span class="material-symbols-outlined">mark_chat_unread</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2 text-xs text-amber-300 font-medium">
+<span class="material-symbols-outlined text-sm">warning</span> Action required
+                </div>
+</div>
+<div class="group relative overflow-hidden rounded-xl glass-panel p-5 shadow-lg transition-all hover:shadow-emerald-500/10 hover:border-emerald-500/30">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-400">Resolved (30d)</p>
+<h3 class="text-3xl font-bold text-white mt-1">14</h3>
+</div>
+<div class="flex size-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2 text-xs text-slate-400">
+<span class="material-symbols-outlined text-sm">trending_up</span> 100% Satisfaction
+                </div>
+</div>
+</div>
+<div class="space-y-6 mb-8">
+<div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-surface-dark/40 p-1.5 rounded-xl border border-slate-700/30">
+<div class="relative flex-1 w-full max-w-sm">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">search</span>
+<input class="h-10 w-full rounded-lg border-none bg-slate-800/80 pl-10 pr-4 text-sm text-white shadow-inner ring-1 ring-slate-700 focus:ring-2 focus:ring-primary/50 placeholder:text-slate-500 transition-all" placeholder="Search by ID or Subject..." type="text"/>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<select class="h-10 w-full sm:w-auto appearance-none rounded-lg border-none bg-slate-800 pl-4 pr-10 text-sm font-medium text-slate-300 shadow-sm ring-1 ring-slate-700 focus:ring-primary focus:text-white transition-colors cursor-pointer hover:bg-slate-750">
+<option>All Statuses</option>
+<option>Open</option>
+<option>In Progress</option>
+<option>Resolved</option>
+</select>
+<button class="h-10 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-hidden rounded-xl border border-slate-700/50 bg-surface-dark shadow-xl">
+<div class="flex items-center justify-between border-b border-slate-700 px-6 py-4 bg-slate-800/30">
+<h3 class="font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">list_alt</span>
+                        My Tickets
+                    </h3>
+<a class="text-xs font-semibold text-primary hover:text-primary-light hover:underline" href="#">View All History</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-slate-800/50 text-slate-400 border-b border-slate-700">
+<tr>
+<th class="px-6 py-4 font-semibold uppercase tracking-wider text-xs">ID</th>
+<th class="px-6 py-4 font-semibold uppercase tracking-wider text-xs">Subject</th>
+<th class="px-6 py-4 font-semibold uppercase tracking-wider text-xs">Category</th>
+<th class="px-6 py-4 font-semibold uppercase tracking-wider text-xs">Priority</th>
+<th class="px-6 py-4 font-semibold uppercase tracking-wider text-xs">Status</th>
+<th class="px-6 py-4 font-semibold uppercase tracking-wider text-xs">SLA Target</th>
+<th class="px-6 py-4 font-semibold uppercase tracking-wider text-xs text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-700/50">
+<tr class="group hover:bg-slate-800/40 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<span class="font-mono text-xs text-slate-500 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">#INC-4921</span>
+</td>
+<td class="px-6 py-4">
+<div class="font-semibold text-white">VPN Access Denied</div>
+<div class="text-xs text-slate-500 truncate max-w-[200px]">Unable to connect to US-East gateway...</div>
+</td>
+<td class="px-6 py-4 text-slate-300">Network</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-red-500/10 px-2 py-0.5 text-xs font-bold text-red-400 ring-1 ring-inset ring-red-500/20">High</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-blue-500 animate-pulse"></span>
+<span class="font-medium text-blue-400">Open</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 rounded-md bg-slate-800/80 px-2 py-1 text-xs font-medium text-orange-300 border border-orange-500/20">
+<span class="material-symbols-outlined text-sm">timer</span>
+                                    3h 45m left
+                                </div>
+</td>
+<td class="px-6 py-4 text-right text-slate-500">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">chevron_right</span>
+</td>
+</tr>
+<tr class="group hover:bg-slate-800/40 transition-colors cursor-pointer bg-amber-500/5">
+<td class="px-6 py-4">
+<span class="font-mono text-xs text-slate-500 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">#REQ-3301</span>
+</td>
+<td class="px-6 py-4">
+<div class="font-semibold text-white">Need Adobe License</div>
+<div class="text-xs text-slate-500 truncate max-w-[200px]">Please approve Creative Cloud license...</div>
+</td>
+<td class="px-6 py-4 text-slate-300">Software</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-xs font-bold text-blue-400 ring-1 ring-inset ring-blue-500/20">Medium</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-amber-500"></span>
+<span class="font-medium text-amber-400">Pending Reply</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 rounded-md bg-slate-800/80 px-2 py-1 text-xs font-medium text-slate-400 border border-slate-700">
+<span class="material-symbols-outlined text-sm">pause</span>
+                                    Paused
+                                </div>
+</td>
+<td class="px-6 py-4 text-right text-slate-500">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">chevron_right</span>
+</td>
+</tr>
+<tr class="group hover:bg-slate-800/40 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<span class="font-mono text-xs text-slate-500 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">#INC-4918</span>
+</td>
+<td class="px-6 py-4">
+<div class="font-semibold text-white">Monitor Flickering</div>
+<div class="text-xs text-slate-500 truncate max-w-[200px]">External display keeps turning off...</div>
+</td>
+<td class="px-6 py-4 text-slate-300">Hardware</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-slate-700/50 px-2 py-0.5 text-xs font-bold text-slate-300 ring-1 ring-inset ring-slate-600/50">Low</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-purple-500 animate-pulse"></span>
+<span class="font-medium text-purple-400">In Progress</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 rounded-md bg-slate-800/80 px-2 py-1 text-xs font-medium text-emerald-400 border border-emerald-500/20">
+<span class="material-symbols-outlined text-sm">timer</span>
+                                    1d 4h left
+                                </div>
+</td>
+<td class="px-6 py-4 text-right text-slate-500">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">chevron_right</span>
+</td>
+</tr>
+<tr class="group hover:bg-slate-800/40 transition-colors cursor-pointer opacity-75">
+<td class="px-6 py-4">
+<span class="font-mono text-xs text-slate-500 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">#REQ-3280</span>
+</td>
+<td class="px-6 py-4">
+<div class="font-semibold text-white">Password Reset</div>
+<div class="text-xs text-slate-500 truncate max-w-[200px]">Locked out of SAP account...</div>
+</td>
+<td class="px-6 py-4 text-slate-300">Account</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-xs font-bold text-blue-400 ring-1 ring-inset ring-blue-500/20">Medium</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-emerald-500"></span>
+<span class="font-medium text-emerald-400">Resolved</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-xs text-slate-500">Target Met</span>
+</td>
+<td class="px-6 py-4 text-right text-slate-500">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">chevron_right</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="rounded-xl border border-slate-700/50 bg-surface-dark/60 p-5 shadow-lg backdrop-blur-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-accent">lightbulb</span>
+<h3 class="font-bold text-white text-sm uppercase tracking-wider">Suggested Solutions</h3>
+</div>
+<ul class="space-y-3">
+<li class="group">
+<a class="block p-3 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-primary/50 hover:bg-slate-800 transition-all" href="#">
+<h4 class="text-sm font-semibold text-white group-hover:text-primary transition-colors">How to troubleshoot VPN connection?</h4>
+<p class="text-xs text-slate-400 mt-1 line-clamp-2">Common error codes and how to fix the FortiClient handshake issue.</p>
+</a>
+</li>
+<li class="group">
+<a class="block p-3 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-primary/50 hover:bg-slate-800 transition-all" href="#">
+<h4 class="text-sm font-semibold text-white group-hover:text-primary transition-colors">Setting up Multi-Factor Authentication</h4>
+<p class="text-xs text-slate-400 mt-1 line-clamp-2">Step-by-step guide to register your mobile device.</p>
+</a>
+</li>
+<li class="group">
+<a class="block p-3 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-primary/50 hover:bg-slate-800 transition-all" href="#">
+<h4 class="text-sm font-semibold text-white group-hover:text-primary transition-colors">Requesting new hardware</h4>
+<p class="text-xs text-slate-400 mt-1 line-clamp-2">Standard procedure for monitor, mouse, and keyboard replacements.</p>
+</a>
+</li>
+</ul>
+<button class="w-full mt-4 py-2 text-xs font-bold text-slate-400 hover:text-white border border-slate-700 rounded-lg hover:bg-slate-800 transition-all">Browse Knowledge Base</button>
+</div>
+<div class="rounded-xl border border-slate-700/50 bg-surface-dark/60 p-5 shadow-lg backdrop-blur-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-slate-400">history</span>
+<h3 class="font-bold text-white text-sm uppercase tracking-wider">Recent Activity</h3>
+</div>
+<div class="relative pl-4 border-l border-slate-700 space-y-6">
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-blue-500 ring-4 ring-surface-dark"></div>
+<p class="text-xs text-slate-400 mb-0.5">Today, 10:23 AM</p>
+<p class="text-sm text-slate-200"><span class="font-bold text-white">Sarah Jenkins</span> added a comment to <span class="text-primary hover:underline cursor-pointer">#INC-4921</span></p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-4 ring-surface-dark"></div>
+<p class="text-xs text-slate-400 mb-0.5">Yesterday, 4:15 PM</p>
+<p class="text-sm text-slate-200">Ticket <span class="text-primary hover:underline cursor-pointer">#REQ-3280</span> was marked as <span class="font-bold text-emerald-400">Resolved</span></p>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-slate-600 ring-4 ring-surface-dark"></div>
+<p class="text-xs text-slate-400 mb-0.5">Yesterday, 9:00 AM</p>
+<p class="text-sm text-slate-200">You created ticket <span class="text-primary hover:underline cursor-pointer">#INC-4918</span></p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
+<div class="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-surface-dark border border-slate-700 shadow-2xl transition-all">
+<div class="flex items-center justify-between border-b border-slate-700 px-6 py-4 bg-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">add_circle</span>
+</div>
+<h3 class="text-xl font-bold text-white">New Support Ticket</h3>
+</div>
+<button class="rounded-full p-2 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="px-6 py-6 max-h-[80vh] overflow-y-auto custom-scrollbar">
+<form class="space-y-6">
+<div>
+<label class="mb-2 block text-sm font-semibold text-slate-300">Subject</label>
+<input class="w-full rounded-lg border-slate-600 bg-slate-800/50 px-4 py-2.5 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-slate-500 transition-all shadow-sm" placeholder="Briefly describe the issue" type="text"/>
+</div>
+<div class="grid gap-6 md:grid-cols-2">
+<div>
+<label class="mb-2 block text-sm font-semibold text-slate-300">Category</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border-slate-600 bg-slate-800/50 px-4 py-2.5 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary shadow-sm cursor-pointer">
+<option>Hardware</option>
+<option>Software</option>
+<option>Network</option>
+<option>Access/Account</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">expand_more</span>
+</div>
+</div>
+<div>
+<label class="mb-2 block text-sm font-semibold text-slate-300">Urgency</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border-slate-600 bg-slate-800/50 px-4 py-2.5 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary shadow-sm cursor-pointer">
+<option>Low - Can work</option>
+<option>Medium - Work impeded</option>
+<option>High - Cannot work</option>
+<option>Critical - System down</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">expand_more</span>
+</div>
+</div>
+</div>
+<div>
+<label class="mb-2 block text-sm font-semibold text-slate-300">Description</label>
+<textarea class="w-full rounded-lg border-slate-600 bg-slate-800/50 px-4 py-2.5 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-slate-500 transition-all shadow-sm h-32" placeholder="Please provide details about what happened..."></textarea>
+</div>
+<div>
+<label class="mb-2 block text-sm font-semibold text-slate-300">Attachments</label>
+<div class="flex items-center justify-center w-full">
+<label class="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-600 border-dashed rounded-lg cursor-pointer bg-slate-800/30 hover:bg-slate-800/50 transition-colors" for="dropzone-file">
+<div class="flex flex-col items-center justify-center pt-5 pb-6">
+<span class="material-symbols-outlined text-slate-400 text-3xl mb-2">cloud_upload</span>
+<p class="text-sm text-slate-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+<p class="text-xs text-slate-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+</div>
+<input class="hidden" id="dropzone-file" type="file"/>
+</label>
+</div>
+</div>
+</form>
+</div>
+<div class="flex justify-end gap-3 border-t border-slate-700 bg-slate-800/50 px-6 py-4">
+<button class="rounded-lg px-6 py-2.5 text-sm font-bold text-slate-400 hover:bg-slate-700 hover:text-white transition-colors">Cancel</button>
+<button class="rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all">Submit Ticket</button>
+</div>
+</div>
+</div>
+
+</body></html>

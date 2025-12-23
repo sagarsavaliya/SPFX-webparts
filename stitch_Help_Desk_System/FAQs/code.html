@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FAQs Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        "accent": "#0d9488",
+                        "background-dark": "#0f172a",
+                        "surface-dark": "#1e293b",
+                        "surface-dark-highlight": "#334155",
+                        "text-main": "#f8fafc",
+                        "text-muted": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.75rem", "lg": "1rem", "xl": "1.5rem" },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'dark-gradient': 'linear-gradient(to bottom right, #1e293b, #0f172a)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-hover:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(59, 130, 246, 0.3);
+        }details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        .custom-input {
+            background-color: rgba(30, 41, 59, 0.5);
+            border-color: rgba(71, 85, 105, 0.5);
+            color: #f8fafc;
+            transition: all 0.2s;
+        }
+        .custom-input:focus {
+            border-color: #3b82f6;
+            background-color: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-main font-display antialiased min-h-screen selection:bg-primary/30">
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-accent/5 blur-[100px]"></div>
+</div>
+<div class="relative z-10 flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-40 flex items-center justify-between border-b border-slate-700/50 bg-surface-dark/90 backdrop-blur-md px-6 py-3 shadow-lg shadow-black/20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-2xl">confirmation_number</span>
+</div>
+<div>
+<h2 class="text-lg font-bold tracking-tight text-white leading-tight">Help Desk</h2>
+<div class="text-[10px] uppercase tracking-wider text-accent font-semibold">Enterprise Portal</div>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-1 ml-4">
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">My Tickets</a>
+<a class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/5" href="#">Knowledge Base</a>
+<a class="px-4 py-2 text-sm font-bold text-primary bg-primary/10 border border-primary/20 rounded-lg shadow-sm shadow-primary/5" href="#">FAQs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<a class="hidden lg:flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white shadow-lg shadow-primary/25 hover:bg-primary-dark transition-all" href="#">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>New Ticket</span>
+</a>
+<button class="relative rounded-full p-2 text-slate-400 hover:bg-white/5 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 rounded-full bg-red-500 border border-surface-dark"></span>
+</button>
+<div class="h-8 w-[1px] bg-slate-700 mx-1"></div>
+<div class="flex items-center gap-3 pl-1 cursor-pointer hover:opacity-80 transition-opacity">
+<div class="text-right hidden sm:block">
+<div class="text-sm font-semibold text-white">Alex Morgan</div>
+<div class="text-xs text-slate-400">Marketing Dept</div>
+</div>
+<div class="relative size-9 overflow-hidden rounded-lg border border-slate-600 shadow-sm bg-slate-700 flex items-center justify-center text-slate-300">
+<span class="material-symbols-outlined">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-8 md:px-8 lg:px-12 xl:px-16 max-w-[1600px] mx-auto w-full">
+<div class="mb-10 text-center max-w-2xl mx-auto">
+<div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary mb-4">
+<span class="flex size-2 rounded-full bg-primary"></span>
+                    Help Center
+                </div>
+<h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">How can we help you today?</h1>
+<p class="text-slate-400 mb-8">Search for answers to common questions regarding account access, software installation, and more.</p>
+<div class="relative group max-w-xl mx-auto">
+<div class="absolute inset-0 bg-primary/20 rounded-xl blur-xl group-hover:bg-primary/30 transition-all opacity-50"></div>
+<div class="relative bg-surface-dark border border-slate-700 rounded-xl flex items-center shadow-2xl overflow-hidden focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/50 transition-all">
+<div class="pl-4 text-slate-400">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="w-full bg-transparent border-none py-4 px-4 text-white placeholder:text-slate-500 focus:ring-0 text-base" placeholder="Search for questions, keywords, or topics..." type="text"/>
+<button class="mr-2 px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 transition-colors">
+                            Search
+                        </button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-3 space-y-6 lg:sticky lg:top-24">
+<div class="glass-panel rounded-xl p-5 shadow-lg">
+<h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-2">Categories</h3>
+<nav class="space-y-1">
+<a class="flex items-center justify-between rounded-lg bg-primary/10 px-3 py-2.5 text-sm font-medium text-primary border border-primary/20 transition-all shadow-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">apps</span>
+<span>All Topics</span>
+</div>
+<span class="bg-primary text-white text-[10px] px-1.5 py-0.5 rounded">24</span>
+</a>
+<a class="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg group-hover:text-accent transition-colors">manage_accounts</span>
+<span>Account &amp; Access</span>
+</div>
+<span class="text-slate-600 text-[10px] bg-slate-800 group-hover:bg-slate-700 px-1.5 py-0.5 rounded transition-colors">8</span>
+</a>
+<a class="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg group-hover:text-pink-400 transition-colors">devices</span>
+<span>Hardware</span>
+</div>
+<span class="text-slate-600 text-[10px] bg-slate-800 group-hover:bg-slate-700 px-1.5 py-0.5 rounded transition-colors">5</span>
+</a>
+<a class="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg group-hover:text-emerald-400 transition-colors">dns</span>
+<span>Network &amp; VPN</span>
+</div>
+<span class="text-slate-600 text-[10px] bg-slate-800 group-hover:bg-slate-700 px-1.5 py-0.5 rounded transition-colors">4</span>
+</a>
+<a class="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg group-hover:text-amber-400 transition-colors">extension</span>
+<span>Software</span>
+</div>
+<span class="text-slate-600 text-[10px] bg-slate-800 group-hover:bg-slate-700 px-1.5 py-0.5 rounded transition-colors">7</span>
+</a>
+</nav>
+</div>
+<div class="glass-panel rounded-xl p-5 shadow-lg bg-gradient-to-br from-surface-dark to-slate-900/50">
+<div class="flex items-center gap-3 mb-3">
+<div class="p-2 rounded-lg bg-accent/10 text-accent">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+<h4 class="font-bold text-white text-sm">Need more help?</h4>
+</div>
+<p class="text-xs text-slate-400 mb-4 leading-relaxed">Can't find what you're looking for? Create a new ticket and our team will assist you.</p>
+<button class="w-full py-2 px-3 rounded-lg border border-slate-600 hover:border-slate-500 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-all">
+                            Submit a Request
+                        </button>
+</div>
+</div>
+<div class="lg:col-span-9 space-y-6">
+<div>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-accent">star</span>
+                                Popular Questions
+                            </h2>
+</div>
+<div class="space-y-3">
+<details class="group glass-panel rounded-xl overflow-hidden shadow-md open:border-primary/50 transition-all duration-300" open="">
+<summary class="flex items-center justify-between p-5 cursor-pointer bg-slate-800/20 hover:bg-slate-800/40 transition-colors select-none">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center size-8 rounded-full bg-slate-800 text-slate-400 group-open:bg-primary group-open:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">question_mark</span>
+</span>
+<h3 class="font-semibold text-slate-200 group-open:text-white text-sm md:text-base">How do I reset my domain password?</h3>
+</div>
+<span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-2">
+<div class="pl-11 text-slate-400 text-sm leading-relaxed space-y-3 border-l-2 border-slate-700 ml-3">
+<p>To reset your domain password, please follow these steps:</p>
+<ol class="list-decimal ml-4 space-y-1 text-slate-300">
+<li>Go to the <a class="text-primary hover:underline" href="#">Self-Service Password Portal</a>.</li>
+<li>Click on "Can't access your account?".</li>
+<li>Select "Work or School Account".</li>
+<li>Enter your user ID and the captcha characters.</li>
+<li>Follow the verification steps sent to your mobile device.</li>
+</ol>
+<div class="mt-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-200 text-xs flex items-start gap-2">
+<span class="material-symbols-outlined text-base">info</span>
+<span>Note: New passwords must be at least 12 characters long and include special characters.</span>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-end gap-2 pr-2">
+<span class="text-xs text-slate-500">Was this helpful?</span>
+<button class="p-1 text-slate-500 hover:text-emerald-400 transition-colors"><span class="material-symbols-outlined text-lg">thumb_up</span></button>
+<button class="p-1 text-slate-500 hover:text-red-400 transition-colors"><span class="material-symbols-outlined text-lg">thumb_down</span></button>
+</div>
+</div>
+</details>
+<details class="group glass-panel rounded-xl overflow-hidden shadow-md open:border-primary/50 transition-all duration-300">
+<summary class="flex items-center justify-between p-5 cursor-pointer bg-slate-800/20 hover:bg-slate-800/40 transition-colors select-none">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center size-8 rounded-full bg-slate-800 text-slate-400 group-open:bg-primary group-open:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">vpn_key</span>
+</span>
+<h3 class="font-semibold text-slate-200 group-open:text-white text-sm md:text-base">How to request VPN access for remote work?</h3>
+</div>
+<span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-2">
+<div class="pl-11 text-slate-400 text-sm leading-relaxed space-y-3 border-l-2 border-slate-700 ml-3">
+<p>VPN access requires manager approval. Please submit a <a class="text-primary hover:underline" href="#">New Ticket</a> selecting category <strong>Network &gt; VPN Access</strong>.</p>
+<p>Once approved, you will receive an email with configuration instructions for the Cisco AnyConnect client.</p>
+</div>
+</div>
+</details>
+<details class="group glass-panel rounded-xl overflow-hidden shadow-md open:border-primary/50 transition-all duration-300">
+<summary class="flex items-center justify-between p-5 cursor-pointer bg-slate-800/20 hover:bg-slate-800/40 transition-colors select-none">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center size-8 rounded-full bg-slate-800 text-slate-400 group-open:bg-primary group-open:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">mail</span>
+</span>
+<h3 class="font-semibold text-slate-200 group-open:text-white text-sm md:text-base">Outlook is not syncing on my mobile device</h3>
+</div>
+<span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-2">
+<div class="pl-11 text-slate-400 text-sm leading-relaxed space-y-3 border-l-2 border-slate-700 ml-3">
+<p>Often, re-adding your account resolves sync issues:</p>
+<ul class="list-disc ml-4 space-y-1">
+<li>Open Outlook App settings.</li>
+<li>Select your account and tap "Delete Account".</li>
+<li>Restart the app and sign in again.</li>
+</ul>
+<p>If the issue persists, ensure your device OS is up to date.</p>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class="pt-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">extension</span>
+                                Software &amp; Licensing
+                            </h2>
+<a class="text-xs font-medium text-primary hover:text-primary-dark hover:underline" href="#">View all (7)</a>
+</div>
+<div class="space-y-3">
+<details class="group glass-panel rounded-xl overflow-hidden shadow-md open:border-primary/50 transition-all duration-300">
+<summary class="flex items-center justify-between p-5 cursor-pointer bg-slate-800/20 hover:bg-slate-800/40 transition-colors select-none">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center size-8 rounded-full bg-slate-800 text-slate-400 group-open:bg-primary group-open:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">admob</span>
+</span>
+<h3 class="font-semibold text-slate-200 group-open:text-white text-sm md:text-base">How do I request an Adobe Creative Cloud license?</h3>
+</div>
+<span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-2">
+<div class="pl-11 text-slate-400 text-sm leading-relaxed border-l-2 border-slate-700 ml-3">
+<p>Adobe CC licenses are assigned based on department role. Please have your department head submit a software request ticket on your behalf. Approval from IT Procurement is required.</p>
+</div>
+</div>
+</details>
+<details class="group glass-panel rounded-xl overflow-hidden shadow-md open:border-primary/50 transition-all duration-300">
+<summary class="flex items-center justify-between p-5 cursor-pointer bg-slate-800/20 hover:bg-slate-800/40 transition-colors select-none">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center size-8 rounded-full bg-slate-800 text-slate-400 group-open:bg-primary group-open:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">group</span>
+</span>
+<h3 class="font-semibold text-slate-200 group-open:text-white text-sm md:text-base">Can I install company software on my personal computer?</h3>
+</div>
+<span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-2">
+<div class="pl-11 text-slate-400 text-sm leading-relaxed border-l-2 border-slate-700 ml-3">
+<p>No. For security and licensing compliance, company-licensed software may only be installed on company-issued assets. However, Microsoft 365 (Office) allows you to log in on up to 5 devices using your work credentials for web access.</p>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
