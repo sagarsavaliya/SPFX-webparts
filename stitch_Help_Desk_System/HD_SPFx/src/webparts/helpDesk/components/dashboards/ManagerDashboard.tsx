@@ -10,7 +10,8 @@ import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
 import { AssignTicketModal } from '../modals/AssignTicketModal';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './ManagerDashboard.module.scss';
 import { SLACalculator } from '../../utils/SLACalculator';
 
 interface IManagerDashboardProps {
@@ -18,6 +19,15 @@ interface IManagerDashboardProps {
 }
 
 type TicketFilter = 'all' | 'unassigned' | 'slaAtRisk' | 'open' | 'resolved';
+
+interface ITechnicianPerformance {
+  technicianId: number;
+  technicianName: string;
+  activeTickets: number;
+  resolvedTickets: number;
+  avgResolutionTime: number;
+  slaCompliance: number;
+}
 
 /**
  * Manager Dashboard Component
@@ -31,6 +41,7 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
   const [error, setError] = useState<string | undefined>(undefined);
   const [assignModalTicket, setAssignModalTicket] = useState<ITicket | null>(null);
   const [activeFilter, setActiveFilter] = useState<TicketFilter>('all');
+  const [technicianPerformance, setTechnicianPerformance] = useState<ITechnicianPerformance[]>([]);
 
   // Stats
   const [stats, setStats] = useState({
@@ -59,6 +70,64 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
         resolved: allTicketsData.filter(t => t.Status === 'Resolved' || t.Status === 'Closed').length
       };
       setStats(newStats);
+
+      // Calculate technician performance
+      const performanceMap = new Map<number, ITechnicianPerformance>();
+
+      allTicketsData.forEach(ticket => {
+        if (ticket.AssignedToId && ticket.AssignedToName) {
+          if (!performanceMap.has(ticket.AssignedToId)) {
+            performanceMap.set(ticket.AssignedToId, {
+              technicianId: ticket.AssignedToId,
+              technicianName: ticket.AssignedToName,
+              activeTickets: 0,
+              resolvedTickets: 0,
+              avgResolutionTime: 0,
+              slaCompliance: 0
+            });
+          }
+
+          const perf = performanceMap.get(ticket.AssignedToId)!;
+
+          // Count active tickets
+          if (ticket.Status !== 'Resolved' && ticket.Status !== 'Closed') {
+            perf.activeTickets++;
+          }
+
+          // Count resolved tickets
+          if (ticket.Status === 'Resolved' || ticket.Status === 'Closed') {
+            perf.resolvedTickets++;
+          }
+        }
+      });
+
+      // Calculate average resolution time and SLA compliance
+      performanceMap.forEach((perf) => {
+        const technicianTickets = allTicketsData.filter(
+          t => t.AssignedToId === perf.technicianId && (t.Status === 'Resolved' || t.Status === 'Closed')
+        );
+
+        if (technicianTickets.length > 0) {
+          // Average resolution time
+          const totalResolutionTime = technicianTickets.reduce(
+            (sum, t) => sum + (t.ResolutionTime || 0),
+            0
+          );
+          perf.avgResolutionTime = totalResolutionTime / technicianTickets.length;
+
+          // SLA compliance rate
+          const metSLA = technicianTickets.filter(
+            t => t.SLAStatus === 'Met' || (t.ResolvedDate && t.SLADueDate && t.ResolvedDate <= t.SLADueDate)
+          ).length;
+          perf.slaCompliance = (metSLA / technicianTickets.length) * 100;
+        }
+      });
+
+      const performanceArray: ITechnicianPerformance[] = [];
+      performanceMap.forEach(perf => performanceArray.push(perf));
+      performanceArray.sort((a, b) => b.resolvedTickets - a.resolvedTickets);
+
+      setTechnicianPerformance(performanceArray);
 
       // Apply default filter (all tickets)
       applyFilter('all', allTicketsData);
@@ -120,20 +189,20 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
   }
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div className={styles.dashboard}>
       {/* Welcome Section */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '32px', fontWeight: 700, color: 'white', marginBottom: '8px' }}>
+      <div className={styles.welcomeSection}>
+        <h1 className={styles.welcomeTitle}>
           Manager Dashboard 📊
         </h1>
-        <p style={{ fontSize: '16px', color: '#94a3b8' }}>
+        <p className={styles.welcomeSubtitle}>
           Welcome {currentUser?.DisplayName}! Complete oversight of help desk operations
         </p>
       </div>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '32px' }}>
-        <div onClick={() => applyFilter('all')} style={{ cursor: 'pointer' }}>
+      <div className={styles.filterGrid}>
+        <div onClick={() => applyFilter('all')} className={styles.filterCard}>
           <StatCard
             label="Total Tickets"
             value={stats.total}
@@ -142,7 +211,7 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
             isActive={activeFilter === 'all'}
           />
         </div>
-        <div onClick={() => applyFilter('unassigned')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => applyFilter('unassigned')} className={styles.filterCard}>
           <StatCard
             label="Unassigned"
             value={stats.unassigned}
@@ -151,7 +220,7 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
             isActive={activeFilter === 'unassigned'}
           />
         </div>
-        <div onClick={() => applyFilter('slaAtRisk')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => applyFilter('slaAtRisk')} className={styles.filterCard}>
           <StatCard
             label="SLA At Risk"
             value={stats.slaAtRisk}
@@ -160,7 +229,7 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
             isActive={activeFilter === 'slaAtRisk'}
           />
         </div>
-        <div onClick={() => applyFilter('open')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => applyFilter('open')} className={styles.filterCard}>
           <StatCard
             label="Active"
             value={stats.open}
@@ -169,7 +238,7 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
             isActive={activeFilter === 'open'}
           />
         </div>
-        <div onClick={() => applyFilter('resolved')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => applyFilter('resolved')} className={styles.filterCard}>
           <StatCard
             label="Resolved"
             value={stats.resolved}
@@ -180,14 +249,73 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
         </div>
       </div>
 
+      {/* Team Performance Analytics */}
+      {technicianPerformance.length > 0 && (
+        <Card className={styles.performanceCard}>
+          <div className={styles.performanceHeader}>
+            <h2 className={styles.performanceTitle}>
+              👥 Team Performance
+            </h2>
+            <p className={styles.performanceSubtitle}>
+              Overview of technician productivity and efficiency
+            </p>
+          </div>
+
+          <div className={styles.performanceGrid}>
+            {technicianPerformance.slice(0, 5).map((perf) => (
+              <div key={perf.technicianId} className={styles.performanceItem}>
+                <div className={styles.performanceItemHeader}>
+                  <div className={styles.technicianAvatar}>
+                    {perf.technicianName.charAt(0).toUpperCase()}
+                  </div>
+                  <div className={styles.technicianInfo}>
+                    <div className={styles.technicianName}>
+                      {perf.technicianName}
+                    </div>
+                    <div className={styles.technicianStats}>
+                      {perf.activeTickets} active • {perf.resolvedTickets} resolved
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.performanceMetrics}>
+                  <div className={styles.metricItem}>
+                    <span className={styles.metricLabel}>Avg. Resolution</span>
+                    <span className={styles.metricValue}>
+                      {perf.avgResolutionTime > 0
+                        ? `${Math.round(perf.avgResolutionTime)}h`
+                        : 'N/A'}
+                    </span>
+                  </div>
+                  <div className={styles.metricItem}>
+                    <span className={styles.metricLabel}>SLA Compliance</span>
+                    <span className={`${styles.metricValue} ${
+                      perf.slaCompliance >= 90
+                        ? styles.complianceHigh
+                        : perf.slaCompliance >= 75
+                          ? styles.complianceMedium
+                          : styles.complianceLow
+                    }`}>
+                      {perf.resolvedTickets > 0
+                        ? `${Math.round(perf.slaCompliance)}%`
+                        : 'N/A'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
       {/* Alert for unassigned or SLA at risk tickets */}
       {(stats.unassigned > 0 || stats.slaAtRisk > 0) && (
-        <Card style={{ marginBottom: '24px', backgroundColor: '#7f1d1d', borderLeft: '4px solid #ef4444' }}>
-          <div style={{ padding: '12px' }}>
-            <div style={{ fontWeight: 600, color: 'white', marginBottom: '8px', fontSize: '16px' }}>
+        <Card className={styles.alertBanner}>
+          <div className={styles.alertContent}>
+            <div className={styles.alertTitle}>
               ⚠️ Action Required
             </div>
-            <div style={{ fontSize: '14px', color: '#fca5a5' }}>
+            <div className={styles.alertDescription}>
               {stats.unassigned > 0 && `${stats.unassigned} unassigned ticket(s) need attention. `}
               {stats.slaAtRisk > 0 && `${stats.slaAtRisk} ticket(s) are at risk of SLA breach.`}
             </div>
@@ -196,25 +324,15 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
       )}
 
       {/* Action Bar */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '24px'
-        }}
-      >
-        <h2 style={{ fontSize: '20px', fontWeight: 600, color: 'white' }}>
+      <div className={styles.filtersSection}>
+        <h2 className={styles.filtersTitle}>
           {activeFilter === 'all' && 'All Tickets'}
           {activeFilter === 'unassigned' && 'Unassigned Tickets'}
           {activeFilter === 'slaAtRisk' && 'SLA At Risk Tickets'}
           {activeFilter === 'open' && 'Active Tickets'}
           {activeFilter === 'resolved' && 'Resolved Tickets'}
         </h2>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <Button variant="secondary" onClick={() => onNavigate('/kb')}>
-            📚 Knowledge Base
-          </Button>
+        <div className={styles.filterActions}>
           <Button onClick={() => onNavigate('/ticket/new')}>
             + Create Ticket
           </Button>
@@ -224,88 +342,73 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
       {/* Tickets Table */}
       {tickets.length === 0 ? (
         <Card>
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎫</div>
-            <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateIcon}>🎫</div>
+            <h3 className={styles.emptyStateTitle}>
               No Tickets Found
             </h3>
-            <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+            <p className={styles.emptyStateDescription}>
               No tickets match the selected filter
             </p>
           </div>
         </Card>
       ) : (
         <Card>
-          <div style={{ overflowX: 'auto' }}>
-            <table className={styles.table}>
-              <thead className={styles.tableHeader}>
+          <div className={styles.tableContainer}>
+            <table className={commonStyles.table}>
+              <thead className={commonStyles.tableHeader}>
                 <tr>
-                  <th className={styles.tableHeaderCell}>Ticket #</th>
-                  <th className={styles.tableHeaderCell}>Subject</th>
-                  <th className={styles.tableHeaderCell}>Requester</th>
-                  <th className={styles.tableHeaderCell}>Assigned To</th>
-                  <th className={styles.tableHeaderCell}>Priority</th>
-                  <th className={styles.tableHeaderCell}>Status</th>
-                  <th className={styles.tableHeaderCell}>SLA</th>
-                  <th className={styles.tableHeaderCell}>Created</th>
-                  <th className={styles.tableHeaderCell}>Actions</th>
+                  <th className={commonStyles.tableHeaderCell}>Ticket #</th>
+                  <th className={commonStyles.tableHeaderCell}>Subject</th>
+                  <th className={commonStyles.tableHeaderCell}>Requester</th>
+                  <th className={commonStyles.tableHeaderCell}>Assigned To</th>
+                  <th className={commonStyles.tableHeaderCell}>Priority</th>
+                  <th className={commonStyles.tableHeaderCell}>Status</th>
+                  <th className={commonStyles.tableHeaderCell}>SLA Status</th>
+                  <th className={commonStyles.tableHeaderCell}>Time</th>
+                  <th className={commonStyles.tableHeaderCell}>Created</th>
+                  <th className={commonStyles.tableHeaderCell}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {tickets.map((ticket) => (
-                  <tr key={ticket.Id} className={styles.tableRow}>
-                    <td className={styles.tableCell}>
+                  <tr key={ticket.Id} className={commonStyles.tableRow}>
+                    <td className={commonStyles.tableCell}>
                       <span
-                        style={{ fontWeight: 600, color: '#3b82f6', cursor: 'pointer', textDecoration: 'underline' }}
+                        className={styles.ticketNumber}
                         onClick={() => onNavigate(`/ticket/${ticket.Id}`)}
                       >
                         {ticket.TicketNumber}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
-                      <div style={{ maxWidth: '300px' }} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
-                        <div style={{ fontWeight: 500, color: 'white', marginBottom: '4px' }}>
+                    <td className={commonStyles.tableCell}>
+                      <div className={styles.subjectCell} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
+                        <div className={styles.subjectTitle}>
                           {ticket.Title}
                         </div>
-                        <div
-                          style={{
-                            fontSize: '12px',
-                            color: '#94a3b8',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}
-                        >
+                        <div className={styles.subjectDescription}>
                           {ticket.Description?.replace(/<[^>]*>/g, '').substring(0, 60)}...
                         </div>
                       </div>
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.categoryText}>
                         {ticket.RequesterName || 'N/A'}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: ticket.AssignedToName ? '#94a3b8' : '#ef4444' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={ticket.AssignedToName ? styles.assignedText : styles.unassignedText}>
                         {ticket.AssignedToName || 'Unassigned'}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.Priority} type="priority" value={ticket.Priority} />
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <select
                         value={ticket.Status}
                         onChange={(e) => handleStatusChange(ticket.Id, e.target.value as TicketStatus)}
-                        style={{
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          border: '1px solid #334155',
-                          backgroundColor: '#1e293b',
-                          color: 'white',
-                          fontSize: '13px',
-                          cursor: 'pointer'
-                        }}
+                        className={styles.statusSelect}
                       >
                         <option value="New">New</option>
                         <option value="Open">Open</option>
@@ -315,19 +418,39 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
                         <option value="Closed">Closed</option>
                       </select>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.SLAStatus || 'Pending'} type="sla" value={ticket.SLAStatus || 'Pending'} />
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={`${styles.slaTimeText} ${
+                        (ticket.Status === 'Resolved' || ticket.Status === 'Closed')
+                          ? styles.completedTime
+                          : ticket.SLAStatus === 'Breached'
+                            ? styles.breachedTime
+                            : ticket.SLAStatus === 'At Risk'
+                              ? styles.atRiskTime
+                              : styles.normalTime
+                      }`}>
+                        {SLACalculator.formatSLATimeForTable({
+                          Created: ticket.Created,
+                          ResolvedDate: ticket.ResolvedDate,
+                          SLADueDate: ticket.SLADueDate,
+                          Status: ticket.Status,
+                          ResolutionTime: ticket.ResolutionTime
+                        })}
+                      </span>
+                    </td>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.dateText}>
                         {SLACalculator.formatRelativeTime(ticket.Created)}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Button
                         variant="primary"
                         size="small"
                         onClick={() => setAssignModalTicket(ticket)}
+                        disabled={ticket.Status === 'Closed' || ticket.Status === 'Resolved'}
                       >
                         {ticket.AssignedToId ? 'Reassign' : 'Assign'}
                       </Button>

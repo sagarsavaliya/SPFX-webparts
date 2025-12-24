@@ -1,0 +1,347 @@
+/**
+ * ManagerDashboard Component Styles
+ * Manager overview dashboard with filtering and analytics
+ */
+
+@use '../../styles/abstracts' as *;
+
+/**
+ * Main dashboard container
+ */
+.dashboard {
+  padding: $spacing-lg;
+}
+
+/**
+ * Welcome section
+ */
+.welcomeSection {
+  margin-bottom: $spacing-xl;
+}
+
+.welcomeTitle {
+  @include heading($font-size-xxl, $font-weight-bold);
+  margin-bottom: $spacing-sm;
+}
+
+.welcomeSubtitle {
+  font-size: $font-size-md;
+  color: $color-text-muted;
+}
+
+/**
+ * Filter cards grid
+ */
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+}
+
+.filterCard {
+  cursor: pointer;
+}
+
+/**
+ * Alert banner
+ */
+.alertBanner {
+  margin-bottom: $spacing-lg;
+  background-color: #7f1d1d;
+  border-left: 4px solid $color-error;
+}
+
+.alertContent {
+  padding: 12px;
+}
+
+.alertTitle {
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  font-size: $font-size-md;
+}
+
+.alertDescription {
+  font-size: $font-size-base;
+  color: #fca5a5;
+}
+
+/**
+ * Filters section
+ */
+.filtersSection {
+  @include flex(row, center, space-between);
+  margin-bottom: $spacing-lg;
+}
+
+.filtersTitle {
+  @include heading(20px, $font-weight-semibold);
+}
+
+.filterActions {
+  @include flex(row, center, flex-start);
+  gap: 12px;
+}
+
+/**
+ * Empty state
+ */
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyStateIcon {
+  font-size: 48px;
+  margin-bottom: $spacing-md;
+}
+
+.emptyStateTitle {
+  @include heading($font-size-lg, $font-weight-semibold);
+  margin-bottom: $spacing-sm;
+}
+
+.emptyStateDescription {
+  font-size: $font-size-base;
+  color: $color-text-muted;
+}
+
+/**
+ * Table container
+ */
+.tableContainer {
+  overflow-x: auto;
+}
+
+/**
+ * Table cell - Ticket number
+ */
+.ticketNumber {
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-primary-light;
+  }
+}
+
+/**
+ * Table cell - Subject
+ */
+.subjectCell {
+  max-width: 300px;
+}
+
+.subjectTitle {
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4px;
+}
+
+.subjectDescription {
+  @include truncate(1);
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+/**
+ * Table cell - Category and other text
+ */
+.categoryText {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.assignedText {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.unassignedText {
+  font-size: $font-size-sm;
+  color: $color-error;
+}
+
+.dateText {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+/**
+ * Status select dropdown
+ */
+.statusSelect {
+  padding: 4px 8px;
+  border-radius: $border-radius-sm;
+  border: 1px solid $color-border-base;
+  background-color: $color-bg-surface;
+  color: $color-text-primary;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/**
+ * Assign button cell
+ */
+.assignButtonCell {
+  @include flex(row, center, space-between);
+  gap: $spacing-sm;
+}
+
+/**
+ * SLA time column styling
+ */
+.slaTimeText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  padding: 4px 8px;
+  border-radius: $border-radius-sm;
+  display: inline-block;
+}
+
+.completedTime {
+  color: $color-success;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.breachedTime {
+  color: $color-error;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.atRiskTime {
+  color: $color-warning;
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.normalTime {
+  color: $color-info;
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/**
+ * Team Performance Analytics Section
+ */
+.performanceCard {
+  margin-bottom: $spacing-xl;
+}
+
+.performanceHeader {
+  margin-bottom: $spacing-lg;
+}
+
+.performanceTitle {
+  @include heading($font-size-xl, $font-weight-semibold);
+  margin-bottom: $spacing-xs;
+}
+
+.performanceSubtitle {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.performanceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $spacing-md;
+}
+
+.performanceItem {
+  padding: $spacing-md;
+  background-color: $color-bg-elevated;
+  border-radius: $border-radius-md;
+  border: 1px solid $color-border-base;
+  transition: all $transition-base;
+
+  &:hover {
+    border-color: $color-primary;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.performanceItemHeader {
+  @include flex(row, center, flex-start);
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $color-border-base;
+}
+
+.technicianAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: #ffffff;
+  @include flex(row, center, center);
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-md;
+  flex-shrink: 0;
+}
+
+.technicianInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.technicianName {
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  font-size: $font-size-base;
+  @include truncate(1);
+}
+
+.technicianStats {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  margin-top: 2px;
+}
+
+.performanceMetrics {
+  @include flex(column, flex-start, flex-start);
+  gap: $spacing-sm;
+}
+
+.metricItem {
+  @include flex(row, center, space-between);
+  width: 100%;
+}
+
+.metricLabel {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.metricValue {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.complianceHigh {
+  color: $color-success;
+}
+
+.complianceMedium {
+  color: $color-warning;
+}
+
+.complianceLow {
+  color: $color-error;
+}

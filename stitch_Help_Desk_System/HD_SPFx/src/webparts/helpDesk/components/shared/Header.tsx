@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useAppContext } from '../../context/AppContext';
-import styles from '../../styles/common.module.scss';
+import { UserRole } from '../../models';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './Header.module.scss';
 
 interface IHeaderProps {
   onNavigate?: (route: string) => void;
@@ -18,48 +20,36 @@ export const Header: React.FC<IHeaderProps> = ({ onNavigate, currentRoute = '/da
     if (!currentUser) return [];
 
     const items = [
-      { label: 'Dashboard', route: '/dashboard' },
-      { label: 'My Tickets', route: '/my-tickets' },
+      { label: 'Dashboard', route: '/dashboard' }
+    ];
+
+    // Only show "My Tickets" for regular users (not Manager/Admin/Technician)
+    // Managers, Admins, and Technicians see all tickets in their dashboards
+    if (currentUser.Role === UserRole.User) {
+      items.push({ label: 'My Tickets', route: '/my-tickets' });
+    }
+
+    items.push(
       { label: 'Knowledge Base', route: '/kb' },
       { label: 'FAQs', route: '/faq' }
-    ];
+    );
 
     return items;
   }, [currentUser]);
 
   return (
     <header className={styles.header}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+      <div className={styles.leftSection}>
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div
-            style={{
-              width: '36px',
-              height: '36px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '8px',
-              background: 'linear-gradient(to bottom right, #3b82f6, #0d9488)',
-              color: 'white',
-              boxShadow: '0 4px 6px rgba(59, 130, 246, 0.2)'
-            }}
-          >
-            <span style={{ fontSize: '20px' }}>🎫</span>
+        <div className={styles.logoSection}>
+          <div className={styles.logoIcon}>
+            <span>🎫</span>
           </div>
-          <div>
-            <div style={{ fontSize: '16px', fontWeight: 700, color: 'white', lineHeight: 1.2 }}>
+          <div className={styles.logoText}>
+            <div className={styles.logoTitle}>
               Help Desk
             </div>
-            <div
-              style={{
-                fontSize: '10px',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                color: '#0d9488',
-                fontWeight: 600
-              }}
-            >
+            <div className={styles.logoSubtitle}>
               Enterprise Portal
             </div>
           </div>
@@ -84,93 +74,40 @@ export const Header: React.FC<IHeaderProps> = ({ onNavigate, currentRoute = '/da
       </div>
 
       {/* User Profile */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div className={styles.rightSection}>
         {/* Search */}
-        <div style={{ position: 'relative', display: 'none' }}>
+        <div className={styles.searchContainer}>
           <input
             type="text"
             placeholder="Search KB articles..."
-            className={styles.input}
-            style={{ width: '240px', height: '36px', paddingLeft: '36px', fontSize: '13px' }}
+            className={`${commonStyles.input} ${styles.searchInput}`}
           />
-          <span
-            style={{
-              position: 'absolute',
-              left: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: '#94a3b8'
-            }}
-          >
+          <span className={styles.searchIcon}>
             🔍
           </span>
         </div>
 
         {/* Notifications */}
-        <button
-          style={{
-            position: 'relative',
-            borderRadius: '50%',
-            padding: '8px',
-            color: '#94a3b8',
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.2s'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = '#94a3b8';
-          }}
-        >
-          <span style={{ fontSize: '20px' }}>🔔</span>
-          <span
-            style={{
-              position: 'absolute',
-              top: '8px',
-              right: '8px',
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: '#ef4444',
-              border: '2px solid #1e293b'
-            }}
-          />
+        <button className={styles.notificationButton} aria-label="Notifications">
+          <span>🔔</span>
+          <span className={styles.notificationBadge} />
         </button>
 
         {/* Divider */}
-        <div style={{ width: '1px', height: '32px', background: '#475569' }} />
+        <div className={styles.divider} />
 
         {/* User */}
         {currentUser && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '14px', fontWeight: 600, color: 'white' }}>
+          <div className={styles.userSection}>
+            <div className={styles.userInfo}>
+              <div className={styles.userName}>
                 {currentUser.DisplayName}
               </div>
-              <div style={{ fontSize: '12px', color: '#94a3b8' }}>
+              <div className={styles.userRole}>
                 {currentUser.Role}
               </div>
             </div>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '8px',
-                background: 'linear-gradient(to bottom right, #3b82f6, #8b5cf6)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: 600,
-                border: '1px solid #475569',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
-              }}
-            >
+            <div className={styles.userAvatar}>
               {currentUser.DisplayName.charAt(0).toUpperCase()}
             </div>
           </div>

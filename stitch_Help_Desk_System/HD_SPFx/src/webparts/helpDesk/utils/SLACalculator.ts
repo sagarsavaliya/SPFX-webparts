@@ -346,4 +346,75 @@ export class SLACalculator {
 
     return priorityMatrix[impact]?.[urgency] || 'Medium';
   }
+
+  /**
+   * Format SLA time remaining for table display
+   * Returns a simple string showing time remaining or completion time
+   */
+  public static formatSLATimeForTable(ticket: {
+    Created: Date;
+    ResolvedDate?: Date;
+    SLADueDate?: Date;
+    Status: string;
+    ResolutionTime?: number;
+  }): string {
+    // If ticket is resolved or closed, show completion time
+    if (ticket.Status === 'Resolved' || ticket.Status === 'Closed') {
+      if (ticket.ResolutionTime) {
+        const hours = Math.floor(ticket.ResolutionTime);
+        const minutes = Math.round((ticket.ResolutionTime - hours) * 60);
+
+        if (hours === 0) {
+          return `${minutes}m`;
+        } else if (hours < 24) {
+          return `${hours}h ${minutes}m`;
+        } else {
+          const days = Math.floor(hours / 24);
+          const remainingHours = hours % 24;
+          return `${days}d ${remainingHours}h`;
+        }
+      }
+      return 'N/A';
+    }
+
+    // For open tickets, show time remaining
+    if (!ticket.SLADueDate) {
+      return 'N/A';
+    }
+
+    const now = new Date();
+    const slaDueDate = new Date(ticket.SLADueDate);
+    const diffMinutes = differenceInMinutes(slaDueDate, now);
+
+    // If overdue
+    if (diffMinutes <= 0) {
+      const overdueMinutes = Math.abs(diffMinutes);
+      const hours = Math.floor(overdueMinutes / 60);
+      const minutes = overdueMinutes % 60;
+
+      if (hours === 0) {
+        return `-${minutes}m`;
+      } else if (hours < 24) {
+        return `-${hours}h ${minutes}m`;
+      } else {
+        const days = Math.floor(hours / 24);
+        const remainingHours = hours % 24;
+        return `-${days}d ${remainingHours}h`;
+      }
+    }
+
+    // Time remaining
+    const hours = Math.floor(diffMinutes / 60);
+    const minutes = diffMinutes % 60;
+
+    if (hours === 0) {
+      return `${minutes}m`;
+    } else if (hours < 24) {
+      return `${hours}h ${minutes}m`;
+    } else {
+      const days = Math.floor(hours / 24);
+      const remainingHours = hours % 24;
+      return `${days}d ${remainingHours}h`;
+    }
+  }
 }
