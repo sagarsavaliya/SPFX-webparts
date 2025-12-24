@@ -70,13 +70,15 @@ export const ConversationMessage: React.FC<IConversationMessageProps> = ({
         } ${isConsecutive ? pageStyles.consecutive : pageStyles.notConsecutive}`}
     >
       {/* Avatar - only show for first message in group */}
-      {!isConsecutive && (
+      {!isConsecutive ? (
         <div
           className={pageStyles.avatar}
           data-user-color={userColorIndex}
         >
           {(conversation.SentByName || 'U').charAt(0).toUpperCase()}
         </div>
+      ) : (
+        <div className={`${pageStyles.avatar} ${pageStyles.hidden}`} />
       )}
 
       <div

@@ -18,7 +18,7 @@ interface IUserDashboardProps {
 
 /**
  * User Dashboard Component
- * Main dashboard for end users showing their tickets
+ * Overview dashboard for end users showing stats and recent tickets
  */
 export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => {
   const { currentUser } = useAppContext();
@@ -26,15 +26,28 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
   const [stats, setStats] = useState<ITicketStats | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [pendingResponseCount, setPendingResponseCount] = useState(0);
 
   const loadData = useCallback(async (): Promise<void> => {
     try {
       setIsLoading(true);
       setError(undefined);
 
-      // Regular users see only their own tickets
+      // Regular users see only their own tickets - limit to recent 10 for dashboard
       const userTickets = await TicketService.getTickets({ createdByMe: true });
-      setTickets(userTickets);
+
+      // Sort by last modified date (most recent first) and take only 10
+      const recentTickets = userTickets
+        .sort((a, b) => new Date(b.Modified).getTime() - new Date(a.Modified).getTime())
+        .slice(0, 10);
+
+      setTickets(recentTickets);
+
+      // Calculate pending response count (tickets in Open or In Progress status)
+      const pendingCount = userTickets.filter(t =>
+        t.Status === 'Open' || t.Status === 'In Progress'
+      ).length;
+      setPendingResponseCount(pendingCount);
 
       // Load stats
       const ticketStats = await TicketService.getTicketStats(currentUser?.Id);
@@ -82,7 +95,55 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
         </div>
       )}
 
-      {/* Action Bar */}
+      {/* Quick Actions */}
+      <div className={styles.grid3} style={{ marginBottom: '32px' }}>
+        <Card>
+          <div style={{ padding: '20px', textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', marginBottom: '12px' }}>🎫</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+              Create Ticket
+            </h3>
+            <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px' }}>
+              Submit a new support request
+            </p>
+            <Button onClick={() => onNavigate('/ticket/new')} size="small">
+              New Ticket
+            </Button>
+          </div>
+        </Card>
+
+        <Card>
+          <div style={{ padding: '20px', textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', marginBottom: '12px' }}>📋</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+              Active Tickets
+            </h3>
+            <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px' }}>
+              {pendingResponseCount} ticket{pendingResponseCount !== 1 ? 's' : ''} need{pendingResponseCount === 1 ? 's' : ''} attention
+            </p>
+            <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
+              View All
+            </Button>
+          </div>
+        </Card>
+
+        <Card>
+          <div style={{ padding: '20px', textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', marginBottom: '12px' }}>📚</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+              Knowledge Base
+            </h3>
+            <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px' }}>
+              Find answers to common questions
+            </p>
+            <Button onClick={() => onNavigate('/kb')} variant="secondary" size="small">
+              Browse KB
+            </Button>
+          </div>
+        </Card>
+      </div>
+
+      {/* Recent Tickets Section */}
       <div
         style={{
           display: 'flex',
@@ -91,8 +152,10 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
           marginBottom: '24px'
         }}
       >
-        <h2 style={{ fontSize: '20px', fontWeight: 600, color: 'white' }}>My Tickets</h2>
-        <Button onClick={() => onNavigate('/ticket/new')}>+ Create New Ticket</Button>
+        <h2 style={{ fontSize: '20px', fontWeight: 600, color: 'white' }}>Recent Tickets</h2>
+        <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
+          View All Tickets →
+        </Button>
       </div>
 
       {/* Tickets Table */}

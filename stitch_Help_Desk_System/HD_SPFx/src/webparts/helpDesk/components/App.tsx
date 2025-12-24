@@ -9,6 +9,7 @@ import { TechnicianDashboard } from './dashboards/TechnicianDashboard';
 import { ManagerDashboard } from './dashboards/ManagerDashboard';
 import { TicketForm } from './forms/TicketForm';
 import { TicketDetailsPage } from './pages/TicketDetailsPage';
+import { MyTicketsPage } from './pages/MyTicketsPage';
 import { KnowledgeBasePage } from './pages/KnowledgeBasePage';
 import { FAQsPage } from './pages/FAQsPage';
 import { UserRole } from '../models';
@@ -28,7 +29,6 @@ const renderRoute = (
 
   switch (basePath) {
     case 'dashboard':
-    case 'my-tickets':
       // Render role-specific dashboard
       if (userRole === UserRole.Manager || userRole === UserRole.Admin) {
         return <ManagerDashboard onNavigate={onNavigate} />;
@@ -36,6 +36,17 @@ const renderRoute = (
         return <TechnicianDashboard onNavigate={onNavigate} />;
       } else {
         return <UserDashboard onNavigate={onNavigate} />;
+      }
+
+    case 'my-tickets':
+      // My Tickets page - full ticket list with filters (User role only)
+      // For other roles, redirect to their respective dashboards
+      if (userRole === UserRole.Manager || userRole === UserRole.Admin) {
+        return <ManagerDashboard onNavigate={onNavigate} />;
+      } else if (userRole === UserRole.Technician) {
+        return <TechnicianDashboard onNavigate={onNavigate} />;
+      } else {
+        return <MyTicketsPage onNavigate={onNavigate} />;
       }
 
     case 'ticket': {
