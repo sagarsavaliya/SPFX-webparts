@@ -1,0 +1,603 @@
+/**
+ * TicketDetailsPage Styles
+ * Enterprise-grade modular CSS for ticket details and conversation UI
+ */
+
+/* ==================== Layout ==================== */
+
+.pageContainer {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.headerSection {
+  margin-bottom: 24px;
+}
+
+/* ==================== Ticket Header Card ==================== */
+
+.ticketHeader {
+  padding: 24px;
+}
+
+.ticketHeaderTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.ticketMetadata {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ticketNumber {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.ticketTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.ticketInfo {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: #94a3b8;
+
+  span {
+    &:not(:last-child)::after {
+      content: '•';
+      margin-left: 16px;
+    }
+  }
+}
+
+.ticketDetailsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #334155;
+}
+
+.detailItem {
+  .label {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 4px;
+  }
+
+  .value {
+    font-size: 14px;
+    color: white;
+    font-weight: 500;
+  }
+}
+
+.ticketDescription {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #334155;
+
+  .descriptionLabel {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .descriptionContent {
+    font-size: 14px;
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+}
+
+/* ==================== Conversation Section ==================== */
+
+.conversationCard {
+  padding: 24px;
+}
+
+.conversationTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.messagesContainer {
+  max-height: 500px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+/* ==================== Empty State ==================== */
+
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+
+  .emptyIcon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+}
+
+/* ==================== Date Separator ==================== */
+
+.dateSeparator {
+  text-align: center;
+  margin: 24px 0 16px 0;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* ==================== System Message ==================== */
+
+.systemMessage {
+  text-align: center;
+  margin: 16px 0;
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* ==================== Message Row ==================== */
+
+.messageRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+
+  &.ownMessage {
+    flex-direction: row-reverse;
+  }
+
+  &.consecutive {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+
+  &.notConsecutive {
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+/* ==================== Avatar ==================== */
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+
+  &.hidden {
+    background: transparent;
+  }
+}
+
+/* User color variations - dynamically applied via data attributes */
+.avatar[data-user-color='0'] {
+  background: #8b5cf6;
+}
+
+/* Purple */
+.avatar[data-user-color='1'] {
+  background: #3b82f6;
+}
+
+/* Blue */
+.avatar[data-user-color='2'] {
+  background: #10b981;
+}
+
+/* Green */
+.avatar[data-user-color='3'] {
+  background: #f59e0b;
+}
+
+/* Amber */
+.avatar[data-user-color='4'] {
+  background: #ef4444;
+}
+
+/* Red */
+.avatar[data-user-color='5'] {
+  background: #ec4899;
+}
+
+/* Pink */
+.avatar[data-user-color='6'] {
+  background: #6366f1;
+}
+
+/* Indigo */
+.avatar[data-user-color='7'] {
+  background: #14b8a6;
+}
+
+/* Teal */
+.avatar[data-user-color='8'] {
+  background: #f97316;
+}
+
+/* Orange */
+.avatar[data-user-color='9'] {
+  background: #a855f7;
+}
+
+/* Violet */
+
+/* ==================== Message Content ==================== */
+
+.messageContent {
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+
+  &.alignRight {
+    align-items: flex-end;
+  }
+
+  &.alignLeft {
+    align-items: flex-start;
+  }
+}
+
+/* ==================== Message Header ==================== */
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+
+  &.reverseDirection {
+    flex-direction: row-reverse;
+  }
+
+  .senderName {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .messageTime {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+}
+
+/* ==================== Message Bubble ==================== */
+
+.messageBubble {
+  padding: 10px 14px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  /* Border radius variations */
+  &.radiusSingle {
+    border-radius: 16px;
+  }
+
+  &.radiusFirstLeft {
+    border-radius: 16px 16px 16px 4px;
+  }
+
+  &.radiusMiddleLeft {
+    border-radius: 4px 16px 16px 4px;
+  }
+
+  &.radiusLastLeft {
+    border-radius: 4px 16px 16px 16px;
+  }
+
+  &.radiusFirstRight {
+    border-radius: 16px 16px 4px 16px;
+  }
+
+  &.radiusMiddleRight {
+    border-radius: 16px 4px 4px 16px;
+  }
+
+  &.radiusLastRight {
+    border-radius: 16px 4px 16px 16px;
+  }
+
+  /* Internal note styling */
+  &.internalNote {
+    background: #fff7ed !important;
+    border: 1px solid #fb923c !important;
+  }
+
+  /* Own message color */
+  &.ownMessageBubble {
+    background: #e0e7ff;
+  }
+}
+
+/* Message bubble colors based on user - dynamically applied */
+.messageBubble[data-bubble-color='0'] {
+  background: #f3e8ff;
+}
+
+/* Light Purple */
+.messageBubble[data-bubble-color='1'] {
+  background: #dbeafe;
+}
+
+/* Light Blue */
+.messageBubble[data-bubble-color='2'] {
+  background: #d1fae5;
+}
+
+/* Light Green */
+.messageBubble[data-bubble-color='3'] {
+  background: #fef3c7;
+}
+
+/* Light Amber */
+.messageBubble[data-bubble-color='4'] {
+  background: #fee2e2;
+}
+
+/* Light Red */
+.messageBubble[data-bubble-color='5'] {
+  background: #fce7f3;
+}
+
+/* Light Pink */
+.messageBubble[data-bubble-color='6'] {
+  background: #e0e7ff;
+}
+
+/* Light Indigo */
+.messageBubble[data-bubble-color='7'] {
+  background: #ccfbf1;
+}
+
+/* Light Teal */
+.messageBubble[data-bubble-color='8'] {
+  background: #fed7aa;
+}
+
+/* Light Orange */
+.messageBubble[data-bubble-color='9'] {
+  background: #ede9fe;
+}
+
+/* Light Violet */
+
+/* ==================== Internal Note Badge ==================== */
+
+.internalNoteBadge {
+  font-size: 11px;
+  color: #ea580c;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==================== Message Text ==================== */
+
+.messageText {
+  font-size: 14px;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+/* ==================== Attachments ==================== */
+
+.attachmentsContainer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.attachmentLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  text-decoration: none;
+  color: #3b82f6;
+  font-size: 13px;
+  margin-bottom: 6px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .fileIcon {
+    font-size: 18px;
+  }
+}
+
+/* ==================== Message Input Section ==================== */
+
+.messageInputSection {
+  .internalNoteCheckbox {
+    margin-bottom: 12px;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+
+      input[type='checkbox'] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+
+      .checkboxLabel {
+        font-size: 14px;
+        color: #f59e0b;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .messageTextarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    resize: vertical;
+    font-family: inherit;
+    outline: none;
+
+    &.internalBorder {
+      border-color: #f59e0b;
+    }
+
+    &:focus {
+      border-color: #3b82f6;
+    }
+  }
+
+  .attachmentsInput {
+    display: none;
+  }
+
+  .attachmentsList {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .attachmentItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    margin-bottom: 8px;
+
+    .fileInfo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .fileName {
+        font-size: 13px;
+        color: white;
+      }
+
+      .fileSize {
+        font-size: 12px;
+        color: #64748b;
+      }
+    }
+
+    .removeButton {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0 8px;
+      font-weight: bold;
+
+      &:hover {
+        color: #dc2626;
+      }
+    }
+  }
+
+  .actionButtons {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .attachButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #334155;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 1px solid #475569;
+
+    &:hover {
+      background: #475569;
+    }
+  }
+
+  .buttonContainer {
+    flex: 1;
+  }
+}
+
+/* ==================== Disabled State ==================== */
+
+.conversationDisabled {
+  padding: 20px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  text-align: center;
+
+  .disabledMessage {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .assignButtonContainer {
+    margin-top: 8px;
+  }
+}
+
+/* ==================== Responsive Design ==================== */
+
+@media (max-width: 768px) {
+  .ticketDetailsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .messageContent {
+    max-width: 80%;
+  }
+
+  .pageContainer {
+    padding: 16px;
+  }
+}
