@@ -1,5 +1,6 @@
 import * as React from 'react';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './Card.module.scss';
 
 interface ICardProps {
   children: React.ReactNode;
@@ -15,9 +16,9 @@ interface ICardProps {
 export const Card: React.FC<ICardProps> = ({ children, className = '', onClick, style }) => {
   return (
     <div
-      className={`${styles.card} ${className}`}
+      className={`${commonStyles.card} ${onClick ? styles.clickable : ''} ${className}`}
       onClick={onClick}
-      style={{ cursor: onClick ? 'pointer' : 'default', ...style }}
+      style={style}
     >
       {children}
     </div>

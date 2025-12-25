@@ -1,0 +1,55 @@
+/**
+ * Dark Theme
+ * Google Stitch design - Dark theme with glass morphism
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Root container with background effects
+ */
+.helpDeskRoot {
+  font-family: $font-family-base;
+  background-color: $color-bg-base;
+  color: $color-text-primary;
+  min-height: 100vh;
+  position: relative;
+
+  /* Background gradient glow effects */
+  &::before {
+    @include background-glow($color-primary, 0.05);
+    top: -10%;
+    left: -5%;
+    width: 40%;
+    height: 40%;
+  }
+
+  &::after {
+    @include background-glow($color-accent, 0.05);
+    bottom: -10%;
+    right: -5%;
+    width: 40%;
+    height: 40%;
+  }
+}
+
+/**
+ * Content wrapper (sits above background effects)
+ */
+.contentWrapper {
+  position: relative;
+  z-index: $z-index-content;
+}
+
+/**
+ * Glass panel effect (base for cards)
+ */
+.glassPanel {
+  @include glass-effect;
+  border-radius: $border-radius-lg;
+  transition: all $transition-slow;
+
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.2);
+  }
+}

@@ -1,6 +1,6 @@
 /**
- * UserDashboard Component Styles
- * Extracted from inline styles - Enterprise-grade CSS module
+ * TechnicianDashboard Component Styles
+ * Technician dashboard with assigned tickets and management
  */
 
 @use '../../styles/abstracts' as *;
@@ -25,55 +25,66 @@
 }
 
 .welcomeSubtitle {
-  @include body-text;
   font-size: $font-size-md;
   color: $color-text-muted;
 }
 
 /**
- * Stats section
+ * Filter cards grid
  */
-.statsSection {
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
   margin-bottom: $spacing-xl;
+}
+
+.filterCard {
+  cursor: pointer;
 }
 
 /**
- * Quick actions section
+ * Notification banner
  */
-.quickActionsSection {
-  margin-bottom: $spacing-xl;
+.notificationBanner {
+  margin-bottom: $spacing-lg;
+  background-color: #1e3a8a;
+  border-left: 4px solid $color-primary;
 }
 
-.quickActionCard {
-  padding: 20px;
-  text-align: center;
+.notificationContent {
+  @include flex(row, center, space-between);
+  padding: 12px;
 }
 
-.quickActionIcon {
-  font-size: $font-size-xxxl;
-  margin-bottom: 12px;
+.notificationLeft {
+  @include flex(row, center, flex-start);
+  gap: 12px;
 }
 
-.quickActionTitle {
-  @include heading($font-size-md, $font-weight-semibold);
-  margin-bottom: $spacing-sm;
+.notificationIcon {
+  font-size: 24px;
 }
 
-.quickActionDescription {
-  font-size: $font-size-sm;
+.notificationTitle {
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.notificationDescription {
+  font-size: $font-size-base;
   color: $color-text-muted;
-  margin-bottom: $spacing-md;
 }
 
 /**
- * Recent tickets section
+ * Filters section
  */
-.recentTicketsHeader {
+.filtersSection {
   @include flex(row, center, space-between);
   margin-bottom: $spacing-lg;
 }
 
-.recentTicketsTitle {
+.filtersTitle {
   @include heading(20px, $font-weight-semibold);
 }
 
@@ -96,9 +107,8 @@
 }
 
 .emptyStateDescription {
-  @include body-text;
+  font-size: $font-size-base;
   color: $color-text-muted;
-  margin-bottom: $spacing-lg;
 }
 
 /**
@@ -109,7 +119,7 @@
 }
 
 /**
- * Table cell - Ticket number (clickable)
+ * Table cell - Ticket number
  */
 .ticketNumber {
   font-weight: $font-weight-semibold;
@@ -124,7 +134,7 @@
 }
 
 /**
- * Table cell - Subject column
+ * Table cell - Subject
  */
 .subjectCell {
   max-width: 300px;
@@ -156,28 +166,25 @@
 }
 
 /**
- * Waiting status row highlight
+ * Status select dropdown
  */
-.waitingRow {
-  position: relative;
-  background-color: rgba(245, 158, 11, 0.08);
-  box-shadow: inset 3px 0 0 0 $color-warning;
+.statusSelect {
+  padding: 4px 8px;
+  border-radius: $border-radius-sm;
+  border: 1px solid $color-border-base;
+  background-color: $color-bg-surface;
+  color: $color-text-primary;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  transition: all $transition-base;
 
   &:hover {
-    background-color: rgba(245, 158, 11, 0.12);
+    border-color: $color-primary;
   }
-}
 
-.waitingIndicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: $font-size-xs;
-  color: $color-warning;
-  font-weight: $font-weight-semibold;
-
-  &::before {
-    content: '⏳';
-    font-size: $font-size-sm;
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
   }
 }

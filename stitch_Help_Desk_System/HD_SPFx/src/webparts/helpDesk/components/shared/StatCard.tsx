@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from '../../styles/common.module.scss';
+import styles from './StatCard.module.scss';
 
 interface IStatCardProps {
   label: string;
@@ -18,6 +18,7 @@ interface IStatCardProps {
 /**
  * StatCard Component
  * Dashboard statistic card with icon and trend
+ * Uses CSS Custom Properties for dynamic color theming
  */
 export const StatCard: React.FC<IStatCardProps> = ({
   label,
@@ -29,31 +30,45 @@ export const StatCard: React.FC<IStatCardProps> = ({
   isActive = false,
   style
 }) => {
+  // Helper function to convert hex color to rgba
+  const hexToRgba = (hex: string, alpha: number): string => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
+  // Dynamic CSS custom properties for theming
+  const customProps = {
+    '--accent-color': color,
+    '--accent-shadow': hexToRgba(color, 0.25),
+    '--icon-color': color,
+    '--icon-border-color': hexToRgba(color, 0.25),
+    '--icon-bg-color': hexToRgba(color, 0.13),
+    ...style
+  } as React.CSSProperties;
+
   return (
     <div
-      className={styles.statCard}
+      className={`${styles.statCard} ${isActive ? styles.active : ''}`}
       onClick={onClick}
-      style={{
-        ...style,
-        border: isActive ? `2px solid ${color}` : undefined,
-        boxShadow: isActive ? `0 0 20px ${color}40` : undefined
-      }}
+      style={customProps}
     >
       <div className={styles.statCardHeader}>
-        <div>
+        <div className={styles.statCardContent}>
           <div className={styles.statCardLabel}>{label}</div>
           <div className={styles.statCardValue}>{value}</div>
           {trend && (
             <div className={styles.statCardChange}>
-              <span style={{ color: trend.direction === 'up' ? '#10b981' : '#ef4444' }}>
+              <span className={trend.direction === 'up' ? styles.trendUp : styles.trendDown}>
                 {trend.direction === 'up' ? '↑' : '↓'} {trend.value}%
               </span>
-              <span style={{ color: '#94a3b8', marginLeft: '4px' }}>from last week</span>
+              <span className={styles.trendLabel}>from last week</span>
             </div>
           )}
         </div>
-        <div className={styles.statCardIcon} style={{ color, borderColor: `${color}40`, backgroundColor: `${color}20` }}>
-          <span style={{ fontSize: '24px' }}>{icon}</span>
+        <div className={styles.statCardIcon}>
+          <span>{icon}</span>
         </div>
       </div>
     </div>

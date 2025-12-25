@@ -1,0 +1,560 @@
+/**
+ * FAQsPage Component Styles
+ * Browse and search frequently asked questions
+ */
+
+@use '../../styles/abstracts' as *;
+
+/**
+ * Page container
+ */
+.page {
+  padding: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.errorContainer {
+  padding: $spacing-lg;
+}
+
+/**
+ * Hero section
+ */
+.hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: $border-radius-xl;
+  padding: 40px 32px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: 32px;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0 0 12px 0;
+}
+
+.heroSubtitle {
+  font-size: $font-size-md;
+  color: rgba(255,255,255,0.9);
+  margin: 8px 0 0 0;
+}
+
+/**
+ * Search and filters
+ */
+.filtersSection {
+  margin-bottom: $spacing-lg;
+}
+
+.searchGrid {
+  display: grid;
+  gap: 12px;
+  margin-bottom: $spacing-md;
+}
+
+.searchGridWithFilter {
+  grid-template-columns: 1fr auto;
+}
+
+.searchGridNoFilter {
+  grid-template-columns: 1fr;
+}
+
+.searchInputContainer {
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  background: $color-bg-surface;
+  border: 1px solid $color-border-base;
+  border-radius: $border-radius-md;
+  color: $color-text-primary;
+  font-size: $font-size-base;
+  outline: none;
+  transition: border-color $transition-base;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.clearFilterButton {
+  padding: 12px 20px;
+  background: $color-bg-surface-highlight;
+  border: 1px solid $color-border-base;
+  border-radius: $border-radius-md;
+  color: $color-text-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all $transition-base;
+
+  &:hover {
+    background: lighten(#334155, 5%);
+  }
+}
+
+.categoryFilters {
+  @include flex(row, center, flex-start);
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.categoryPill {
+  @include flex(row, center, flex-start);
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: $border-radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-base;
+}
+
+.categoryPillActive {
+  background: $color-primary;
+  border: 1px solid $color-primary;
+  color: $color-text-primary;
+}
+
+.categoryPillInactive {
+  background: $color-bg-surface;
+  border: 1px solid $color-border-base;
+  color: $color-text-primary;
+
+  &:hover {
+    border-color: lighten(#334155, 10%);
+  }
+}
+
+.categoryCount {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.categoryCountActive {
+  background: rgba(255,255,255,0.2);
+}
+
+.categoryCountInactive {
+  background: $color-bg-surface-highlight;
+}
+
+/**
+ * Results banner
+ */
+.resultsBanner {
+  padding: 12px 16px;
+  background: $color-bg-surface;
+  border-radius: $border-radius-md;
+  margin-bottom: $spacing-md;
+  border: 1px solid $color-border-base;
+}
+
+/**
+ * Header section
+ */
+.header {
+  margin-bottom: $spacing-lg;
+}
+
+.headerTitle {
+  margin-bottom: $spacing-sm;
+}
+
+.headerSubtitle {
+  color: $color-text-disabled;
+  margin-top: 0;
+}
+
+/**
+ * Filters section
+ */
+.filtersContainer {
+  @include flex(row, center, flex-start);
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.filterField {
+  flex: 1 1 300px;
+}
+
+.filterFieldMedium {
+  flex: 1 1 200px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/**
+ * Results count
+ */
+.resultsCount {
+  margin: $spacing-md 0;
+  color: $color-text-disabled;
+}
+
+/**
+ * Empty state
+ */
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.emptyText {
+  color: $color-text-disabled;
+  margin: 0;
+}
+
+/**
+ * FAQs grid
+ */
+.faqsGrid {
+  display: grid;
+  gap: $spacing-md;
+}
+
+/**
+ * FAQ item
+ */
+.faqItem {
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.faqHeader {
+  @include flex(row, flex-start, space-between);
+  gap: $spacing-md;
+  margin-bottom: $spacing-sm;
+}
+
+.faqQuestion {
+  flex: 1;
+  margin: 0;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.expandIcon {
+  flex-shrink: 0;
+  color: $color-primary;
+  font-size: $font-size-xl;
+  line-height: 1;
+  transition: transform $transition-base;
+}
+
+.expandIconExpanded {
+  transform: rotate(180deg);
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: $color-bg-base;
+  margin-bottom: $spacing-sm;
+}
+
+/**
+ * FAQ answer (collapsible content)
+ */
+.faqAnswer {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-border-base;
+}
+
+.answerContent {
+  line-height: 1.6;
+  color: $color-text-muted;
+}
+
+/**
+ * FAQ footer
+ */
+.faqFooter {
+  @include flex(row, center, space-between);
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-border-base;
+}
+
+.faqMeta {
+  font-size: $font-size-sm;
+  color: $color-text-disabled;
+}
+
+.metaItem {
+  margin-right: $spacing-md;
+}
+
+.faqActions {
+  @include flex(row, center, flex-start);
+  gap: $spacing-sm;
+}
+
+.actionButton {
+  padding: 6px 12px;
+  font-size: $font-size-sm;
+}
+
+/**
+ * Results text
+ */
+.resultsText {
+  color: $color-text-muted;
+  font-size: $font-size-base;
+
+  strong {
+    color: $color-text-primary;
+  }
+}
+
+/**
+ * FAQ List
+ */
+.faqsList {
+  @include flex(column, flex-start, flex-start);
+  gap: $spacing-sm;
+}
+
+.categorySection {
+  width: 100%;
+}
+
+.categoryHeader {
+  display: inline-block;
+  padding: 6px 12px;
+  background: $color-bg-surface;
+  border: 1px solid $color-border-base;
+  border-radius: $border-radius-sm;
+  margin-bottom: 12px;
+  margin-top: $spacing-md;
+}
+
+.categoryHeaderTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+}
+
+.categoryHeaderCount {
+  margin-left: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+  background: $color-bg-base;
+  padding: 2px 6px;
+  border-radius: $border-radius-sm;
+}
+
+/**
+ * Individual FAQ item
+ */
+.faqItem {
+  background: $color-bg-surface;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  transition: all $transition-base;
+}
+
+.faqItemCollapsed {
+  border: 1px solid $color-border-base;
+}
+
+.faqItemExpanded {
+  border: 1px solid $color-primary;
+}
+
+.faqQuestionHeader {
+  padding: 16px 20px;
+  cursor: pointer;
+  @include flex(row, center, space-between);
+  gap: $spacing-md;
+  transition: background $transition-base;
+
+  &:hover {
+    background: rgba(59, 130, 246, 0.05);
+  }
+}
+
+.faqQuestionHeaderExpanded {
+  background: $color-bg-base;
+
+  &:hover {
+    background: $color-bg-base;
+  }
+}
+
+.faqQuestionContent {
+  @include flex(row, flex-start, flex-start);
+  gap: 12px;
+  flex: 1;
+}
+
+.faqQuestionIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.faqQuestionText {
+  flex: 1;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin: 0;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.faqExpandButton {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  @include flex(row, center, center);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.faqExpandButtonActive {
+  background: $color-primary;
+}
+
+.faqExpandButtonInactive {
+  background: $color-bg-surface-highlight;
+}
+
+.faqExpandArrow {
+  font-size: 14px;
+  color: $color-text-primary;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.faqExpandArrowRotated {
+  transform: rotate(180deg);
+}
+
+.faqAnswerSection {
+  padding: 0 20px 20px 52px;
+  background: $color-bg-base;
+  border-top: 1px solid $color-border-base;
+}
+
+.faqAnswerContent {
+  color: $color-text-muted;
+  line-height: 1.7;
+  font-size: 14px;
+  margin-bottom: 16px;
+
+  p {
+    margin: 0 0 12px 0;
+  }
+}
+
+.faqFooterSection {
+  @include flex(row, center, space-between);
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-border-base;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.faqMetaInfo {
+  @include flex(row, center, flex-start);
+  gap: 16px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.faqMetaItem {
+  @include flex(row, center, flex-start);
+  gap: 4px;
+}
+
+.faqFooterActions {
+  @include flex(row, center, flex-start);
+  gap: $spacing-sm;
+}
+
+.helpfulButton {
+  padding: 6px 16px;
+  background: $color-bg-surface-highlight;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  color: $color-text-primary;
+  font-size: 13px;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s;
+  @include flex(row, center, flex-start);
+  gap: 6px;
+
+  &:hover {
+    background: #10b981;
+    border-color: #10b981;
+  }
+}
+
+/**
+ * Empty state specific
+ */
+.emptyStateIcon {
+  font-size: 64px;
+  margin-bottom: $spacing-md;
+}
+
+.emptyStateTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+.emptyStateMessage {
+  color: $color-text-muted;
+  font-size: $font-size-base;
+  margin: 0;
+}
+
+/**
+ * Footer summary
+ */
+.footerSummary {
+  margin-top: 32px;
+  padding: 16px;
+  background: $color-bg-surface;
+  border-radius: $border-radius-md;
+  border: 1px solid $color-border-base;
+  text-align: center;
+}
+
+.footerSummaryText {
+  color: #94a3b8;
+  font-size: 13px;
+
+  strong {
+    color: $color-text-primary;
+  }
+}

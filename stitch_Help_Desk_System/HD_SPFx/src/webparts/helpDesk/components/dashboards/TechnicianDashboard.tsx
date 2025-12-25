@@ -10,7 +10,8 @@ import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
 import { AssignTicketModal } from '../modals/AssignTicketModal';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './TechnicianDashboard.module.scss';
 import { SLACalculator } from '../../utils/SLACalculator';
 
 interface ITechnicianDashboardProps {
@@ -125,20 +126,20 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
   }
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div className={styles.dashboard}>
       {/* Welcome Section */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '32px', fontWeight: 700, color: 'white', marginBottom: '8px' }}>
+      <div className={styles.welcomeSection}>
+        <h1 className={styles.welcomeTitle}>
           Technician Dashboard 🛠️
         </h1>
-        <p style={{ fontSize: '16px', color: '#94a3b8' }}>
+        <p className={styles.welcomeSubtitle}>
           Welcome {currentUser?.DisplayName}! Manage and resolve support tickets
         </p>
       </div>
 
       {/* Stats Cards */}
-      <div className={styles.grid4} style={{ marginBottom: '32px' }}>
-        <div onClick={() => applyFilter('assignedToMe')} style={{ cursor: 'pointer' }}>
+      <div className={styles.filterGrid}>
+        <div onClick={() => applyFilter('assignedToMe')} className={styles.filterCard}>
           <StatCard
             label="Assigned to Me"
             value={stats.assignedToMe}
@@ -147,7 +148,7 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
             isActive={activeFilter === 'assignedToMe'}
           />
         </div>
-        <div onClick={() => applyFilter('open')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => applyFilter('open')} className={styles.filterCard}>
           <StatCard
             label="Open Tickets"
             value={stats.open}
@@ -156,7 +157,7 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
             isActive={activeFilter === 'open'}
           />
         </div>
-        <div onClick={() => applyFilter('inProgress')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => applyFilter('inProgress')} className={styles.filterCard}>
           <StatCard
             label="In Progress"
             value={stats.inProgress}
@@ -165,7 +166,7 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
             isActive={activeFilter === 'inProgress'}
           />
         </div>
-        <div onClick={() => applyFilter('resolved')} style={{ cursor: 'pointer' }}>
+        <div onClick={() => applyFilter('resolved')} className={styles.filterCard}>
           <StatCard
             label="Resolved"
             value={stats.resolved}
@@ -178,15 +179,15 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
 
       {/* Notifications */}
       {unreadConversations > 0 && (
-        <Card style={{ marginBottom: '24px', backgroundColor: '#1e3a8a', borderLeft: '4px solid #3b82f6' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '24px' }}>💬</span>
+        <Card className={styles.notificationBanner}>
+          <div className={styles.notificationContent}>
+            <div className={styles.notificationLeft}>
+              <span className={styles.notificationIcon}>💬</span>
               <div>
-                <div style={{ fontWeight: 600, color: 'white' }}>
+                <div className={styles.notificationTitle}>
                   You have {unreadConversations} unread conversation{unreadConversations > 1 ? 's' : ''}
                 </div>
-                <div style={{ fontSize: '14px', color: '#94a3b8' }}>
+                <div className={styles.notificationDescription}>
                   Click on tickets to view and respond
                 </div>
               </div>
@@ -196,15 +197,8 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
       )}
 
       {/* Action Bar */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '24px'
-        }}
-      >
-        <h2 style={{ fontSize: '20px', fontWeight: 600, color: 'white' }}>
+      <div className={styles.filtersSection}>
+        <h2 className={styles.filtersTitle}>
           {activeFilter === 'assignedToMe' && 'My Assigned Tickets'}
           {activeFilter === 'open' && 'Open Tickets'}
           {activeFilter === 'inProgress' && 'In Progress Tickets'}
@@ -215,82 +209,66 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
       {/* Tickets Table */}
       {tickets.length === 0 ? (
         <Card>
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎫</div>
-            <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateIcon}>🎫</div>
+            <h3 className={styles.emptyStateTitle}>
               No Tickets Found
             </h3>
-            <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+            <p className={styles.emptyStateDescription}>
               No tickets match the selected filter
             </p>
           </div>
         </Card>
       ) : (
         <Card>
-          <div style={{ overflowX: 'auto' }}>
-            <table className={styles.table}>
-              <thead className={styles.tableHeader}>
+          <div className={styles.tableContainer}>
+            <table className={commonStyles.table}>
+              <thead className={commonStyles.tableHeader}>
                 <tr>
-                  <th className={styles.tableHeaderCell}>Ticket #</th>
-                  <th className={styles.tableHeaderCell}>Subject</th>
-                  <th className={styles.tableHeaderCell}>Requester</th>
-                  <th className={styles.tableHeaderCell}>Priority</th>
-                  <th className={styles.tableHeaderCell}>Status</th>
-                  <th className={styles.tableHeaderCell}>SLA</th>
-                  <th className={styles.tableHeaderCell}>Created</th>
-                  <th className={styles.tableHeaderCell}>Actions</th>
+                  <th className={commonStyles.tableHeaderCell}>Ticket #</th>
+                  <th className={commonStyles.tableHeaderCell}>Subject</th>
+                  <th className={commonStyles.tableHeaderCell}>Requester</th>
+                  <th className={commonStyles.tableHeaderCell}>Priority</th>
+                  <th className={commonStyles.tableHeaderCell}>Status</th>
+                  <th className={commonStyles.tableHeaderCell}>SLA</th>
+                  <th className={commonStyles.tableHeaderCell}>Created</th>
+                  <th className={commonStyles.tableHeaderCell}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {tickets.map((ticket) => (
-                  <tr key={ticket.Id} className={styles.tableRow}>
-                    <td className={styles.tableCell}>
+                  <tr key={ticket.Id} className={commonStyles.tableRow}>
+                    <td className={commonStyles.tableCell}>
                       <span
-                        style={{ fontWeight: 600, color: '#3b82f6', cursor: 'pointer', textDecoration: 'underline' }}
+                        className={styles.ticketNumber}
                         onClick={() => onNavigate(`/ticket/${ticket.Id}`)}
                       >
                         {ticket.TicketNumber}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
-                      <div style={{ maxWidth: '300px' }} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
-                        <div style={{ fontWeight: 500, color: 'white', marginBottom: '4px' }}>
+                    <td className={commonStyles.tableCell}>
+                      <div className={styles.subjectCell} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
+                        <div className={styles.subjectTitle}>
                           {ticket.Title}
                         </div>
-                        <div
-                          style={{
-                            fontSize: '12px',
-                            color: '#94a3b8',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}
-                        >
+                        <div className={styles.subjectDescription}>
                           {ticket.Description?.replace(/<[^>]*>/g, '').substring(0, 60)}...
                         </div>
                       </div>
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.categoryText}>
                         {ticket.RequesterName || 'N/A'}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.Priority} type="priority" value={ticket.Priority} />
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <select
                         value={ticket.Status}
                         onChange={(e) => handleStatusChange(ticket.Id, e.target.value as TicketStatus)}
-                        style={{
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          border: '1px solid #334155',
-                          backgroundColor: '#1e293b',
-                          color: 'white',
-                          fontSize: '13px',
-                          cursor: 'pointer'
-                        }}
+                        className={styles.statusSelect}
                       >
                         <option value="New">New</option>
                         <option value="Open">Open</option>
@@ -300,15 +278,15 @@ export const TechnicianDashboard: React.FC<ITechnicianDashboardProps> = ({ onNav
                         <option value="Closed">Closed</option>
                       </select>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.SLAStatus || 'Pending'} type="sla" value={ticket.SLAStatus || 'Pending'} />
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.dateText}>
                         {SLACalculator.formatRelativeTime(ticket.Created)}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Button
                         variant="secondary"
                         size="small"

@@ -1,0 +1,475 @@
+/**
+ * SCSS Mixins - Reusable style patterns
+ * Enterprise-grade mixins for consistent styling
+ */
+
+@use './variables' as *;
+
+// ============================================================================
+// LAYOUT MIXINS
+// ============================================================================
+
+/**
+ * Flexbox center alignment
+ */
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/**
+ * Flexbox with common properties
+ * @param {String} $direction - flex-direction value
+ * @param {String} $align - align-items value
+ * @param {String} $justify - justify-content value
+ */
+@mixin flex($direction: row, $align: stretch, $justify: flex-start) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+/**
+ * Grid layout with gap
+ * @param {Number} $columns - number of columns
+ * @param {Length} $gap - gap between items
+ */
+@mixin grid($columns: 1, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+/**
+ * Absolute positioning with centering
+ */
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/**
+ * Fixed position overlay
+ */
+@mixin fixed-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// ============================================================================
+// VISUAL EFFECTS MIXINS
+// ============================================================================
+
+/**
+ * Glass morphism effect (signature style)
+ * @param {Number} $opacity - background opacity
+ * @param {Length} $blur - backdrop blur amount
+ */
+@mixin glass-effect($opacity: 0.7, $blur: $glass-blur) {
+  background: rgba(30, 41, 59, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid $glass-border;
+}
+
+/**
+ * Elevated glass effect with shadow
+ */
+@mixin glass-elevated {
+  @include glass-effect(0.8);
+  box-shadow: $shadow-lg;
+}
+
+/**
+ * Glass card with hover effect
+ */
+@mixin glass-card-interactive {
+  @include glass-effect;
+  border-radius: $border-radius-lg;
+  transition: all $transition-slow;
+  cursor: pointer;
+
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-4px);
+    box-shadow: $shadow-card-hover;
+  }
+}
+
+/**
+ * Gradient background glow
+ * @param {Color} $color - glow color
+ * @param {Number} $opacity - glow opacity
+ */
+@mixin background-glow($color: $color-primary, $opacity: 0.05) {
+  content: '';
+  position: fixed;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba($color, $opacity) 0%, transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: $z-index-background;
+}
+
+/**
+ * Text gradient effect
+ * @param {Gradient} $gradient - gradient definition
+ */
+@mixin text-gradient($gradient: $gradient-primary) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// ============================================================================
+// TYPOGRAPHY MIXINS
+// ============================================================================
+
+/**
+ * Truncate text with ellipsis
+ * @param {Number} $lines - number of lines before truncation (1 for single line)
+ */
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/**
+ * Heading style preset
+ * @param {Length} $size - font size
+ * @param {Number} $weight - font weight
+ */
+@mixin heading($size: $font-size-xl, $weight: $font-weight-bold) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+}
+
+/**
+ * Body text preset
+ */
+@mixin body-text {
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-base;
+  color: $color-text-primary;
+}
+
+/**
+ * Small text preset
+ */
+@mixin small-text {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-base;
+  color: $color-text-muted;
+}
+
+// ============================================================================
+// COMPONENT MIXINS
+// ============================================================================
+
+/**
+ * Button base styles
+ */
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: 10px 20px;
+  border: none;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+  cursor: pointer;
+  transition: all $transition-base;
+  outline: none;
+
+  &:disabled {
+    opacity: $opacity-disabled;
+    cursor: not-allowed;
+  }
+}
+
+/**
+ * Button with hover lift effect
+ */
+@mixin button-hover-lift {
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+/**
+ * Input field base styles
+ */
+@mixin input-base {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: rgba(30, 41, 59, 0.5);
+  border: 1px solid $color-border-base;
+  border-radius: $border-radius-md;
+  color: $color-text-primary;
+  font-size: $font-size-base;
+  transition: all $transition-base;
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+
+  &:focus {
+    border-color: $color-primary;
+    background-color: rgba(30, 41, 59, 0.8);
+    box-shadow: 0 0 0 1px $color-border-focus;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: rgba(15, 23, 42, 0.4);
+    color: $color-text-disabled;
+    cursor: not-allowed;
+  }
+}
+
+/**
+ * Badge base styles
+ * @param {Color} $color - badge color
+ * @param {Number} $opacity - background opacity
+ */
+@mixin badge($color: $color-primary, $opacity: 0.1) {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $border-radius-base;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+  background: rgba($color, $opacity);
+  color: $color;
+  border: 1px solid rgba($color, $opacity * 2);
+}
+
+/**
+ * Card base styles
+ */
+@mixin card-base {
+  @include glass-effect;
+  padding: $spacing-lg;
+  border-radius: $border-radius-lg;
+}
+
+/**
+ * Modal overlay
+ */
+@mixin modal-overlay {
+  @include fixed-overlay;
+  @include flex-center;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: $z-index-modal;
+}
+
+// ============================================================================
+// SCROLLBAR MIXINS
+// ============================================================================
+
+/**
+ * Custom scrollbar styling
+ * @param {Length} $width - scrollbar width
+ * @param {Color} $thumb-color - scrollbar thumb color
+ */
+@mixin custom-scrollbar($width: 8px, $thumb-color: #475569) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $border-radius-sm;
+
+    &:hover {
+      background: lighten($thumb-color, 10%);
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE MIXINS
+// ============================================================================
+
+/**
+ * Media query mixins
+ */
+@mixin mobile {
+  @media (max-width: #{$breakpoint-sm - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $breakpoint-sm) and (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+/**
+ * Responsive grid - collapses to single column on mobile
+ * @param {Number} $columns - number of columns on desktop
+ */
+@mixin responsive-grid($columns: 2) {
+  @include grid($columns);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ============================================================================
+// ANIMATION MIXINS
+// ============================================================================
+
+/**
+ * Fade in animation
+ * @param {Time} $duration - animation duration
+ */
+@mixin fade-in($duration: $transition-slow) {
+  animation: fadeIn $duration ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/**
+ * Slide in from bottom animation
+ * @param {Time} $duration - animation duration
+ */
+@mixin slide-in-bottom($duration: $transition-slow) {
+  animation: slideInBottom $duration ease-out;
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/**
+ * Spin animation (for loading spinners)
+ */
+@mixin spin-animation {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ============================================================================
+// UTILITY MIXINS
+// ============================================================================
+
+/**
+ * Hide element visually but keep accessible for screen readers
+ */
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/**
+ * Reset list styles
+ */
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/**
+ * Reset button styles
+ */
+@mixin button-reset {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/**
+ * Aspect ratio box
+ * @param {Number} $width - width ratio
+ * @param {Number} $height - height ratio
+ */
+@mixin aspect-ratio($width: 16, $height: 9) {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: ($height / $width) * 100%;
+  }
+}

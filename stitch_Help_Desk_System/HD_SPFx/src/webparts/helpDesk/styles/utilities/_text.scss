@@ -1,0 +1,239 @@
+/**
+ * Text Utilities
+ * Typography and text alignment utilities
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Text alignment
+ */
+.textLeft {
+  text-align: left;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.textJustify {
+  text-align: justify;
+}
+
+/**
+ * Text transform
+ */
+.textUppercase {
+  text-transform: uppercase;
+}
+
+.textLowercase {
+  text-transform: lowercase;
+}
+
+.textCapitalize {
+  text-transform: capitalize;
+}
+
+.textNormalCase {
+  text-transform: none;
+}
+
+/**
+ * Font weights
+ */
+.fontNormal {
+  font-weight: $font-weight-normal;
+}
+
+.fontMedium {
+  font-weight: $font-weight-medium;
+}
+
+.fontSemibold {
+  font-weight: $font-weight-semibold;
+}
+
+.fontBold {
+  font-weight: $font-weight-bold;
+}
+
+/**
+ * Font sizes
+ */
+.textXs {
+  font-size: $font-size-xs;
+}
+
+.textSm {
+  font-size: $font-size-sm;
+}
+
+.textBase {
+  font-size: $font-size-base;
+}
+
+.textMd {
+  font-size: $font-size-md;
+}
+
+.textLg {
+  font-size: $font-size-lg;
+}
+
+.textXl {
+  font-size: $font-size-xl;
+}
+
+.textXxl {
+  font-size: $font-size-xxl;
+}
+
+.textXxxl {
+  font-size: $font-size-xxxl;
+}
+
+/**
+ * Text colors
+ */
+.textPrimary {
+  color: $color-text-primary;
+}
+
+.textSecondary {
+  color: $color-text-secondary;
+}
+
+.textMuted {
+  color: $color-text-muted;
+}
+
+.textDisabled {
+  color: $color-text-disabled;
+}
+
+.textColorPrimary {
+  color: $color-primary;
+}
+
+.textColorAccent {
+  color: $color-accent;
+}
+
+.textColorSuccess {
+  color: $color-success;
+}
+
+.textColorError {
+  color: $color-error;
+}
+
+.textColorWarning {
+  color: $color-warning;
+}
+
+.textColorInfo {
+  color: $color-info;
+}
+
+/**
+ * Text truncation
+ */
+.truncate {
+  @include truncate(1);
+}
+
+.truncate2Lines {
+  @include truncate(2);
+}
+
+.truncate3Lines {
+  @include truncate(3);
+}
+
+/**
+ * Line height
+ */
+.leadingTight {
+  line-height: $line-height-tight;
+}
+
+.leadingNormal {
+  line-height: $line-height-base;
+}
+
+.leadingRelaxed {
+  line-height: $line-height-relaxed;
+}
+
+/**
+ * Letter spacing
+ */
+.trackingTight {
+  letter-spacing: $letter-spacing-tight;
+}
+
+.trackingNormal {
+  letter-spacing: $letter-spacing-normal;
+}
+
+.trackingWide {
+  letter-spacing: $letter-spacing-wide;
+}
+
+.trackingWider {
+  letter-spacing: $letter-spacing-wider;
+}
+
+/**
+ * Text decoration
+ */
+.underline {
+  text-decoration: underline;
+}
+
+.lineThrough {
+  text-decoration: line-through;
+}
+
+.noUnderline {
+  text-decoration: none;
+}
+
+/**
+ * Word break
+ */
+.breakWords {
+  word-break: break-word;
+}
+
+.breakAll {
+  word-break: break-all;
+}
+
+/**
+ * Whitespace
+ */
+.whitespaceNormal {
+  white-space: normal;
+}
+
+.whitespaceNowrap {
+  white-space: nowrap;
+}
+
+.whitespacePre {
+  white-space: pre;
+}
+
+.whitespacePreLine {
+  white-space: pre-line;
+}
+
+.whitespacePreWrap {
+  white-space: pre-wrap;
+}

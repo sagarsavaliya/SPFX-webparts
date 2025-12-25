@@ -4,7 +4,8 @@ import { useAppContext } from '../../context/AppContext';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage, SuccessMessage } from '../shared/ErrorMessage';
 import { Button } from '../shared/Button';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './ProvisioningPanel.module.scss';
 
 /**
  * ProvisioningStep Component
@@ -17,39 +18,27 @@ interface IProvisioningStepProps {
 }
 
 const ProvisioningStep: React.FC<IProvisioningStepProps> = ({ label, completed, inProgress }) => {
+  const stepClasses = [
+    styles.step,
+    completed ? styles.stepCompleted : inProgress ? styles.stepInProgress : styles.stepPending
+  ].join(' ');
+
+  const iconClasses = [
+    styles.stepIcon,
+    completed ? styles.stepIconCompleted : inProgress ? styles.stepIconInProgress : styles.stepIconPending
+  ].join(' ');
+
+  const labelClasses = [
+    styles.stepLabel,
+    completed ? styles.stepLabelCompleted : inProgress ? styles.stepLabelInProgress : styles.stepLabelPending
+  ].join(' ');
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '12px 16px',
-        background: inProgress ? 'rgba(59, 130, 246, 0.1)' : 'rgba(30, 41, 59, 0.5)',
-        borderRadius: '8px',
-        border: `1px solid ${
-          completed ? '#10b981' : inProgress ? '#3b82f6' : 'rgba(71, 85, 105, 0.5)'
-        }`,
-        transition: 'all 0.3s'
-      }}
-    >
-      <div
-        style={{
-          width: '24px',
-          height: '24px',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: completed ? '#10b981' : inProgress ? '#3b82f6' : '#334155',
-          color: 'white',
-          fontSize: '14px',
-          fontWeight: 600,
-          flexShrink: 0
-        }}
-      >
+    <div className={stepClasses}>
+      <div className={iconClasses}>
         {completed ? '✓' : inProgress ? '...' : '○'}
       </div>
-      <div style={{ flex: 1, fontSize: '14px', color: completed ? '#10b981' : 'white', fontWeight: 500 }}>
+      <div className={labelClasses}>
         {label}
       </div>
     </div>
@@ -74,9 +63,9 @@ export const ProvisioningPanel: React.FC = () => {
 
   if (error) {
     return (
-      <div className={styles.helpDeskRoot}>
-        <div className={styles.contentWrapper}>
-          <div style={{ maxWidth: '600px', margin: '60px auto', padding: '20px' }}>
+      <div className={commonStyles.helpDeskRoot}>
+        <div className={commonStyles.contentWrapper}>
+          <div className={styles.errorContainer}>
             <ErrorMessage message={error} onRetry={() => window.location.reload()} />
           </div>
         </div>
@@ -89,61 +78,40 @@ export const ProvisioningPanel: React.FC = () => {
   }
 
   return (
-    <div className={styles.helpDeskRoot}>
-      <div className={styles.contentWrapper}>
-        <div style={{ maxWidth: '700px', margin: '60px auto', padding: '20px' }}>
-          <div className={styles.card}>
+    <div className={commonStyles.helpDeskRoot}>
+      <div className={commonStyles.contentWrapper}>
+        <div className={styles.container}>
+          <div className={commonStyles.card}>
             {/* Header */}
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚀</div>
-              <h1 style={{ fontSize: '28px', fontWeight: 700, color: 'white', marginBottom: '8px' }}>
+            <div className={styles.header}>
+              <div className={styles.headerIcon}>🚀</div>
+              <h1 className={styles.headerTitle}>
                 Setting Up Help Desk System
               </h1>
-              <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+              <p className={styles.headerSubtitle}>
                 Please wait while we configure everything for you...
               </p>
             </div>
 
             {/* Progress Bar */}
-            <div style={{ marginBottom: '32px' }}>
-              <div
-                style={{
-                  width: '100%',
-                  height: '12px',
-                  background: '#1e293b',
-                  borderRadius: '6px',
-                  overflow: 'hidden',
-                  border: '1px solid #334155'
-                }}
-              >
+            <div className={styles.progressSection}>
+              <div className={styles.progressBar}>
                 <div
-                  style={{
-                    width: `${provisioningStatus.progress}%`,
-                    height: '100%',
-                    background: 'linear-gradient(to right, #3b82f6, #0d9488)',
-                    transition: 'width 0.5s ease',
-                    boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)'
-                  }}
+                  className={styles.progressBarFill}
+                  style={{ width: `${provisioningStatus.progress}%` }}
                 />
               </div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginTop: '8px',
-                  fontSize: '13px'
-                }}
-              >
-                <span style={{ color: '#94a3b8' }}>{provisioningStatus.currentStep}</span>
-                <span style={{ color: '#3b82f6', fontWeight: 600 }}>
+              <div className={styles.progressInfo}>
+                <span className={styles.progressLabel}>{provisioningStatus.currentStep}</span>
+                <span className={styles.progressPercent}>
                   {provisioningStatus.progress}%
                 </span>
               </div>
             </div>
 
             {/* Status Steps */}
-            <div style={{ marginBottom: '32px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div className={styles.stepsSection}>
+              <div className={styles.stepsList}>
                 <ProvisioningStep
                   label="Creating SharePoint Groups"
                   completed={provisioningStatus.groupsCreated}
@@ -169,7 +137,7 @@ export const ProvisioningPanel: React.FC = () => {
 
             {/* Loading Spinner */}
             {isProvisioning && (
-              <div style={{ textAlign: 'center' }}>
+              <div className={styles.loadingSection}>
                 <LoadingSpinner message="This will only take a minute..." size="medium" />
               </div>
             )}
@@ -178,7 +146,7 @@ export const ProvisioningPanel: React.FC = () => {
             {provisioningStatus.isProvisioned && !isProvisioning && (
               <div>
                 <SuccessMessage message="Help Desk System is ready! Redirecting to dashboard..." />
-                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                <div className={styles.successSection}>
                   <Button onClick={() => window.location.reload()}>Go to Dashboard</Button>
                 </div>
               </div>

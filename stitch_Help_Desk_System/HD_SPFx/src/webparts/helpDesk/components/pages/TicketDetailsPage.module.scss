@@ -15,6 +15,14 @@
   margin-bottom: 24px;
 }
 
+.ticketHeaderCard {
+  margin-bottom: 24px;
+}
+
+.conversationCard {
+  padding: 10px 24px 24px;
+}
+
 /* ==================== Ticket Header Card ==================== */
 
 .ticketHeader {
@@ -26,6 +34,12 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 16px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .ticketMetadata {

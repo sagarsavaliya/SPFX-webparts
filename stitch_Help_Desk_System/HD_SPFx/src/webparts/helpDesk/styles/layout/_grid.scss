@@ -1,0 +1,90 @@
+/**
+ * Grid Layout System
+ * CSS Grid utility classes
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Base grid
+ */
+.grid {
+  display: grid;
+  gap: $spacing-lg;
+}
+
+/**
+ * Grid columns
+ */
+.grid1 {
+  @extend .grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.grid2 {
+  @extend .grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid3 {
+  @extend .grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid4 {
+  @extend .grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/**
+ * Grid gap variants
+ */
+.gridGapSm {
+  gap: $spacing-sm;
+}
+
+.gridGapMd {
+  gap: $spacing-md;
+}
+
+.gridGapLg {
+  gap: $spacing-lg;
+}
+
+.gridGapXl {
+  gap: $spacing-xl;
+}
+
+/**
+ * Auto-fit grid (responsive columns)
+ */
+.gridAutoFit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-lg;
+}
+
+/**
+ * Auto-fill grid
+ */
+.gridAutoFill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: $spacing-lg;
+}

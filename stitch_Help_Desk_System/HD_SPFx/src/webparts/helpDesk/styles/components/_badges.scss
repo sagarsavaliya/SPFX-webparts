@@ -1,0 +1,114 @@
+/**
+ * Badge Component Styles
+ * Status and priority badges
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Base badge class
+ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $border-radius-base;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+}
+
+/**
+ * Status badges
+ */
+.badgeNew {
+  @include badge($color-status-new);
+}
+
+.badgeOpen {
+  @include badge($color-status-open);
+}
+
+.badgeInProgress {
+  @include badge($color-status-in-progress);
+}
+
+.badgeWaiting {
+  @include badge($color-status-waiting);
+}
+
+.badgeResolved {
+  @include badge($color-status-resolved);
+}
+
+.badgeClosed {
+  @include badge($color-status-closed);
+}
+
+/**
+ * Priority badges
+ */
+.badgeLow {
+  @include badge($color-priority-low);
+}
+
+.badgeMedium {
+  @include badge($color-priority-medium);
+}
+
+.badgeHigh {
+  @include badge($color-priority-high);
+}
+
+.badgeCritical {
+  @include badge($color-priority-critical);
+}
+
+/**
+ * Semantic badges
+ */
+.badgeSuccess {
+  @include badge($color-success);
+}
+
+.badgeError {
+  @include badge($color-error);
+}
+
+.badgeWarning {
+  @include badge($color-warning);
+}
+
+.badgeInfo {
+  @include badge($color-info);
+}
+
+/**
+ * Badge size variants
+ */
+.badgeSmall {
+  padding: 2px 8px;
+  font-size: $font-size-xs;
+}
+
+.badgeLarge {
+  padding: 6px 16px;
+  font-size: $font-size-base;
+}
+
+/**
+ * Badge with dot indicator
+ */
+.badgeWithDot {
+  gap: $spacing-xs;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+}

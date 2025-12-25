@@ -1,5 +1,6 @@
 import * as React from 'react';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './ErrorMessage.module.scss';
 
 interface IErrorMessageProps {
   message: string;
@@ -12,16 +13,15 @@ interface IErrorMessageProps {
  */
 export const ErrorMessage: React.FC<IErrorMessageProps> = ({ message, onRetry }) => {
   return (
-    <div className={styles.errorMessage}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <div style={{ flex: 1 }}>
+    <div className={commonStyles.errorMessage}>
+      <div className={styles.errorContainer}>
+        <div className={styles.errorContent}>
           <strong>Error:</strong> {message}
         </div>
         {onRetry && (
           <button
-            className={styles.buttonSecondary}
+            className={`${commonStyles.buttonSecondary} ${styles.errorRetryButton}`}
             onClick={onRetry}
-            style={{ flexShrink: 0 }}
           >
             Retry
           </button>

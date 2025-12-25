@@ -5,7 +5,8 @@ import { IKBArticle, ICategory } from '../../models';
 import { Card } from '../shared/Card';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './KnowledgeBasePage.module.scss';
 
 interface IKnowledgeBasePageProps {
   onNavigate: (route: string) => void;
@@ -117,8 +118,8 @@ export const KnowledgeBasePage: React.FC<IKnowledgeBasePageProps> = ({ onNavigat
 
   if (isLoading) {
     return (
-      <div className={styles.helpDeskRoot}>
-        <div className={styles.contentWrapper}>
+      <div className={commonStyles.helpDeskRoot}>
+        <div className={commonStyles.contentWrapper}>
           <LoadingSpinner message="Loading knowledge base articles..." />
         </div>
       </div>
@@ -127,8 +128,8 @@ export const KnowledgeBasePage: React.FC<IKnowledgeBasePageProps> = ({ onNavigat
 
   if (error) {
     return (
-      <div className={styles.helpDeskRoot}>
-        <div className={styles.contentWrapper}>
+      <div className={commonStyles.helpDeskRoot}>
+        <div className={commonStyles.contentWrapper}>
           <ErrorMessage message={error} onRetry={() => window.location.reload()} />
         </div>
       </div>
@@ -136,154 +137,139 @@ export const KnowledgeBasePage: React.FC<IKnowledgeBasePageProps> = ({ onNavigat
   }
 
   return (
-    <div className={styles.helpDeskRoot} style={{ "padding": "24px" }}>
-      <div className={styles.contentWrapper}>
-        <div style={{ marginBottom: '24px' }}>
-          <h2 style={{ marginBottom: '8px' }}>Knowledge Base</h2>
-          <p style={{ color: '#666', marginTop: 0 }}>
-            Browse helpful articles and guides
-          </p>
-        </div>
-
-        {/* Filters */}
-        <Card>
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-            {/* Search */}
-            <div style={{ flex: '1 1 300px' }}>
-              <input
-                type="text"
-                placeholder="Search articles..."
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                className={styles.input}
-                style={{ width: '100%' }}
-              />
-            </div>
-
-            {/* Category filter */}
-            <div style={{ flex: '1 1 200px' }}>
-              <select
-                value={selectedCategory || ''}
-                onChange={(e) => setSelectedCategory(e.target.value ? Number(e.target.value) : undefined)}
-                className={styles.input}
-                style={{ width: '100%' }}
-              >
-                <option value="">All Categories</option>
-                {categories.map(cat => (
-                  <option key={cat.Id} value={cat.Id}>{cat.Title}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Sort by */}
-            <div style={{ flex: '1 1 150px' }}>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className={styles.input}
-                style={{ width: '100%' }}
-              >
-                <option value="recent">Most Recent</option>
-                <option value="popular">Most Popular</option>
-                <option value="helpful">Most Helpful</option>
-              </select>
-            </div>
+    <div className={commonStyles.helpDeskRoot}>
+      <div className={commonStyles.contentWrapper}>
+        <div className={styles.page}>
+          <div className={styles.header}>
+            <h2 className={styles.headerTitle}>Knowledge Base</h2>
+            <p className={styles.headerSubtitle}>
+              Browse helpful articles and guides
+            </p>
           </div>
-        </Card>
 
-        {/* Results count */}
-        <div style={{ margin: '16px 0', color: '#666' }}>
-          Found {filteredArticles.length} article{filteredArticles.length !== 1 ? 's' : ''}
-        </div>
-
-        {/* Articles list */}
-        {filteredArticles.length === 0 ? (
+          {/* Filters */}
           <Card>
-            <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-              <p style={{ color: '#666', margin: 0 }}>
-                {searchText || selectedCategory
-                  ? 'No articles match your search criteria.'
-                  : 'No articles available at this time.'}
-              </p>
+            <div className={styles.filtersContainer}>
+              {/* Search */}
+              <div className={styles.filterField}>
+                <input
+                  type="text"
+                  placeholder="Search articles..."
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  className={`${commonStyles.input} ${styles.fullWidth}`}
+                />
+              </div>
+
+              {/* Category filter */}
+              <div className={styles.filterFieldMedium}>
+                <select
+                  value={selectedCategory || ''}
+                  onChange={(e) => setSelectedCategory(e.target.value ? Number(e.target.value) : undefined)}
+                  className={`${commonStyles.input} ${styles.fullWidth}`}
+                >
+                  <option value="">All Categories</option>
+                  {categories.map(cat => (
+                    <option key={cat.Id} value={cat.Id}>{cat.Title}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Sort by */}
+              <div className={styles.filterFieldSmall}>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className={`${commonStyles.input} ${styles.fullWidth}`}
+                >
+                  <option value="recent">Most Recent</option>
+                  <option value="popular">Most Popular</option>
+                  <option value="helpful">Most Helpful</option>
+                </select>
+              </div>
             </div>
           </Card>
-        ) : (
-          <div style={{ display: 'grid', gap: '16px' }}>
-            {filteredArticles.map(article => (
-              <Card key={article.Id}>
-                <div style={{ marginBottom: '12px' }}>
-                  <h3 style={{ margin: '0 0 8px 0', fontSize: '18px', color: '#fff' }}>
-                    {article.Title}
-                  </h3>
-                  {article.CategoryTitle && (
-                    <span className={styles.badge} style={{ backgroundColor: '#0f172a' }}>
-                      {article.CategoryTitle}
-                    </span>
-                  )}
-                </div>
 
-                {/* Preview */}
-                <p style={{ margin: '12px 0', lineHeight: '1.5' }}>
-                  {stripHtml(article.Content).substring(0, 200)}
-                  {stripHtml(article.Content).length > 200 ? '...' : ''}
-                </p>
-
-                {/* Keywords */}
-                {article.Keywords && article.Keywords.length > 0 && (
-                  <div style={{ margin: '12px 0' }}>
-                    {article.Keywords.map((keyword, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          display: 'inline-block',
-                          background: '#f0f0f0',
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          color: '#192436',
-                          marginRight: '8px',
-                          marginBottom: '8px'
-                        }}
-                      >
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {/* Meta info and actions */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e0e0e0' }}>
-                  <div style={{ fontSize: '13px', color: '#666' }}>
-                    <span style={{ marginRight: '16px' }}>Views: {article.Views}</span>
-                    <span style={{ marginRight: '16px' }}>Helpful: {article.Helpful}</span>
-                    <span>
-                      {new Date(article.PublishedDate || article.Created).toLocaleDateString()}
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                      onClick={() => void handleMarkHelpful(article.Id)}
-                      className={styles.button}
-                      style={{ padding: '6px 12px', fontSize: '13px' }}
-                      title="Mark as helpful"
-                    >
-                      Helpful
-                    </button>
-                    <button
-                      onClick={() => void handleMarkNotHelpful(article.Id)}
-                      className={styles.button}
-                      style={{ padding: '6px 12px', fontSize: '13px' }}
-                      title="Mark as not helpful"
-                    >
-                      Not Helpful
-                    </button>
-                  </div>
-                </div>
-              </Card>
-            ))}
+          {/* Results count */}
+          <div className={styles.resultsCount}>
+            Found {filteredArticles.length} article{filteredArticles.length !== 1 ? 's' : ''}
           </div>
-        )}
+
+          {/* Articles list */}
+          {filteredArticles.length === 0 ? (
+            <Card>
+              <div className={styles.emptyState}>
+                <p className={styles.emptyText}>
+                  {searchText || selectedCategory
+                    ? 'No articles match your search criteria.'
+                    : 'No articles available at this time.'}
+                </p>
+              </div>
+            </Card>
+          ) : (
+            <div className={styles.articlesGrid}>
+              {filteredArticles.map(article => (
+                <Card key={article.Id}>
+                  <div className={styles.articleHeader}>
+                    <h3 className={styles.articleTitle}>
+                      {article.Title}
+                    </h3>
+                    {article.CategoryTitle && (
+                      <span className={styles.categoryBadge}>
+                        {article.CategoryTitle}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Preview */}
+                  <p className={styles.articlePreview}>
+                    {stripHtml(article.Content).substring(0, 200)}
+                    {stripHtml(article.Content).length > 200 ? '...' : ''}
+                  </p>
+
+                  {/* Keywords */}
+                  {article.Keywords && article.Keywords.length > 0 && (
+                    <div className={styles.keywordsContainer}>
+                      {article.Keywords.map((keyword, idx) => (
+                        <span key={idx} className={styles.keyword}>
+                          {keyword}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Meta info and actions */}
+                  <div className={styles.articleFooter}>
+                    <div className={styles.articleMeta}>
+                      <span className={styles.metaItem}>Views: {article.Views}</span>
+                      <span className={styles.metaItem}>Helpful: {article.Helpful}</span>
+                      <span>
+                        {new Date(article.PublishedDate || article.Created).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    <div className={styles.articleActions}>
+                      <button
+                        onClick={() => void handleMarkHelpful(article.Id)}
+                        className={`${commonStyles.button} ${styles.actionButton}`}
+                        title="Mark as helpful"
+                      >
+                        Helpful
+                      </button>
+                      <button
+                        onClick={() => void handleMarkNotHelpful(article.Id)}
+                        className={`${commonStyles.button} ${styles.actionButton}`}
+                        title="Mark as not helpful"
+                      >
+                        Not Helpful
+                      </button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

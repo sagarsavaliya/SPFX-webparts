@@ -1,0 +1,131 @@
+/**
+ * Typography Base Styles
+ * Font definitions and text element defaults
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Base font family
+ */
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  color: $color-text-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * Heading defaults
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+}
+
+h1 {
+  font-size: $font-size-xxxl;
+}
+
+h2 {
+  font-size: $font-size-xxl;
+}
+
+h3 {
+  font-size: $font-size-xl;
+}
+
+h4 {
+  font-size: $font-size-lg;
+}
+
+h5 {
+  font-size: $font-size-md;
+}
+
+h6 {
+  font-size: $font-size-base;
+}
+
+/**
+ * Paragraph defaults
+ */
+p {
+  line-height: $line-height-base;
+  color: $color-text-primary;
+}
+
+/**
+ * Link defaults
+ */
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-primary-light;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+/**
+ * Code and preformatted text
+ */
+code,
+pre {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+}
+
+code {
+  padding: 2px 6px;
+  background: $color-bg-surface;
+  border-radius: $border-radius-sm;
+  color: $color-accent;
+}
+
+pre {
+  padding: $spacing-md;
+  background: $color-bg-surface;
+  border-radius: $border-radius-md;
+  overflow-x: auto;
+
+  code {
+    padding: 0;
+    background: transparent;
+  }
+}
+
+/**
+ * Strong and emphasis
+ */
+strong,
+b {
+  font-weight: $font-weight-bold;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+/**
+ * Small text
+ */
+small {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}

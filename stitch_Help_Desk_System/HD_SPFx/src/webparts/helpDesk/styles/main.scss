@@ -1,0 +1,33 @@
+/**
+ * Main SCSS Entry Point
+ * 7-1 Architecture Pattern
+ *
+ * This is the central SCSS file that imports all other partials.
+ * Import order matters - abstracts first, then base, then everything else.
+ *
+ * Architecture:
+ * 1. Abstracts - Variables, mixins, functions (no CSS output)
+ * 2. Base - Reset, typography, base element styles
+ * 3. Components - Reusable component utilities
+ * 4. Layout - Grid, flexbox, spacing utilities
+ * 5. Themes - Theme-specific styles
+ * 6. Utilities - Helper classes, animations, text utilities
+ */
+
+// 1. Abstracts (no CSS output - only variables and mixins)
+@use './abstracts' as *;
+
+// 2. Base styles
+@use './base';
+
+// 3. Component utilities
+@use './components';
+
+// 4. Layout utilities
+@use './layout';
+
+// 5. Theme styles
+@use './themes';
+
+// 6. Utility classes
+@use './utilities';

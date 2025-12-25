@@ -1,0 +1,55 @@
+/**
+ * Custom Scrollbar Styles
+ * Webkit-based scrollbar customization
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Global scrollbar styles
+ */
+:global {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: $border-radius-sm;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+}
+
+/**
+ * Thin scrollbar variant
+ */
+.scrollbarThin {
+  @include custom-scrollbar(4px, #475569);
+}
+
+/**
+ * Primary colored scrollbar
+ */
+.scrollbarPrimary {
+  @include custom-scrollbar(8px, $color-primary);
+}
+
+/**
+ * Hidden scrollbar (still scrollable)
+ */
+.scrollbarHidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}

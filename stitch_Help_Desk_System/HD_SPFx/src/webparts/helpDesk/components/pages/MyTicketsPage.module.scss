@@ -217,17 +217,7 @@
 .waitingRow {
   position: relative;
   background-color: rgba(245, 158, 11, 0.08);
-  border-left: 3px solid $color-warning;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background-color: $color-warning;
-  }
+  box-shadow: inset 3px 0 0 0 $color-warning;
 
   &:hover {
     background-color: rgba(245, 158, 11, 0.12);

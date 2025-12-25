@@ -1,0 +1,182 @@
+/**
+ * Flexbox Layout System
+ * Flexbox utility classes
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Base flex container
+ */
+.flex {
+  display: flex;
+}
+
+/**
+ * Flex direction
+ */
+.flexRow {
+  @extend .flex;
+  flex-direction: row;
+}
+
+.flexColumn {
+  @extend .flex;
+  flex-direction: column;
+}
+
+.flexRowReverse {
+  @extend .flex;
+  flex-direction: row-reverse;
+}
+
+.flexColumnReverse {
+  @extend .flex;
+  flex-direction: column-reverse;
+}
+
+/**
+ * Flex wrap
+ */
+.flexWrap {
+  flex-wrap: wrap;
+}
+
+.flexNoWrap {
+  flex-wrap: nowrap;
+}
+
+/**
+ * Justify content
+ */
+.justifyStart {
+  justify-content: flex-start;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
+
+.justifyCenter {
+  justify-content: center;
+}
+
+.justifyBetween {
+  justify-content: space-between;
+}
+
+.justifyAround {
+  justify-content: space-around;
+}
+
+.justifyEvenly {
+  justify-content: space-evenly;
+}
+
+/**
+ * Align items
+ */
+.alignStart {
+  align-items: flex-start;
+}
+
+.alignEnd {
+  align-items: flex-end;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.alignBaseline {
+  align-items: baseline;
+}
+
+.alignStretch {
+  align-items: stretch;
+}
+
+/**
+ * Common flex combinations
+ */
+.flexCenter {
+  @extend .flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexCenterBetween {
+  @extend .flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flexCenterStart {
+  @extend .flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.flexCenterEnd {
+  @extend .flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/**
+ * Flex item
+ */
+.flex1 {
+  flex: 1;
+}
+
+.flexAuto {
+  flex: auto;
+}
+
+.flexNone {
+  flex: none;
+}
+
+/**
+ * Gap utilities
+ */
+.gap0 {
+  gap: 0;
+}
+
+.gap1 {
+  gap: $spacing-sm;
+}
+
+.gap2 {
+  gap: $spacing-md;
+}
+
+.gap3 {
+  gap: $spacing-lg;
+}
+
+.gap4 {
+  gap: $spacing-xl;
+}
+
+.gapXs {
+  gap: $spacing-xs;
+}
+
+.gapSm {
+  gap: $spacing-sm;
+}
+
+.gapMd {
+  gap: $spacing-md;
+}
+
+.gapLg {
+  gap: $spacing-lg;
+}
+
+.gapXl {
+  gap: $spacing-xl;
+}

@@ -1,0 +1,90 @@
+/**
+ * Card Component Styles
+ * Glass morphism card variants
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Base card class
+ */
+.card {
+  @include card-base;
+}
+
+/**
+ * Interactive card with hover effect
+ */
+.cardInteractive {
+  @include glass-card-interactive;
+}
+
+/**
+ * Elevated card with shadow
+ */
+.cardElevated {
+  @include glass-elevated;
+  border-radius: $border-radius-lg;
+}
+
+/**
+ * Card with accent border (using CSS custom property)
+ */
+.cardAccent {
+  @include card-base;
+  border-left: 4px solid var(--accent-color, #{$color-primary});
+}
+
+/**
+ * Compact card (less padding)
+ */
+.cardCompact {
+  @include glass-effect;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+}
+
+/**
+ * Card header section
+ */
+.cardHeader {
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $color-border-base;
+
+  h2,
+  h3 {
+    margin: 0;
+  }
+}
+
+/**
+ * Card body section
+ */
+.cardBody {
+  flex: 1;
+}
+
+/**
+ * Card footer section
+ */
+.cardFooter {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-border-base;
+  @include flex(row, center, space-between);
+}
+
+/**
+ * Card with hover scale effect
+ */
+.cardScalable {
+  @include card-base;
+  transition: all $transition-slow;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+}

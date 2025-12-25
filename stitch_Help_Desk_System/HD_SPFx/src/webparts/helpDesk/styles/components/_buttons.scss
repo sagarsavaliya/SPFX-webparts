@@ -1,0 +1,150 @@
+/**
+ * Button Component Styles
+ * Reusable button variants for CSS modules
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Base button class
+ */
+.button {
+  @include button-base;
+}
+
+/**
+ * Primary button variant
+ */
+.buttonPrimary {
+  @include button-base;
+  @include button-hover-lift;
+  background: $gradient-primary;
+  color: white;
+  box-shadow: $shadow-button-primary;
+
+  &:hover:not(:disabled) {
+    box-shadow: $shadow-button-primary-hover;
+  }
+}
+
+/**
+ * Secondary button variant
+ */
+.buttonSecondary {
+  @include button-base;
+  background: $color-bg-surface;
+  color: $color-text-primary;
+  border: 1px solid $color-border-base;
+
+  &:hover:not(:disabled) {
+    background: $color-bg-surface-highlight;
+    border-color: $color-primary;
+  }
+}
+
+/**
+ * Danger button variant
+ */
+.buttonDanger {
+  @include button-base;
+  @include button-hover-lift;
+  background: $color-error;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background: darken($color-error, 10%);
+  }
+}
+
+/**
+ * Success button variant
+ */
+.buttonSuccess {
+  @include button-base;
+  @include button-hover-lift;
+  background: $color-success;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background: darken($color-success, 10%);
+  }
+}
+
+/**
+ * Ghost button variant (transparent with border)
+ */
+.buttonGhost {
+  @include button-base;
+  background: transparent;
+  color: $color-primary;
+  border: 1px solid $color-primary;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-primary, 0.1);
+  }
+}
+
+/**
+ * Link button variant (looks like a link)
+ */
+.buttonLink {
+  @include button-reset;
+  color: $color-primary;
+  transition: color $transition-base;
+
+  &:hover:not(:disabled) {
+    color: $color-primary-light;
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    opacity: $opacity-disabled;
+    cursor: not-allowed;
+  }
+}
+
+/**
+ * Button size variants
+ */
+.buttonSmall {
+  padding: 6px 12px;
+  font-size: $font-size-sm;
+}
+
+.buttonLarge {
+  padding: 14px 28px;
+  font-size: $font-size-md;
+}
+
+/**
+ * Button with icon
+ */
+.buttonWithIcon {
+  gap: $spacing-sm;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/**
+ * Icon-only button
+ */
+.buttonIconOnly {
+  padding: 8px;
+  width: 36px;
+  height: 36px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/**
+ * Full width button
+ */
+.buttonFullWidth {
+  width: 100%;
+}

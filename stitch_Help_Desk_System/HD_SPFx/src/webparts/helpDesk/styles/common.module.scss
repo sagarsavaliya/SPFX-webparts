@@ -75,6 +75,10 @@ $priority-critical: #ef4444;
   z-index: 10;
 }
 
+.mainContent {
+  min-height: calc(100vh - 60px);
+}
+
 /* Glass Panel Effect */
 .glassPanel {
   background: rgba(30, 41, 59, 0.7);

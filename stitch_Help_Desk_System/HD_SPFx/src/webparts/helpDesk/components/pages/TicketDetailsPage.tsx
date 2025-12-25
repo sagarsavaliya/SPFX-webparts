@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { TicketService, ConversationService } from '../../services';
-import { ITicket, IConversation, MessageType } from '../../models';
+import { ITicket, IConversation, MessageType, TicketStatus } from '../../models';
 import { Button } from '../shared/Button';
 import { Badge } from '../shared/Badge';
 import { Card } from '../shared/Card';
@@ -34,10 +34,11 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
   const [isSending, setIsSending] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [attachments, setAttachments] = useState<File[]>([]);
+  const [isMarkingResponded, setIsMarkingResponded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const pollingIntervalRef = useRef<number | null>(null);
 
-  const loadTicketData = async (isPolling = false): Promise<void> => {
+  const loadTicketData = async (isPolling = false, shouldScroll = false): Promise<void> => {
     try {
       if (!isPolling) {
         setIsLoading(true);
@@ -51,12 +52,15 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
 
       setTicket(ticketData);
 
+      const hasNewMessages = conversationsData.length > conversations.length;
+
       // Only update conversations if count changed (to avoid unnecessary re-renders)
-      if (!isPolling || conversationsData.length !== conversations.length) {
+      if (!isPolling || hasNewMessages) {
         setConversations(conversationsData);
 
-        // Scroll to bottom if new messages
-        if (conversationsData.length > conversations.length) {
+        // Only scroll if explicitly requested (like after sending a message)
+        // or if there are new messages during polling AND we're currently near the bottom
+        if (shouldScroll || (isPolling && hasNewMessages)) {
           setTimeout(() => {
             messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
           }, 100);
@@ -99,6 +103,12 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
     try {
       setIsSending(true);
 
+      // If ticket is in Waiting status and user is a regular user (not technician/manager),
+      // automatically change status to Open when they send a message
+      if (ticket?.Status === 'Waiting' && !currentUser?.IsManager && !currentUser?.IsTechnician) {
+        await TicketService.updateTicketStatus(ticketId, TicketStatus.Open);
+      }
+
       await ConversationService.addMessage({
         TicketId: ticketId,
         Message: message.trim() || '(File attachment)',
@@ -110,16 +120,10 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
       setAttachments([]);
       setIsInternal(false);
 
-      // Reload conversations
-      const updatedConversations = await ConversationService.getConversationsByTicketId(ticketId);
-      setConversations(updatedConversations);
+      // Reload ticket data and conversations with scroll
+      await loadTicketData(false, true);
 
       setIsSending(false);
-
-      // Scroll to bottom
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
     } catch (err) {
       console.error('Error sending message:', err);
       setIsSending(false);
@@ -136,6 +140,23 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
 
   const removeAttachment = (index: number): void => {
     setAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleMarkAsResponded = async (): Promise<void> => {
+    try {
+      setIsMarkingResponded(true);
+
+      // Update ticket status from Waiting to Open
+      await TicketService.updateTicketStatus(ticketId, TicketStatus.Open);
+
+      // Reload ticket data to reflect the status change (don't scroll)
+      await loadTicketData(false, false);
+
+      setIsMarkingResponded(false);
+    } catch (err) {
+      console.error('Error marking ticket as responded:', err);
+      setIsMarkingResponded(false);
+    }
   };
 
   if (isLoading) {
@@ -158,7 +179,7 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
       </div>
 
       {/* Ticket Header Card */}
-      <Card style={{ marginBottom: '24px' }}>
+      <Card className={pageStyles.ticketHeaderCard}>
         <div className={pageStyles.ticketHeader}>
           <div className={pageStyles.ticketHeaderTop}>
             <div>
@@ -179,11 +200,25 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
               </div>
             </div>
 
-            {(currentUser?.IsManager || currentUser?.IsTechnician) && (
-              <Button onClick={() => setShowAssignModal(true)}>
-                {ticket.AssignedToName ? 'Reassign' : 'Assign Ticket'}
-              </Button>
-            )}
+            <div className={pageStyles.headerActions}>
+              {/* Show "Mark as Responded" button for regular users when ticket is in Waiting status */}
+              {ticket.Status === 'Waiting' && !currentUser?.IsManager && !currentUser?.IsTechnician && (
+                <Button
+                  onClick={handleMarkAsResponded}
+                  disabled={isMarkingResponded}
+                  variant="primary"
+                >
+                  {isMarkingResponded ? 'Updating...' : '✓ Mark as Responded'}
+                </Button>
+              )}
+
+              {/* Show Assign/Reassign button for managers and technicians */}
+              {(currentUser?.IsManager || currentUser?.IsTechnician) && (
+                <Button onClick={() => setShowAssignModal(true)}>
+                  {ticket.AssignedToName ? 'Reassign' : 'Assign Ticket'}
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Ticket Details Grid */}
@@ -218,7 +253,7 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
       </Card>
 
       {/* Conversation Thread */}
-      <Card style={{ padding: "10px 24px 24px" }}>
+      <Card>
         <div className={pageStyles.conversationCard}>
           <h2 className={pageStyles.conversationTitle}>
             Conversation

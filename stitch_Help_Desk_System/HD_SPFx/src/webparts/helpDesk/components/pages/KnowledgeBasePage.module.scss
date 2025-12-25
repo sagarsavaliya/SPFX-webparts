@@ -1,0 +1,160 @@
+/**
+ * KnowledgeBasePage Component Styles
+ * Browse and search knowledge base articles
+ */
+
+@use '../../styles/abstracts' as *;
+
+/**
+ * Page container
+ */
+.page {
+  padding: $spacing-lg;
+}
+
+/**
+ * Header section
+ */
+.header {
+  margin-bottom: $spacing-lg;
+}
+
+.headerTitle {
+  margin-bottom: $spacing-sm;
+}
+
+.headerSubtitle {
+  color: $color-text-disabled;
+  margin-top: 0;
+}
+
+/**
+ * Filters section
+ */
+.filtersContainer {
+  @include flex(row, center, flex-start);
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.filterField {
+  flex: 1 1 300px;
+}
+
+.filterFieldMedium {
+  flex: 1 1 200px;
+}
+
+.filterFieldSmall {
+  flex: 1 1 150px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/**
+ * Results count
+ */
+.resultsCount {
+  margin: $spacing-md 0;
+  color: $color-text-disabled;
+}
+
+/**
+ * Empty state
+ */
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.emptyText {
+  color: $color-text-disabled;
+  margin: 0;
+}
+
+/**
+ * Articles grid
+ */
+.articlesGrid {
+  display: grid;
+  gap: $spacing-md;
+}
+
+/**
+ * Article card sections
+ */
+.articleHeader {
+  margin-bottom: 12px;
+}
+
+.articleTitle {
+  margin: 0 0 8px 0;
+  font-size: $font-size-lg;
+  color: $color-text-primary;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: $color-bg-base;
+}
+
+.articlePreview {
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+/**
+ * Keywords
+ */
+.keywordsContainer {
+  margin: 12px 0;
+}
+
+.keyword {
+  display: inline-block;
+  background: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  color: #192436;
+  margin-right: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+/**
+ * Article footer
+ */
+.articleFooter {
+  @include flex(row, center, space-between);
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid #e0e0e0;
+}
+
+.articleMeta {
+  font-size: $font-size-sm;
+  color: $color-text-disabled;
+}
+
+.metaItem {
+  margin-right: $spacing-md;
+}
+
+.articleActions {
+  @include flex(row, center, flex-start);
+  gap: $spacing-sm;
+}
+
+.actionButton {
+  padding: 6px 12px;
+  font-size: $font-size-sm;
+}

@@ -1,0 +1,232 @@
+/**
+ * Form Component Styles
+ * Input, select, textarea, and form layouts
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Form group container
+ */
+.formGroup {
+  margin-bottom: $spacing-lg;
+}
+
+/**
+ * Label
+ */
+.label {
+  display: block;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+/**
+ * Required field indicator
+ */
+.labelRequired {
+  &::after {
+    content: ' *';
+    color: $color-error;
+  }
+}
+
+/**
+ * Input field
+ */
+.input {
+  @include input-base;
+}
+
+/**
+ * Textarea
+ */
+.textarea {
+  @include input-base;
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/**
+ * Select dropdown
+ */
+.select {
+  @include input-base;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+/**
+ * Checkbox
+ */
+.checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+
+  input[type='checkbox'] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .checkboxBox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid $color-border-base;
+    border-radius: $border-radius-sm;
+    background: $color-bg-surface;
+    transition: all $transition-base;
+    @include flex-center;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      color: white;
+      opacity: 0;
+      transition: opacity $transition-base;
+    }
+  }
+
+  input[type='checkbox']:checked + .checkboxBox {
+    background: $color-primary;
+    border-color: $color-primary;
+
+    svg {
+      opacity: 1;
+    }
+  }
+
+  input[type='checkbox']:focus + .checkboxBox {
+    box-shadow: 0 0 0 2px $color-border-focus;
+  }
+
+  &:hover .checkboxBox {
+    border-color: $color-primary;
+  }
+}
+
+/**
+ * Radio button
+ */
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+
+  input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .radioCircle {
+    width: 20px;
+    height: 20px;
+    border: 2px solid $color-border-base;
+    border-radius: 50%;
+    background: $color-bg-surface;
+    transition: all $transition-base;
+    @include flex-center;
+
+    &::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      transition: opacity $transition-base;
+    }
+  }
+
+  input[type='radio']:checked + .radioCircle {
+    background: $color-primary;
+    border-color: $color-primary;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  input[type='radio']:focus + .radioCircle {
+    box-shadow: 0 0 0 2px $color-border-focus;
+  }
+
+  &:hover .radioCircle {
+    border-color: $color-primary;
+  }
+}
+
+/**
+ * Form error message
+ */
+.formError {
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $color-error-text;
+}
+
+/**
+ * Form success message
+ */
+.formSuccess {
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $color-success-text;
+}
+
+/**
+ * Form helper text
+ */
+.formHelper {
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+/**
+ * Input with error state
+ */
+.inputError {
+  border-color: $color-error !important;
+
+  &:focus {
+    box-shadow: 0 0 0 1px $color-error !important;
+  }
+}
+
+/**
+ * Input with success state
+ */
+.inputSuccess {
+  border-color: $color-success !important;
+
+  &:focus {
+    box-shadow: 0 0 0 1px $color-success !important;
+  }
+}
+
+/**
+ * Form actions container
+ */
+.formActions {
+  @include flex(row, center, flex-end);
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $color-border-base;
+}

@@ -1,0 +1,18 @@
+/**
+ * Card Component Styles
+ * Glass panel container with hover effects
+ */
+
+@use '../../styles/abstracts' as *;
+
+.card {
+  @include card-base;
+
+  &.clickable {
+    cursor: pointer;
+  }
+
+  &:not(.clickable) {
+    cursor: default;
+  }
+}

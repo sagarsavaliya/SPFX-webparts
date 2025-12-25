@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { UserService, TicketService } from '../../services';
 import { Button } from '../shared/Button';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
+import styles from './AssignTicketModal.module.scss';
 
 interface IAssignTicketModalProps {
   ticketId: number;
@@ -70,103 +71,46 @@ export const AssignTicketModal: React.FC<IAssignTicketModalProps> = ({
   return (
     <>
       {/* Modal Backdrop */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.7)',
-          zIndex: 9998,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-        onClick={onClose}
-      />
+      <div className={styles.modalBackdrop} onClick={onClose} />
 
       {/* Modal Content */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: '#1e293b',
-          borderRadius: '12px',
-          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
-          zIndex: 9999,
-          width: '90%',
-          maxWidth: '500px',
-          border: '1px solid #334155'
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div
-          style={{
-            padding: '20px 24px',
-            borderBottom: '1px solid #334155',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}
-        >
-          <h2 style={{ fontSize: '20px', fontWeight: 600, color: 'white', margin: 0 }}>
+        <div className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>
             Assign Ticket
           </h2>
-          <button
-            onClick={onClose}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#94a3b8',
-              fontSize: '24px',
-              cursor: 'pointer',
-              padding: '0 8px',
-              lineHeight: 1
-            }}
-          >
+          <button onClick={onClose} className={styles.modalCloseButton}>
             ×
           </button>
         </div>
 
         {/* Body */}
-        <div style={{ padding: '24px' }}>
+        <div className={styles.modalBody}>
           {/* Ticket Info */}
-          <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '14px', color: '#94a3b8', marginBottom: '4px' }}>
+          <div className={styles.ticketInfo}>
+            <p className={styles.ticketInfoLabel}>
               Ticket:
             </p>
-            <p style={{ fontSize: '16px', color: 'white', fontWeight: 500 }}>
+            <p className={styles.ticketInfoTitle}>
               {ticketTitle}
             </p>
             {currentAssigneeName && (
-              <p style={{ fontSize: '13px', color: '#64748b', marginTop: '8px' }}>
-                Currently assigned to: <span style={{ color: '#3b82f6' }}>{currentAssigneeName}</span>
+              <p className={styles.currentAssignee}>
+                Currently assigned to: <span className={styles.assigneeName}>{currentAssigneeName}</span>
               </p>
             )}
           </div>
 
           {isLoading ? (
-            <div style={{ padding: '40px 0', textAlign: 'center' }}>
+            <div className={styles.loadingContainer}>
               <LoadingSpinner message="Loading technicians..." />
             </div>
           ) : (
             <>
               {/* Technician Dropdown */}
-              <div style={{ marginBottom: '20px' }}>
-                <label
-                  htmlFor="technician"
-                  style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'white',
-                    marginBottom: '8px'
-                  }}
-                >
+              <div className={styles.formField}>
+                <label htmlFor="technician" className={styles.formLabel}>
                   Assign to Technician *
                 </label>
                 <select
@@ -176,17 +120,7 @@ export const AssignTicketModal: React.FC<IAssignTicketModalProps> = ({
                     setSelectedUserId(e.target.value ? Number(e.target.value) : undefined);
                     setError(undefined);
                   }}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    background: '#0f172a',
-                    border: '1px solid #334155',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    cursor: 'pointer'
-                  }}
+                  className={styles.formSelect}
                 >
                   <option value="">-- Select a technician --</option>
                   {technicians.map((tech) => (
@@ -199,16 +133,8 @@ export const AssignTicketModal: React.FC<IAssignTicketModalProps> = ({
 
               {/* Error Message */}
               {error && (
-                <div
-                  style={{
-                    padding: '12px 16px',
-                    background: 'rgba(239, 68, 68, 0.1)',
-                    border: '1px solid rgba(239, 68, 68, 0.3)',
-                    borderRadius: '6px',
-                    marginBottom: '20px'
-                  }}
-                >
-                  <p style={{ fontSize: '14px', color: '#ef4444', margin: 0 }}>
+                <div className={styles.errorMessage}>
+                  <p className={styles.errorText}>
                     {error}
                   </p>
                 </div>
@@ -218,15 +144,7 @@ export const AssignTicketModal: React.FC<IAssignTicketModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div
-          style={{
-            padding: '16px 24px',
-            borderTop: '1px solid #334155',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '12px'
-          }}
-        >
+        <div className={styles.modalFooter}>
           <Button variant="secondary" onClick={onClose} disabled={isAssigning}>
             Cancel
           </Button>

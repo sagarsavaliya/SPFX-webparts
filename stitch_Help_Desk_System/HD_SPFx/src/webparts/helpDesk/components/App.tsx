@@ -127,7 +127,7 @@ export const App: React.FC = () => {
       <div className={styles.contentWrapper}>
         <Header onNavigate={handleNavigate} currentRoute={currentRoute} />
 
-        <main style={{ minHeight: 'calc(100vh - 60px)' }}>
+        <main className={styles.mainContent}>
           {renderRoute(currentRoute, handleNavigate, currentUser?.Role)}
         </main>
       </div>

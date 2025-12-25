@@ -1,5 +1,6 @@
 import * as React from 'react';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './LoadingSpinner.module.scss';
 
 interface ILoadingSpinnerProps {
   message?: string;
@@ -14,15 +15,10 @@ export const LoadingSpinner: React.FC<ILoadingSpinnerProps> = ({
   message = 'Loading...',
   size = 'medium'
 }) => {
-  const spinnerSize = size === 'small' ? '24px' : size === 'large' ? '60px' : '40px';
-
   return (
-    <div className={styles.loadingContainer}>
-      <div
-        className={styles.spinner}
-        style={{ width: spinnerSize, height: spinnerSize }}
-      />
-      {message && <div className={styles.loadingText}>{message}</div>}
+    <div className={commonStyles.loadingContainer}>
+      <div className={`${styles.spinner} ${styles[size]}`} />
+      {message && <div className={commonStyles.loadingText}>{message}</div>}
     </div>
   );
 };

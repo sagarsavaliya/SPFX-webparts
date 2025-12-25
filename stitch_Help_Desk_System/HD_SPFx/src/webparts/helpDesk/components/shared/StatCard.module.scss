@@ -1,0 +1,130 @@
+/**
+ * StatCard Component Styles
+ * Dashboard statistic card with dynamic colors using CSS custom properties
+ */
+
+@use '../../styles/abstracts' as *;
+
+/**
+ * Stat card container
+ * Uses CSS custom properties for dynamic color theming
+ */
+.statCard {
+  @include glass-effect;
+  padding: $spacing-lg;
+  cursor: pointer;
+  border-radius: $border-radius-lg;
+  transition: all $transition-slow;
+
+  // Default border (can be overridden by active state)
+  border: 1px solid $glass-border;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: $shadow-card-hover;
+  }
+
+  // Active state uses CSS custom property
+  &.active {
+    border: 2px solid var(--accent-color, #{$color-primary});
+    box-shadow: 0 0 20px var(--accent-shadow, rgba(59, 130, 246, 0.25));
+  }
+}
+
+/**
+ * Card header (contains stats and icon)
+ */
+.statCardHeader {
+  @include flex(row, flex-start, space-between);
+  gap: $spacing-md;
+}
+
+/**
+ * Stats content area
+ */
+.statCardContent {
+  flex: 1;
+}
+
+/**
+ * Label
+ */
+.statCardLabel {
+  font-size: $font-size-base;
+  color: $color-text-muted;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-xs;
+}
+
+/**
+ * Value
+ */
+.statCardValue {
+  font-size: $font-size-xxxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: $spacing-sm 0;
+  line-height: $line-height-tight;
+}
+
+/**
+ * Change/trend indicator
+ */
+.statCardChange {
+  font-size: $font-size-sm;
+  margin-top: $spacing-xs;
+}
+
+.trendUp {
+  color: $color-success;
+}
+
+.trendDown {
+  color: $color-error;
+}
+
+.trendLabel {
+  color: $color-text-muted;
+  margin-left: 4px;
+}
+
+/**
+ * Icon container
+ * Uses CSS custom properties for dynamic coloring
+ */
+.statCardIcon {
+  width: 48px;
+  height: 48px;
+  @include flex-center;
+  border-radius: $border-radius-md;
+  font-size: 24px;
+  flex-shrink: 0;
+  transition: all $transition-slow;
+
+  // Dynamic colors via CSS custom properties
+  color: var(--icon-color, #{$color-primary});
+  border: 1px solid var(--icon-border-color, rgba(59, 130, 246, 0.25));
+  background: var(--icon-bg-color, rgba(59, 130, 246, 0.13));
+
+  .statCard:hover & {
+    transform: scale(1.1);
+  }
+}
+
+/**
+ * Compact variant (less padding)
+ */
+.statCardCompact {
+  padding: $spacing-md;
+
+  .statCardValue {
+    font-size: $font-size-xxl;
+  }
+
+  .statCardIcon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}

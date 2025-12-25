@@ -6,7 +6,8 @@ import { Button } from '../shared/Button';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './TicketForm.module.scss';
 
 interface ITicketFormProps {
   onNavigate: (route: string) => void;
@@ -240,14 +241,14 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
 
   if (success) {
     return (
-      <div style={{ padding: '24px' }}>
+      <div className={styles.successContainer}>
         <Card>
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <div style={{ fontSize: '64px', marginBottom: '24px' }}>✅</div>
-            <h2 style={{ fontSize: '24px', fontWeight: 700, color: 'white', marginBottom: '12px' }}>
+          <div className={styles.successCard}>
+            <div className={styles.successIcon}>✅</div>
+            <h2 className={styles.successTitle}>
               Ticket Created Successfully!
             </h2>
-            <p style={{ fontSize: '16px', color: '#94a3b8', marginBottom: '24px' }}>
+            <p className={styles.successMessage}>
               Your ticket has been submitted. You will be redirected to the ticket details...
             </p>
             <LoadingSpinner size="small" />
@@ -258,13 +259,13 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
   }
 
   return (
-    <div style={{ padding: '24px', maxWidth: '900px', margin: '0 auto' }}>
+    <div className={styles.page}>
       {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '32px', fontWeight: 700, color: 'white', marginBottom: '8px' }}>
+      <div className={styles.header}>
+        <h1 className={styles.headerTitle}>
           Create New Ticket
         </h1>
-        <p style={{ fontSize: '16px', color: '#94a3b8' }}>
+        <p className={styles.headerSubtitle}>
           Fill out the form below to submit a new help desk ticket
         </p>
       </div>
@@ -272,25 +273,16 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
       <form onSubmit={handleSubmit}>
         <Card>
           {error && (
-            <div style={{ marginBottom: '24px' }}>
+            <div className={styles.errorSection}>
               <ErrorMessage message={error} />
             </div>
           )}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div className={styles.formContainer}>
             {/* Subject */}
-            <div>
-              <label
-                htmlFor="subject"
-                style={{
-                  display: 'block',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: 'white',
-                  marginBottom: '8px'
-                }}
-              >
-                Subject <span style={{ color: '#ef4444' }}>*</span>
+            <div className={styles.formField}>
+              <label htmlFor="subject" className={styles.formLabel}>
+                Subject <span className={styles.requiredStar}>*</span>
               </label>
               <input
                 id="subject"
@@ -298,36 +290,15 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
                 value={formData.Title}
                 onChange={(e) => handleInputChange('Title', e.target.value)}
                 placeholder="Brief description of your issue"
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  background: '#1e293b',
-                  border: '1px solid #334155',
-                  borderRadius: '8px',
-                  color: 'white',
-                  fontSize: '14px',
-                  outline: 'none',
-                  transition: 'all 0.2s'
-                }}
-                onFocus={(e) => (e.target.style.borderColor = '#3b82f6')}
-                onBlur={(e) => (e.target.style.borderColor = '#334155')}
+                className={styles.formInput}
                 required
               />
             </div>
 
             {/* Description */}
-            <div>
-              <label
-                htmlFor="description"
-                style={{
-                  display: 'block',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: 'white',
-                  marginBottom: '8px'
-                }}
-              >
-                Description <span style={{ color: '#ef4444' }}>*</span>
+            <div className={styles.formField}>
+              <label htmlFor="description" className={styles.formLabel}>
+                Description <span className={styles.requiredStar}>*</span>
               </label>
               <textarea
                 id="description"
@@ -335,40 +306,17 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
                 onChange={(e) => handleInputChange('Description', e.target.value)}
                 placeholder="Provide detailed information about your issue..."
                 rows={6}
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  background: '#1e293b',
-                  border: '1px solid #334155',
-                  borderRadius: '8px',
-                  color: 'white',
-                  fontSize: '14px',
-                  outline: 'none',
-                  transition: 'all 0.2s',
-                  resize: 'vertical',
-                  fontFamily: 'inherit'
-                }}
-                onFocus={(e) => (e.target.style.borderColor = '#3b82f6')}
-                onBlur={(e) => (e.target.style.borderColor = '#334155')}
+                className={styles.formTextarea}
                 required
               />
             </div>
 
             {/* Category and SubCategory Row */}
-            <div className={styles.grid2}>
+            <div className={commonStyles.grid2}>
               {/* Category */}
-              <div>
-                <label
-                  htmlFor="category"
-                  style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'white',
-                    marginBottom: '8px'
-                  }}
-                >
-                  Category <span style={{ color: '#ef4444' }}>*</span>
+              <div className={styles.formField}>
+                <label htmlFor="category" className={styles.formLabel}>
+                  Category <span className={styles.requiredStar}>*</span>
                 </label>
                 <select
                   id="category"
@@ -376,20 +324,7 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
                   onChange={(e) =>
                     handleInputChange('CategoryId', e.target.value ? Number(e.target.value) : undefined)
                   }
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    transition: 'all 0.2s',
-                    cursor: 'pointer'
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#3b82f6')}
-                  onBlur={(e) => (e.target.style.borderColor = '#334155')}
+                  className={styles.formSelect}
                   required
                 >
                   <option value="">Select a category</option>
@@ -402,17 +337,8 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
               </div>
 
               {/* SubCategory */}
-              <div>
-                <label
-                  htmlFor="subcategory"
-                  style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'white',
-                    marginBottom: '8px'
-                  }}
-                >
+              <div className={styles.formField}>
+                <label htmlFor="subcategory" className={styles.formLabel}>
                   Sub-Category
                 </label>
                 <select
@@ -422,21 +348,7 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
                     handleInputChange('SubCategoryId', e.target.value ? Number(e.target.value) : undefined)
                   }
                   disabled={filteredSubCategories.length === 0}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    transition: 'all 0.2s',
-                    cursor: filteredSubCategories.length === 0 ? 'not-allowed' : 'pointer',
-                    opacity: filteredSubCategories.length === 0 ? 0.5 : 1
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#3b82f6')}
-                  onBlur={(e) => (e.target.style.borderColor = '#334155')}
+                  className={styles.formSelect}
                 >
                   <option value="">Select a sub-category (optional)</option>
                   {filteredSubCategories.map((subCat) => (
@@ -449,39 +361,17 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
             </div>
 
             {/* Priority, Impact, Urgency Row */}
-            <div className={styles.grid3}>
+            <div className={commonStyles.grid3}>
               {/* Priority */}
-              <div>
-                <label
-                  htmlFor="priority"
-                  style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'white',
-                    marginBottom: '8px'
-                  }}
-                >
+              <div className={styles.formField}>
+                <label htmlFor="priority" className={styles.formLabel}>
                   Priority
                 </label>
                 <select
                   id="priority"
                   value={formData.Priority}
                   onChange={(e) => handleInputChange('Priority', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    transition: 'all 0.2s',
-                    cursor: 'pointer'
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#3b82f6')}
-                  onBlur={(e) => (e.target.style.borderColor = '#334155')}
+                  className={styles.formSelect}
                 >
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
@@ -491,37 +381,15 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
               </div>
 
               {/* Impact */}
-              <div>
-                <label
-                  htmlFor="impact"
-                  style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'white',
-                    marginBottom: '8px'
-                  }}
-                >
+              <div className={styles.formField}>
+                <label htmlFor="impact" className={styles.formLabel}>
                   Impact
                 </label>
                 <select
                   id="impact"
                   value={formData.Impact}
                   onChange={(e) => handleInputChange('Impact', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    transition: 'all 0.2s',
-                    cursor: 'pointer'
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#3b82f6')}
-                  onBlur={(e) => (e.target.style.borderColor = '#334155')}
+                  className={styles.formSelect}
                 >
                   <option value="Individual">Individual</option>
                   <option value="Department">Department</option>
@@ -530,37 +398,15 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
               </div>
 
               {/* Urgency */}
-              <div>
-                <label
-                  htmlFor="urgency"
-                  style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'white',
-                    marginBottom: '8px'
-                  }}
-                >
+              <div className={styles.formField}>
+                <label htmlFor="urgency" className={styles.formLabel}>
                   Urgency
                 </label>
                 <select
                   id="urgency"
                   value={formData.Urgency}
                   onChange={(e) => handleInputChange('Urgency', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    transition: 'all 0.2s',
-                    cursor: 'pointer'
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#3b82f6')}
-                  onBlur={(e) => (e.target.style.borderColor = '#334155')}
+                  className={styles.formSelect}
                 >
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
@@ -571,54 +417,21 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
             </div>
 
             {/* CC Users - People Picker */}
-            <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: 'white',
-                  marginBottom: '8px'
-                }}
-              >
+            <div className={styles.formField}>
+              <label className={styles.formLabel}>
                 CC Users (Optional)
               </label>
 
               {/* Selected Users */}
               {formData.CCUsers.length > 0 && (
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '8px',
-                  marginBottom: '12px'
-                }}>
+                <div className={styles.selectedUsersContainer}>
                   {formData.CCUsers.map((email) => (
-                    <div
-                      key={email}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: '6px 12px',
-                        background: '#1e40af',
-                        borderRadius: '16px',
-                        fontSize: '13px',
-                        color: 'white'
-                      }}
-                    >
+                    <div key={email} className={styles.selectedUserPill}>
                       <span>{email}</span>
                       <button
                         type="button"
                         onClick={() => removeCCUser(email)}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'white',
-                          cursor: 'pointer',
-                          fontSize: '16px',
-                          padding: 0,
-                          lineHeight: 1
-                        }}
+                        className={styles.removeUserButton}
                         title="Remove user"
                       >
                         ×
@@ -629,70 +442,30 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
               )}
 
               {/* User Input with Suggestions */}
-              <div style={{ position: 'relative' }}>
+              <div className={styles.suggestionsContainer}>
                 <input
                   type="text"
                   value={ccUserInput}
                   onChange={(e) => void handleCCUserInputChange(e.target.value)}
                   onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                   placeholder="Type to search users..."
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    transition: 'all 0.2s'
-                  }}
-                  onFocusCapture={(e) => (e.target.style.borderColor = '#3b82f6')}
-                  onBlurCapture={(e) => {
-                    e.target.style.borderColor = '#334155';
-                    setTimeout(() => setShowSuggestions(false), 200);
-                  }}
+                  className={styles.formInput}
                 />
 
                 {/* Suggestions Dropdown */}
                 {showSuggestions && userSuggestions.length > 0 && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      left: 0,
-                      right: 0,
-                      marginTop: '4px',
-                      background: '#1e293b',
-                      border: '1px solid #334155',
-                      borderRadius: '8px',
-                      maxHeight: '200px',
-                      overflowY: 'auto',
-                      zIndex: 1000,
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
-                    }}
-                  >
+                  <div className={styles.suggestionsDropdown}>
                     {userSuggestions.map((user) => (
                       <div
                         key={user.email}
                         onClick={() => addCCUser(user)}
-                        style={{
-                          padding: '12px 16px',
-                          cursor: 'pointer',
-                          borderBottom: '1px solid #334155',
-                          transition: 'background 0.2s'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = '#334155';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'transparent';
-                        }}
+                        className={styles.suggestionItem}
                       >
-                        <div style={{ color: 'white', fontSize: '14px', fontWeight: 500 }}>
+                        <div className={styles.suggestionName}>
                           {user.displayName}
                         </div>
-                        <div style={{ color: '#94a3b8', fontSize: '12px' }}>
+                        <div className={styles.suggestionEmail}>
                           {user.email}
                         </div>
                       </div>
@@ -701,22 +474,14 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
                 )}
               </div>
 
-              <p style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>
+              <p className={styles.helpText}>
                 Type at least 3 characters to search for users
               </p>
             </div>
 
             {/* Attachments */}
-            <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: 'white',
-                  marginBottom: '8px'
-                }}
-              >
+            <div className={styles.formField}>
+              <label className={styles.formLabel}>
                 Attachments (Optional)
               </label>
 
@@ -730,77 +495,26 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
               />
 
               {/* Custom attach button */}
-              <label
-                htmlFor="attachments"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 20px',
-                  background: '#3b82f6',
-                  border: 'none',
-                  borderRadius: '6px',
-                  color: 'white',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#2563eb';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#3b82f6';
-                }}
-              >
+              <label htmlFor="attachments" className={styles.attachButton}>
                 <span>📎</span>
                 <span>Add Files</span>
               </label>
 
               {/* File list */}
               {attachments.length > 0 && (
-                <div style={{ marginTop: '12px' }}>
+                <div className={styles.attachmentsList}>
                   {attachments.map((file, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '10px 14px',
-                        background: '#1e293b',
-                        border: '1px solid #334155',
-                        borderRadius: '6px',
-                        marginBottom: '8px',
-                        transition: 'all 0.2s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = '#3b82f6';
-                        e.currentTarget.style.background = '#0f172a';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = '#334155';
-                        e.currentTarget.style.background = '#1e293b';
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
+                    <div key={index} className={styles.attachmentItem}>
+                      <div className={styles.attachmentInfo}>
                         {/* File icon */}
-                        <span style={{ fontSize: '20px' }}>{getFileIcon(file.name)}</span>
+                        <span className={styles.attachmentIcon}>{getFileIcon(file.name)}</span>
 
                         {/* File info */}
-                        <div style={{ flex: 1 }}>
-                          <div
-                            style={{
-                              fontSize: '14px',
-                              fontWeight: 500,
-                              color: 'white',
-                              marginBottom: '2px',
-                              wordBreak: 'break-word'
-                            }}
-                          >
+                        <div className={styles.attachmentDetails}>
+                          <div className={styles.attachmentName}>
                             {file.name}
                           </div>
-                          <div style={{ fontSize: '12px', color: '#94a3b8' }}>
+                          <div className={styles.attachmentSize}>
                             {file.size < 1024
                               ? `${file.size} B`
                               : file.size < 1024 * 1024
@@ -814,24 +528,7 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
                       <button
                         type="button"
                         onClick={() => removeAttachment(index)}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#ef4444',
-                          cursor: 'pointer',
-                          fontSize: '20px',
-                          padding: '4px 8px',
-                          transition: 'all 0.2s',
-                          fontWeight: 'bold'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.color = '#dc2626';
-                          e.currentTarget.style.transform = 'scale(1.2)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.color = '#ef4444';
-                          e.currentTarget.style.transform = 'scale(1)';
-                        }}
+                        className={styles.removeAttachmentButton}
                         title="Remove file"
                       >
                         ×
@@ -841,7 +538,7 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
                 </div>
               )}
 
-              <p style={{ fontSize: '12px', color: '#64748b', marginTop: '8px' }}>
+              <p className={styles.helpText}>
                 {attachments.length > 0
                   ? `${attachments.length} file${attachments.length > 1 ? 's' : ''} attached`
                   : 'Click "Add Files" to attach documents, images, or other files'}
@@ -849,14 +546,7 @@ export const TicketForm: React.FC<ITicketFormProps> = ({ onNavigate }) => {
             </div>
 
             {/* Action Buttons */}
-            <div
-              style={{
-                display: 'flex',
-                gap: '12px',
-                paddingTop: '12px',
-                borderTop: '1px solid #334155'
-              }}
-            >
+            <div className={styles.formActions}>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? 'Creating Ticket...' : 'Submit Ticket'}
               </Button>

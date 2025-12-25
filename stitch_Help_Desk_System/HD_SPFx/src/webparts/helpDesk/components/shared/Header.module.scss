@@ -1,0 +1,213 @@
+/**
+ * Header Component Styles
+ * Main navigation header with user profile
+ */
+
+@use '../../styles/abstracts' as *;
+
+/**
+ * Main header container
+ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: $z-index-header;
+  @include flex(row, center, space-between);
+  border-bottom: 1px solid $color-border-base;
+  background: rgba(30, 41, 59, 0.9);
+  backdrop-filter: blur(12px);
+  padding: 12px 24px;
+  box-shadow: $shadow-md;
+}
+
+/**
+ * Left section (logo + navigation)
+ */
+.leftSection {
+  @include flex(row, center, flex-start);
+  gap: $spacing-xl;
+}
+
+/**
+ * Logo section
+ */
+.logoSection {
+  @include flex(row, center, flex-start);
+  gap: 12px;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  @include flex-center;
+  border-radius: $border-radius-md;
+  background: linear-gradient(to bottom right, $color-primary, $color-accent);
+  color: white;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+  font-size: 20px;
+}
+
+.logoText {
+  .logoTitle {
+    font-size: $font-size-md;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    line-height: $line-height-tight;
+  }
+
+  .logoSubtitle {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: $letter-spacing-wider;
+    color: $color-accent;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+/**
+ * Navigation
+ */
+.nav {
+  @include flex(row, center, flex-start);
+  gap: 4px;
+}
+
+.navLink {
+  padding: 8px 16px;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-muted;
+  text-decoration: none;
+  border-radius: $border-radius-md;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $color-text-primary;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  &.active {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: $color-primary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+/**
+ * Right section (search, notifications, user)
+ */
+.rightSection {
+  @include flex(row, center, flex-end);
+  gap: $spacing-md;
+}
+
+/**
+ * Search (hidden for now)
+ */
+.searchContainer {
+  position: relative;
+  display: none; // Hidden as per original
+}
+
+.searchInput {
+  width: 240px;
+  height: 36px;
+  padding-left: 36px;
+  font-size: $font-size-sm;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $color-text-muted;
+}
+
+/**
+ * Notification button
+ */
+.notificationButton {
+  position: relative;
+  border-radius: 50%;
+  padding: 8px;
+  color: $color-text-muted;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-base;
+  font-size: 20px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: $color-text-primary;
+  }
+
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $color-error;
+  border: 2px solid $color-bg-surface;
+}
+
+/**
+ * Divider
+ */
+.divider {
+  width: 1px;
+  height: 32px;
+  background: $color-bg-elevated;
+}
+
+/**
+ * User profile section
+ */
+.userSection {
+  @include flex(row, center, flex-start);
+  gap: 12px;
+  cursor: pointer;
+  transition: opacity $transition-base;
+
+  &:hover {
+    opacity: $opacity-hover;
+  }
+}
+
+.userInfo {
+  text-align: right;
+}
+
+.userName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.userRole {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: $border-radius-md;
+  background: linear-gradient(to bottom right, $color-primary, #8b5cf6);
+  @include flex-center;
+  color: white;
+  font-weight: $font-weight-semibold;
+  border: 1px solid $color-bg-elevated;
+  box-shadow: $shadow-base;
+  text-transform: uppercase;
+}

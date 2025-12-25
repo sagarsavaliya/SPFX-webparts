@@ -1,0 +1,136 @@
+/**
+ * Animation Utilities
+ * Keyframe animations and transition utilities
+ */
+
+@use '../abstracts' as *;
+
+/**
+ * Fade in animation
+ */
+.fadeIn {
+  @include fade-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/**
+ * Slide in from bottom
+ */
+.slideInBottom {
+  @include slide-in-bottom;
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/**
+ * Spin animation (for loading spinners)
+ */
+.spin {
+  @include spin-animation;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/**
+ * Pulse animation
+ */
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/**
+ * Bounce animation
+ */
+.bounce {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/**
+ * Transition speed utilities
+ */
+.transitionFast {
+  transition: all $transition-fast;
+}
+
+.transitionBase {
+  transition: all $transition-base;
+}
+
+.transitionSlow {
+  transition: all $transition-slow;
+}
+
+/**
+ * Hover scale effect
+ */
+.hoverScale {
+  transition: transform $transition-base;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/**
+ * Hover lift effect
+ */
+.hoverLift {
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+/**
+ * Hover glow effect
+ */
+.hoverGlow {
+  transition: box-shadow $transition-base;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  }
+}
