@@ -7,14 +7,15 @@ import { Badge } from '../shared/Badge';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './MyTicketsPage.module.scss';
 import { SLACalculator } from '../../utils/SLACalculator';
 
 interface IMyTicketsPageProps {
   onNavigate: (route: string) => void;
 }
 
-type StatusFilter = 'All' | 'Open' | 'In Progress' | 'Resolved' | 'Closed';
+type StatusFilter = 'All' | 'Open' | 'In Progress' | 'Waiting' | 'Resolved' | 'Closed';
 type PriorityFilter = 'All' | 'Low' | 'Medium' | 'High' | 'Critical';
 
 /**
@@ -104,29 +105,29 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
   const hasActiveFilters = statusFilter !== 'All' || priorityFilter !== 'All' || searchQuery.trim() !== '';
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div className={styles.page}>
       {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: 700, color: 'white' }}>
+      <div className={styles.header}>
+        <div className={styles.headerTop}>
+          <h1 className={styles.pageTitle}>
             My Tickets
           </h1>
           <Button onClick={() => onNavigate('/ticket/new')}>
             + Create New Ticket
           </Button>
         </div>
-        <p style={{ fontSize: '16px', color: '#94a3b8' }}>
+        <p className={styles.pageSubtitle}>
           Manage all your support tickets in one place
         </p>
       </div>
 
       {/* Filters Section */}
-      <Card style={{ marginBottom: '24px' }}>
+      <Card className={styles.filtersCard}>
         <div>
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'end' }}>
+          <div className={styles.filtersRow}>
             {/* Search */}
-            <div style={{ flex: '1 1 300px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: '#94a3b8', marginBottom: '8px' }}>
+            <div className={styles.filterField}>
+              <label className={styles.filterLabel}>
                 Search
               </label>
               <input
@@ -134,40 +135,38 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
                 placeholder="Search by ticket #, subject, or description..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={styles.input}
-                style={{ width: '100%' }}
+                className={`${commonStyles.input} ${styles.fullWidth}`}
               />
             </div>
 
             {/* Status Filter */}
-            <div style={{ flex: '0 1 180px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: '#94a3b8', marginBottom: '8px' }}>
+            <div className={styles.filterFieldNarrow}>
+              <label className={styles.filterLabel}>
                 Status
               </label>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-                className={styles.select}
-                style={{ width: '100%' }}
+                className={`${commonStyles.select} ${styles.fullWidth}`}
               >
                 <option value="All">All Statuses</option>
                 <option value="Open">Open</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Waiting">Waiting</option>
                 <option value="Resolved">Resolved</option>
                 <option value="Closed">Closed</option>
               </select>
             </div>
 
             {/* Priority Filter */}
-            <div style={{ flex: '0 1 180px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: '#94a3b8', marginBottom: '8px' }}>
+            <div className={styles.filterFieldNarrow}>
+              <label className={styles.filterLabel}>
                 Priority
               </label>
               <select
                 value={priorityFilter}
                 onChange={(e) => setPriorityFilter(e.target.value as PriorityFilter)}
-                className={styles.select}
-                style={{ width: '100%' }}
+                className={`${commonStyles.select} ${styles.fullWidth}`}
               >
                 <option value="All">All Priorities</option>
                 <option value="Low">Low</option>
@@ -179,7 +178,7 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
 
             {/* Reset Filters Button */}
             {hasActiveFilters && (
-              <div style={{ flex: '0 1 auto' }}>
+              <div className={styles.filterFieldAuto}>
                 <Button onClick={resetFilters} variant="secondary" size="small">
                   Reset Filters
                 </Button>
@@ -189,94 +188,40 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
 
           {/* Active Filters Summary */}
           {hasActiveFilters && (
-            <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #334155' }}>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ fontSize: '13px', color: '#94a3b8' }}>Active filters:</span>
+            <div className={styles.filtersSummary}>
+              <div className={styles.filtersRow}>
+                <span className={styles.filtersSummaryLabel}>Active filters:</span>
                 {statusFilter !== 'All' && (
-                  <span style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '4px 10px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '6px',
-                    fontSize: '12px',
-                    color: 'white'
-                  }}>
+                  <span className={styles.filterTag}>
                     Status: {statusFilter}
-                    <button
+                    <span
                       onClick={() => setStatusFilter('All')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#ef4444',
-                        cursor: 'pointer',
-                        padding: 0,
-                        fontSize: '14px',
-                        fontWeight: 'bold'
-                      }}
+                      className={styles.filterTagRemove}
                     >
                       ×
-                    </button>
+                    </span>
                   </span>
                 )}
                 {priorityFilter !== 'All' && (
-                  <span style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '4px 10px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '6px',
-                    fontSize: '12px',
-                    color: 'white'
-                  }}>
+                  <span className={styles.filterTag}>
                     Priority: {priorityFilter}
-                    <button
+                    <span
                       onClick={() => setPriorityFilter('All')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#ef4444',
-                        cursor: 'pointer',
-                        padding: 0,
-                        fontSize: '14px',
-                        fontWeight: 'bold'
-                      }}
+                      className={styles.filterTagRemove}
                     >
                       ×
-                    </button>
+                    </span>
                   </span>
                 )}
                 {searchQuery.trim() && (
-                  <span style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '4px 10px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    borderRadius: '6px',
-                    fontSize: '12px',
-                    color: 'white'
-                  }}>
+                  <span className={styles.filterTag}>
                     Search: &quot;{searchQuery}&quot;
-                    <button
+                    <span
                       onClick={() => setSearchQuery('')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#ef4444',
-                        cursor: 'pointer',
-                        padding: 0,
-                        fontSize: '14px',
-                        fontWeight: 'bold'
-                      }}
+                      className={styles.filterTagRemove}
                     >
                       ×
-                    </button>
+                    </span>
                   </span>
                 )}
               </div>
@@ -286,8 +231,8 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
       </Card>
 
       {/* Results Count */}
-      <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <p style={{ fontSize: '14px', color: '#94a3b8' }}>
+      <div className={styles.resultsHeader}>
+        <p className={styles.resultsCount}>
           {filteredTickets.length === allTickets.length
             ? `Showing all ${filteredTickets.length} ticket${filteredTickets.length !== 1 ? 's' : ''}`
             : `Showing ${filteredTickets.length} of ${allTickets.length} ticket${allTickets.length !== 1 ? 's' : ''}`
@@ -298,14 +243,14 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
       {/* Tickets Table */}
       {filteredTickets.length === 0 ? (
         <Card>
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateIcon}>
               {hasActiveFilters ? '🔍' : '🎫'}
             </div>
-            <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+            <h3 className={styles.emptyStateTitle}>
               {hasActiveFilters ? 'No Tickets Found' : 'No Tickets Yet'}
             </h3>
-            <p style={{ fontSize: '14px', color: '#94a3b8', marginBottom: '24px' }}>
+            <p className={styles.emptyStateDescription}>
               {hasActiveFilters
                 ? 'Try adjusting your filters to see more results'
                 : 'Create your first support ticket to get started'
@@ -324,71 +269,68 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
         </Card>
       ) : (
         <Card>
-          <div style={{ overflowX: 'auto' }}>
-            <table className={styles.table}>
-              <thead className={styles.tableHeader}>
+          <div className={styles.tableContainer}>
+            <table className={commonStyles.table}>
+              <thead className={commonStyles.tableHeader}>
                 <tr>
-                  <th className={styles.tableHeaderCell}>Ticket #</th>
-                  <th className={styles.tableHeaderCell}>Subject</th>
-                  <th className={styles.tableHeaderCell}>Category</th>
-                  <th className={styles.tableHeaderCell}>Status</th>
-                  <th className={styles.tableHeaderCell}>Priority</th>
-                  <th className={styles.tableHeaderCell}>Assigned To</th>
-                  <th className={styles.tableHeaderCell}>Last Updated</th>
-                  <th className={styles.tableHeaderCell}>Actions</th>
+                  <th className={commonStyles.tableHeaderCell}>Ticket #</th>
+                  <th className={commonStyles.tableHeaderCell}>Subject</th>
+                  <th className={commonStyles.tableHeaderCell}>Category</th>
+                  <th className={commonStyles.tableHeaderCell}>Status</th>
+                  <th className={commonStyles.tableHeaderCell}>Priority</th>
+                  <th className={commonStyles.tableHeaderCell}>Assigned To</th>
+                  <th className={commonStyles.tableHeaderCell}>Last Updated</th>
+                  <th className={commonStyles.tableHeaderCell}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredTickets.map((ticket) => (
-                  <tr key={ticket.Id} className={styles.tableRow}>
-                    <td className={styles.tableCell}>
+                  <tr key={ticket.Id} className={`${commonStyles.tableRow} ${ticket.Status === 'Waiting' ? styles.waitingRow : ''}`}>
+                    <td className={commonStyles.tableCell}>
                       <span
-                        style={{ fontWeight: 600, color: '#3b82f6', cursor: 'pointer', textDecoration: 'underline' }}
+                        className={styles.ticketNumber}
                         onClick={() => onNavigate(`/ticket/${ticket.Id}`)}
                       >
                         {ticket.TicketNumber}
                       </span>
+                      {ticket.Status === 'Waiting' && (
+                        <div className={styles.waitingIndicator}>
+                          Needs your response
+                        </div>
+                      )}
                     </td>
-                    <td className={styles.tableCell}>
-                      <div style={{ maxWidth: '300px' }} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
-                        <div style={{ fontWeight: 500, color: 'white', marginBottom: '4px' }}>
+                    <td className={commonStyles.tableCell}>
+                      <div className={styles.subjectCell} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
+                        <div className={styles.subjectTitle}>
                           {ticket.Title}
                         </div>
-                        <div
-                          style={{
-                            fontSize: '12px',
-                            color: '#94a3b8',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}
-                        >
+                        <div className={styles.subjectDescription}>
                           {ticket.Description?.replace(/<[^>]*>/g, '').substring(0, 60)}...
                         </div>
                       </div>
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.categoryText}>
                         {ticket.CategoryTitle || 'N/A'}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.Status} type="status" value={ticket.Status} />
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.Priority} type="priority" value={ticket.Priority} />
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.assignedText}>
                         {ticket.AssignedToName || 'Unassigned'}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.dateText}>
                         {SLACalculator.formatRelativeTime(ticket.Modified)}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Button
                         onClick={() => onNavigate(`/ticket/${ticket.Id}`)}
                         variant="secondary"

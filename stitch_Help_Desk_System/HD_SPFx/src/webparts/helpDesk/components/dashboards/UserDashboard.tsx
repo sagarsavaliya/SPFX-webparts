@@ -9,7 +9,8 @@ import { Badge } from '../shared/Badge';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
-import styles from '../../styles/common.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+import styles from './UserDashboard.module.scss';
 import { SLACalculator } from '../../utils/SLACalculator';
 
 interface IUserDashboardProps {
@@ -43,9 +44,10 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
 
       setTickets(recentTickets);
 
-      // Calculate pending response count (tickets in Open or In Progress status)
+      // Calculate pending response count (tickets in Open, In Progress, or Waiting status)
+      // Waiting tickets are especially important as they need user's response
       const pendingCount = userTickets.filter(t =>
-        t.Status === 'Open' || t.Status === 'In Progress'
+        t.Status === 'Open' || t.Status === 'In Progress' || t.Status === 'Waiting'
       ).length;
       setPendingResponseCount(pendingCount);
 
@@ -74,20 +76,20 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
   }
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div className={styles.dashboard}>
       {/* Welcome Section */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '32px', fontWeight: 700, color: 'white', marginBottom: '8px' }}>
+      <div className={styles.welcomeSection}>
+        <h1 className={styles.welcomeTitle}>
           Welcome back, {currentUser?.DisplayName}! 👋
         </h1>
-        <p style={{ fontSize: '16px', color: '#94a3b8' }}>
+        <p className={styles.welcomeSubtitle}>
           Here&apos;s an overview of your support tickets
         </p>
       </div>
 
       {/* Stats Cards */}
       {stats && (
-        <div className={styles.grid4} style={{ marginBottom: '32px' }}>
+        <div className={`${commonStyles.grid4} ${styles.statsSection}`}>
           <StatCard label="Total Tickets" value={stats.total} icon="📊" color="#3b82f6" />
           <StatCard label="Open" value={stats.open} icon="📂" color="#0d9488" />
           <StatCard label="In Progress" value={stats.inProgress} icon="⚙️" color="#f59e0b" />
@@ -96,14 +98,14 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
       )}
 
       {/* Quick Actions */}
-      <div className={styles.grid3} style={{ marginBottom: '32px' }}>
+      <div className={`${commonStyles.grid3} ${styles.quickActionsSection}`}>
         <Card>
-          <div style={{ padding: '20px', textAlign: 'center' }}>
-            <div style={{ fontSize: '32px', marginBottom: '12px' }}>🎫</div>
-            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+          <div className={styles.quickActionCard}>
+            <div className={styles.quickActionIcon}>🎫</div>
+            <h3 className={styles.quickActionTitle}>
               Create Ticket
             </h3>
-            <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px' }}>
+            <p className={styles.quickActionDescription}>
               Submit a new support request
             </p>
             <Button onClick={() => onNavigate('/ticket/new')} size="small">
@@ -113,12 +115,12 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
         </Card>
 
         <Card>
-          <div style={{ padding: '20px', textAlign: 'center' }}>
-            <div style={{ fontSize: '32px', marginBottom: '12px' }}>📋</div>
-            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+          <div className={styles.quickActionCard}>
+            <div className={styles.quickActionIcon}>📋</div>
+            <h3 className={styles.quickActionTitle}>
               Active Tickets
             </h3>
-            <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px' }}>
+            <p className={styles.quickActionDescription}>
               {pendingResponseCount} ticket{pendingResponseCount !== 1 ? 's' : ''} need{pendingResponseCount === 1 ? 's' : ''} attention
             </p>
             <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
@@ -128,12 +130,12 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
         </Card>
 
         <Card>
-          <div style={{ padding: '20px', textAlign: 'center' }}>
-            <div style={{ fontSize: '32px', marginBottom: '12px' }}>📚</div>
-            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+          <div className={styles.quickActionCard}>
+            <div className={styles.quickActionIcon}>📚</div>
+            <h3 className={styles.quickActionTitle}>
               Knowledge Base
             </h3>
-            <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px' }}>
+            <p className={styles.quickActionDescription}>
               Find answers to common questions
             </p>
             <Button onClick={() => onNavigate('/kb')} variant="secondary" size="small">
@@ -144,15 +146,8 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
       </div>
 
       {/* Recent Tickets Section */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '24px'
-        }}
-      >
-        <h2 style={{ fontSize: '20px', fontWeight: 600, color: 'white' }}>Recent Tickets</h2>
+      <div className={styles.recentTicketsHeader}>
+        <h2 className={styles.recentTicketsTitle}>Recent Tickets</h2>
         <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
           View All Tickets →
         </Button>
@@ -161,12 +156,12 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
       {/* Tickets Table */}
       {tickets.length === 0 ? (
         <Card>
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎫</div>
-            <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'white', marginBottom: '8px' }}>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateIcon}>🎫</div>
+            <h3 className={styles.emptyStateTitle}>
               No Tickets Yet
             </h3>
-            <p style={{ fontSize: '14px', color: '#94a3b8', marginBottom: '24px' }}>
+            <p className={styles.emptyStateDescription}>
               Create your first support ticket to get started
             </p>
             <Button onClick={() => onNavigate('/ticket/new')}>Create Ticket</Button>
@@ -174,60 +169,57 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
         </Card>
       ) : (
         <Card>
-          <div style={{ overflowX: 'auto' }}>
-            <table className={styles.table}>
-              <thead className={styles.tableHeader}>
+          <div className={styles.tableContainer}>
+            <table className={commonStyles.table}>
+              <thead className={commonStyles.tableHeader}>
                 <tr>
-                  <th className={styles.tableHeaderCell}>Ticket #</th>
-                  <th className={styles.tableHeaderCell}>Subject</th>
-                  <th className={styles.tableHeaderCell}>Category</th>
-                  <th className={styles.tableHeaderCell}>Status</th>
-                  <th className={styles.tableHeaderCell}>Priority</th>
-                  <th className={styles.tableHeaderCell}>Last Updated</th>
+                  <th className={commonStyles.tableHeaderCell}>Ticket #</th>
+                  <th className={commonStyles.tableHeaderCell}>Subject</th>
+                  <th className={commonStyles.tableHeaderCell}>Category</th>
+                  <th className={commonStyles.tableHeaderCell}>Status</th>
+                  <th className={commonStyles.tableHeaderCell}>Priority</th>
+                  <th className={commonStyles.tableHeaderCell}>Last Updated</th>
                 </tr>
               </thead>
               <tbody>
                 {tickets.map((ticket) => (
-                  <tr key={ticket.Id} className={styles.tableRow}>
-                    <td className={styles.tableCell}>
+                  <tr key={ticket.Id} className={`${commonStyles.tableRow} ${ticket.Status === 'Waiting' ? styles.waitingRow : ''}`}>
+                    <td className={commonStyles.tableCell}>
                       <span
-                        style={{ fontWeight: 600, color: '#3b82f6', cursor: 'pointer', textDecoration: 'underline' }}
+                        className={styles.ticketNumber}
                         onClick={() => onNavigate(`/ticket/${ticket.Id}`)}
                       >
                         {ticket.TicketNumber}
                       </span>
+                      {ticket.Status === 'Waiting' && (
+                        <div className={styles.waitingIndicator}>
+                          Needs your response
+                        </div>
+                      )}
                     </td>
-                    <td className={styles.tableCell}>
-                      <div style={{ maxWidth: '300px' }} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
-                        <div style={{ fontWeight: 500, color: 'white', marginBottom: '4px' }}>
+                    <td className={commonStyles.tableCell}>
+                      <div className={styles.subjectCell} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
+                        <div className={styles.subjectTitle}>
                           {ticket.Title}
                         </div>
-                        <div
-                          style={{
-                            fontSize: '12px',
-                            color: '#94a3b8',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}
-                        >
+                        <div className={styles.subjectDescription}>
                           {ticket.Description?.replace(/<[^>]*>/g, '').substring(0, 60)}...
                         </div>
                       </div>
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.categoryText}>
                         {ticket.CategoryTitle || 'N/A'}
                       </span>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.Status} type="status" value={ticket.Status} />
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={commonStyles.tableCell}>
                       <Badge text={ticket.Priority} type="priority" value={ticket.Priority} />
                     </td>
-                    <td className={styles.tableCell}>
-                      <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+                    <td className={commonStyles.tableCell}>
+                      <span className={styles.dateText}>
                         {SLACalculator.formatRelativeTime(ticket.Created)}
                       </span>
                     </td>

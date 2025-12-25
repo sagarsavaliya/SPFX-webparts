@@ -1,0 +1,250 @@
+/**
+ * MyTicketsPage Component Styles
+ * User's ticket management interface with filtering
+ */
+
+@use '../../styles/abstracts' as *;
+
+/**
+ * Main page container
+ */
+.page {
+  padding: $spacing-lg;
+}
+
+/**
+ * Header section
+ */
+.header {
+  margin-bottom: $spacing-xl;
+}
+
+.headerTop {
+  @include flex(row, center, space-between);
+  margin-bottom: 12px;
+}
+
+.pageTitle {
+  @include heading($font-size-xxl, $font-weight-bold);
+}
+
+.pageSubtitle {
+  font-size: $font-size-md;
+  color: $color-text-muted;
+}
+
+/**
+ * Filters section
+ */
+.filtersCard {
+  margin-bottom: $spacing-lg;
+}
+
+.filtersRow {
+  @include flex(row, flex-end, flex-start);
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.filterField {
+  flex: 1 1 300px;
+}
+
+.filterFieldNarrow {
+  flex: 0 1 180px;
+}
+
+.filterFieldAuto {
+  flex: 0 1 auto;
+}
+
+.filterLabel {
+  display: block;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-muted;
+  margin-bottom: $spacing-sm;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/**
+ * Active filters summary
+ */
+.filtersSummary {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-border-base;
+}
+
+.filtersRow {
+  @include flex(row, center, flex-start);
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.filtersSummaryLabel {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.filterTag {
+  @include flex(row, center, flex-start);
+  gap: 6px;
+  padding: 4px 12px;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: $border-radius-full;
+  font-size: $font-size-sm;
+  color: $color-primary;
+}
+
+.filterTagRemove {
+  @include flex(row, center, center);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.2);
+  cursor: pointer;
+  transition: background-color $transition-base;
+  font-size: 12px;
+  font-weight: $font-weight-bold;
+
+  &:hover {
+    background-color: rgba(59, 130, 246, 0.4);
+  }
+}
+
+/**
+ * Results summary
+ */
+.resultsHeader {
+  @include flex(row, center, space-between);
+  margin-bottom: $spacing-lg;
+}
+
+.resultsTitle {
+  @include heading($font-size-lg, $font-weight-semibold);
+}
+
+.resultsCount {
+  font-size: $font-size-base;
+  color: $color-text-muted;
+}
+
+/**
+ * Empty state
+ */
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyStateIcon {
+  font-size: 64px;
+  margin-bottom: $spacing-lg;
+}
+
+.emptyStateTitle {
+  @include heading($font-size-xl, $font-weight-semibold);
+  margin-bottom: $spacing-sm;
+}
+
+.emptyStateDescription {
+  font-size: $font-size-md;
+  color: $color-text-muted;
+  margin-bottom: $spacing-lg;
+}
+
+/**
+ * Table container
+ */
+.tableContainer {
+  overflow-x: auto;
+}
+
+/**
+ * Table cells - specific styles
+ */
+.ticketNumber {
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-primary-light;
+  }
+}
+
+.subjectCell {
+  max-width: 400px;
+}
+
+.subjectTitle {
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4px;
+}
+
+.subjectDescription {
+  @include truncate(1);
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.categoryText {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.assignedText {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.dateText {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+/**
+ * Waiting status row highlight
+ */
+.waitingRow {
+  position: relative;
+  background-color: rgba(245, 158, 11, 0.08);
+  border-left: 3px solid $color-warning;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: $color-warning;
+  }
+
+  &:hover {
+    background-color: rgba(245, 158, 11, 0.12);
+  }
+}
+
+.waitingIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: $font-size-xs;
+  color: $color-warning;
+  font-weight: $font-weight-semibold;
+  margin-top: 4px;
+
+  &::before {
+    content: '⏳';
+    font-size: $font-size-sm;
+  }
+}
