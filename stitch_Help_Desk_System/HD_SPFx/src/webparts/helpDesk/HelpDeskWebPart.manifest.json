@@ -3,26 +3,33 @@
   "id": "20fb0a67-a5ce-4879-ab83-f506f8d64cfa",
   "alias": "HelpDeskWebPart",
   "componentType": "WebPart",
-
-  // The "*" signifies that the version should be taken from the package.json
   "version": "*",
   "manifestVersion": 2,
-
-  // If true, the component can only be installed on sites where Custom Script is allowed.
-  // Components that allow authors to embed arbitrary script code should set this to true.
-  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
   "requiresCustomScript": false,
-  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
   "supportsThemeVariants": true,
-
-  "preconfiguredEntries": [{
-    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
-    "group": { "default": "Advanced" },
-    "title": { "default": "HelpDesk" },
-    "description": { "default": "HelpDesk description" },
-    "officeFabricIconFontName": "Page",
-    "properties": {
-      "description": "HelpDesk"
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Advanced"
+      },
+      "title": {
+        "default": "Help Desk System"
+      },
+      "description": {
+        "default": "Enterprise IT Help Desk & Ticketing System"
+      },
+      "officeFabricIconFontName": "Headset",
+      "iconImageUrl": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSIjZTNlM2UzIj48cGF0aCBkPSJNMjgwLTMyMHExNyAwIDI4LjUtMTEuNVQzMjAtMzYwcTAtMTctMTEuNS0yOC41VDI4MC00MDBxLTE3IDAtMjguNSAxMS41VDI0MC0zNjBxMCAxNyAxMS41IDI4LjVUMjgwLTMyMFptLTQwLTEyMGg4MHYtMjAwaC04MHYyMDBabTE2MCA4MGgzMjB2LTgwSDQwMHY4MFptMC0xNjBoMzIwdi04MEg0MDB2ODBaTTE2MC0xNjBxLTMzIDAtNTYuNS0yMy41VDgwLTI0MHYtNDgwcTAtMzMgMjMuNS01Ni41VDE2MC04MDBoNjQwcTMzIDAgNTYuNSAyMy41VDg4MC03MjB2NDgwcTAgMzMtMjMuNSA1Ni41VDgwMC0xNjBIMTYwWm0wLTgwaDY0MHYtNDgwSDE2MHY0ODBabTAgMHYtNDgwIDQ4MFoiLz48L3N2Zz4=",
+      "properties": {
+        "description": "HelpDesk"
+      }
     }
-  }]
+  ]
 }

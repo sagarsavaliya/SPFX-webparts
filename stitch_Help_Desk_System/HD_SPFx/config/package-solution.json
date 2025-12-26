@@ -8,10 +8,10 @@
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
-      "name": "",
-      "websiteUrl": "",
-      "privacyUrl": "",
-      "termsOfUseUrl": "",
+      "name": "Sagar Savaliya",
+      "websiteUrl": "https://aksharatech.com",
+      "privacyUrl": "https://aksharatech.com/legal/privacy-policy",
+      "termsOfUseUrl": "https://aksharatech.com/legal/terms-of-use",
       "mpnId": "Undefined-1.21.1"
     },
     "metadata": {
