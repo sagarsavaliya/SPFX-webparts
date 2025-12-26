@@ -10,6 +10,8 @@
  */
 .dashboard {
   padding: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /**
@@ -249,6 +251,7 @@
 .performanceTitle {
   @include heading($font-size-xl, $font-weight-semibold);
   margin-bottom: $spacing-xs;
+  margin-top: 0;
 }
 
 .performanceSubtitle {

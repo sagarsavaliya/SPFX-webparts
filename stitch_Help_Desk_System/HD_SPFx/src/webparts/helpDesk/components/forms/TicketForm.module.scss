@@ -222,6 +222,7 @@
   border-radius: 6px;
   color: $color-text-primary;
   font-size: 14px;
+  width: fit-content;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all $transition-base;
@@ -297,8 +298,9 @@
  * Form actions
  */
 .formActions {
-  @include flex(row, center, flex-start);
+  @include flex(row, center, center);
   gap: 12px;
   padding-top: 12px;
+  width: 100%;
   border-top: 1px solid $color-border-base;
 }

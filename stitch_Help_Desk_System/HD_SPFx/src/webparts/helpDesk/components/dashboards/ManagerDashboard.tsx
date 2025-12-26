@@ -9,6 +9,7 @@ import { Badge } from '../shared/Badge';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
+import { Footer } from '../shared/Footer';
 import { AssignTicketModal } from '../modals/AssignTicketModal';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './ManagerDashboard.module.scss';
@@ -188,7 +189,7 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
     return <ErrorMessage message={error} onRetry={loadData} />;
   }
 
-  return (
+  return (<div>
     <div className={styles.dashboard}>
       {/* Welcome Section */}
       <div className={styles.welcomeSection}>
@@ -289,13 +290,12 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
                   </div>
                   <div className={styles.metricItem}>
                     <span className={styles.metricLabel}>SLA Compliance</span>
-                    <span className={`${styles.metricValue} ${
-                      perf.slaCompliance >= 90
+                    <span className={`${styles.metricValue} ${perf.slaCompliance >= 90
                         ? styles.complianceHigh
                         : perf.slaCompliance >= 75
                           ? styles.complianceMedium
                           : styles.complianceLow
-                    }`}>
+                      }`}>
                       {perf.resolvedTickets > 0
                         ? `${Math.round(perf.slaCompliance)}%`
                         : 'N/A'}
@@ -422,15 +422,14 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
                       <Badge text={ticket.SLAStatus || 'Pending'} type="sla" value={ticket.SLAStatus || 'Pending'} />
                     </td>
                     <td className={commonStyles.tableCell}>
-                      <span className={`${styles.slaTimeText} ${
-                        (ticket.Status === 'Resolved' || ticket.Status === 'Closed')
+                      <span className={`${styles.slaTimeText} ${(ticket.Status === 'Resolved' || ticket.Status === 'Closed')
                           ? styles.completedTime
                           : ticket.SLAStatus === 'Breached'
                             ? styles.breachedTime
                             : ticket.SLAStatus === 'At Risk'
                               ? styles.atRiskTime
                               : styles.normalTime
-                      }`}>
+                        }`}>
                         {SLACalculator.formatSLATimeForTable({
                           Created: ticket.Created,
                           ResolvedDate: ticket.ResolvedDate,
@@ -477,6 +476,9 @@ export const ManagerDashboard: React.FC<IManagerDashboardProps> = ({ onNavigate 
           }}
         />
       )}
+
     </div>
+    <Footer />
+  </div>
   );
 };

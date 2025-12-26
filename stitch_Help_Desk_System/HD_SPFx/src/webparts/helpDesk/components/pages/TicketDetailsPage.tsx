@@ -37,6 +37,7 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
   const [isMarkingResponded, setIsMarkingResponded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const pollingIntervalRef = useRef<number | null>(null);
+  const pageTopRef = useRef<HTMLDivElement>(null);
 
   const loadTicketData = async (isPolling = false, shouldScroll = false): Promise<void> => {
     try {
@@ -59,8 +60,7 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
         setConversations(conversationsData);
 
         // Only scroll if explicitly requested (like after sending a message)
-        // or if there are new messages during polling AND we're currently near the bottom
-        if (shouldScroll || (isPolling && hasNewMessages)) {
+        if (shouldScroll) {
           setTimeout(() => {
             messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
           }, 100);
@@ -81,6 +81,11 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
 
   useEffect(() => {
     void loadTicketData();
+
+    // Scroll to top when component mounts
+    setTimeout(() => {
+      pageTopRef.current?.scrollIntoView({ behavior: 'auto' });
+    }, 0);
 
     // Start polling for new messages every 5 seconds
     pollingIntervalRef.current = window.setInterval(() => {
@@ -171,6 +176,7 @@ export const TicketDetailsPage: React.FC<ITicketDetailsPageProps> = ({ ticketId,
 
   return (
     <div className={pageStyles.pageContainer}>
+      <div ref={pageTopRef} />
       {/* Header */}
       <div className={pageStyles.headerSection}>
         <Button variant="secondary" size="small" onClick={() => onNavigate('/')}>

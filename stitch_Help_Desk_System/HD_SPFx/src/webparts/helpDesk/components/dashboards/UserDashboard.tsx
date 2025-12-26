@@ -9,6 +9,7 @@ import { Badge } from '../shared/Badge';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
+import { Footer } from '../shared/Footer';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './UserDashboard.module.scss';
 import { SLACalculator } from '../../utils/SLACalculator';
@@ -76,160 +77,164 @@ export const UserDashboard: React.FC<IUserDashboardProps> = ({ onNavigate }) => 
   }
 
   return (
-    <div className={styles.dashboard}>
-      {/* Welcome Section */}
-      <div className={styles.welcomeSection}>
-        <h1 className={styles.welcomeTitle}>
-          Welcome back, {currentUser?.DisplayName}! 👋
-        </h1>
-        <p className={styles.welcomeSubtitle}>
-          Here&apos;s an overview of your support tickets
-        </p>
-      </div>
-
-      {/* Stats Cards */}
-      {stats && (
-        <div className={`${commonStyles.grid4} ${styles.statsSection}`}>
-          <StatCard label="Total Tickets" value={stats.total} icon="📊" color="#3b82f6" />
-          <StatCard label="Open" value={stats.open} icon="📂" color="#0d9488" />
-          <StatCard label="In Progress" value={stats.inProgress} icon="⚙️" color="#f59e0b" />
-          <StatCard label="Resolved" value={stats.resolved} icon="✅" color="#10b981" />
+    <div>
+      <div className={styles.dashboard}>
+        {/* Welcome Section */}
+        <div className={styles.welcomeSection}>
+          <h1 className={styles.welcomeTitle}>
+            Welcome back, {currentUser?.DisplayName}! 👋
+          </h1>
+          <p className={styles.welcomeSubtitle}>
+            Here&apos;s an overview of your support tickets
+          </p>
         </div>
-      )}
 
-      {/* Quick Actions */}
-      <div className={`${commonStyles.grid3} ${styles.quickActionsSection}`}>
-        <Card>
-          <div className={styles.quickActionCard}>
-            <div className={styles.quickActionIcon}>🎫</div>
-            <h3 className={styles.quickActionTitle}>
-              Create Ticket
-            </h3>
-            <p className={styles.quickActionDescription}>
-              Submit a new support request
-            </p>
-            <Button onClick={() => onNavigate('/ticket/new')} size="small">
-              New Ticket
-            </Button>
+        {/* Stats Cards */}
+        {stats && (
+          <div className={`${commonStyles.grid4} ${styles.statsSection}`}>
+            <StatCard label="Total Tickets" value={stats.total} icon="📊" color="#3b82f6" />
+            <StatCard label="Open" value={stats.open} icon="📂" color="#0d9488" />
+            <StatCard label="In Progress" value={stats.inProgress} icon="⚙️" color="#f59e0b" />
+            <StatCard label="Resolved" value={stats.resolved} icon="✅" color="#10b981" />
           </div>
-        </Card>
+        )}
 
-        <Card>
-          <div className={styles.quickActionCard}>
-            <div className={styles.quickActionIcon}>📋</div>
-            <h3 className={styles.quickActionTitle}>
-              Active Tickets
-            </h3>
-            <p className={styles.quickActionDescription}>
-              {pendingResponseCount} ticket{pendingResponseCount !== 1 ? 's' : ''} need{pendingResponseCount === 1 ? 's' : ''} attention
-            </p>
-            <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
-              View All
-            </Button>
-          </div>
-        </Card>
+        {/* Quick Actions */}
+        <div className={`${commonStyles.grid3} ${styles.quickActionsSection}`}>
+          <Card>
+            <div className={styles.quickActionCard}>
+              <div className={styles.quickActionIcon}>🎫</div>
+              <h3 className={styles.quickActionTitle}>
+                Create Ticket
+              </h3>
+              <p className={styles.quickActionDescription}>
+                Submit a new support request
+              </p>
+              <Button onClick={() => onNavigate('/ticket/new')} size="small">
+                New Ticket
+              </Button>
+            </div>
+          </Card>
 
-        <Card>
-          <div className={styles.quickActionCard}>
-            <div className={styles.quickActionIcon}>📚</div>
-            <h3 className={styles.quickActionTitle}>
-              Knowledge Base
-            </h3>
-            <p className={styles.quickActionDescription}>
-              Find answers to common questions
-            </p>
-            <Button onClick={() => onNavigate('/kb')} variant="secondary" size="small">
-              Browse KB
-            </Button>
-          </div>
-        </Card>
-      </div>
+          <Card>
+            <div className={styles.quickActionCard}>
+              <div className={styles.quickActionIcon}>📋</div>
+              <h3 className={styles.quickActionTitle}>
+                Active Tickets
+              </h3>
+              <p className={styles.quickActionDescription}>
+                {pendingResponseCount} ticket{pendingResponseCount !== 1 ? 's' : ''} need{pendingResponseCount === 1 ? 's' : ''} attention
+              </p>
+              <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
+                View All
+              </Button>
+            </div>
+          </Card>
 
-      {/* Recent Tickets Section */}
-      <div className={styles.recentTicketsHeader}>
-        <h2 className={styles.recentTicketsTitle}>Recent Tickets</h2>
-        <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
-          View All Tickets →
-        </Button>
-      </div>
+          <Card>
+            <div className={styles.quickActionCard}>
+              <div className={styles.quickActionIcon}>📚</div>
+              <h3 className={styles.quickActionTitle}>
+                Knowledge Base
+              </h3>
+              <p className={styles.quickActionDescription}>
+                Find answers to common questions
+              </p>
+              <Button onClick={() => onNavigate('/kb')} variant="secondary" size="small">
+                Browse KB
+              </Button>
+            </div>
+          </Card>
+        </div>
 
-      {/* Tickets Table */}
-      {tickets.length === 0 ? (
-        <Card>
-          <div className={styles.emptyState}>
-            <div className={styles.emptyStateIcon}>🎫</div>
-            <h3 className={styles.emptyStateTitle}>
-              No Tickets Yet
-            </h3>
-            <p className={styles.emptyStateDescription}>
-              Create your first support ticket to get started
-            </p>
-            <Button onClick={() => onNavigate('/ticket/new')}>Create Ticket</Button>
-          </div>
-        </Card>
-      ) : (
-        <Card>
-          <div className={styles.tableContainer}>
-            <table className={commonStyles.table}>
-              <thead className={commonStyles.tableHeader}>
-                <tr>
-                  <th className={commonStyles.tableHeaderCell}>Ticket #</th>
-                  <th className={commonStyles.tableHeaderCell}>Subject</th>
-                  <th className={commonStyles.tableHeaderCell}>Category</th>
-                  <th className={commonStyles.tableHeaderCell}>Status</th>
-                  <th className={commonStyles.tableHeaderCell}>Priority</th>
-                  <th className={commonStyles.tableHeaderCell}>Last Updated</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tickets.map((ticket) => (
-                  <tr key={ticket.Id} className={`${commonStyles.tableRow} ${ticket.Status === 'Waiting' ? styles.waitingRow : ''}`}>
-                    <td className={commonStyles.tableCell}>
-                      <span
-                        className={styles.ticketNumber}
-                        onClick={() => onNavigate(`/ticket/${ticket.Id}`)}
-                      >
-                        {ticket.TicketNumber}
-                      </span>
-                      {ticket.Status === 'Waiting' && (
-                        <div className={styles.waitingIndicator}>
-                          Needs your response
-                        </div>
-                      )}
-                    </td>
-                    <td className={commonStyles.tableCell}>
-                      <div className={styles.subjectCell} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
-                        <div className={styles.subjectTitle}>
-                          {ticket.Title}
-                        </div>
-                        <div className={styles.subjectDescription}>
-                          {ticket.Description?.replace(/<[^>]*>/g, '').substring(0, 60)}...
-                        </div>
-                      </div>
-                    </td>
-                    <td className={commonStyles.tableCell}>
-                      <span className={styles.categoryText}>
-                        {ticket.CategoryTitle || 'N/A'}
-                      </span>
-                    </td>
-                    <td className={commonStyles.tableCell}>
-                      <Badge text={ticket.Status} type="status" value={ticket.Status} />
-                    </td>
-                    <td className={commonStyles.tableCell}>
-                      <Badge text={ticket.Priority} type="priority" value={ticket.Priority} />
-                    </td>
-                    <td className={commonStyles.tableCell}>
-                      <span className={styles.dateText}>
-                        {SLACalculator.formatRelativeTime(ticket.Created)}
-                      </span>
-                    </td>
+        {/* Recent Tickets Section */}
+        <div className={styles.recentTicketsHeader}>
+          <h2 className={styles.recentTicketsTitle}>Recent Tickets</h2>
+          <Button onClick={() => onNavigate('/my-tickets')} variant="secondary" size="small">
+            View All Tickets →
+          </Button>
+        </div>
+
+        {/* Tickets Table */}
+        {tickets.length === 0 ? (
+          <Card>
+            <div className={styles.emptyState}>
+              <div className={styles.emptyStateIcon}>🎫</div>
+              <h3 className={styles.emptyStateTitle}>
+                No Tickets Yet
+              </h3>
+              <p className={styles.emptyStateDescription}>
+                Create your first support ticket to get started
+              </p>
+              <Button onClick={() => onNavigate('/ticket/new')}>Create Ticket</Button>
+            </div>
+          </Card>
+        ) : (
+          <Card>
+            <div className={styles.tableContainer}>
+              <table className={commonStyles.table}>
+                <thead className={commonStyles.tableHeader}>
+                  <tr>
+                    <th className={commonStyles.tableHeaderCell}>Ticket #</th>
+                    <th className={commonStyles.tableHeaderCell}>Subject</th>
+                    <th className={commonStyles.tableHeaderCell}>Category</th>
+                    <th className={commonStyles.tableHeaderCell}>Status</th>
+                    <th className={commonStyles.tableHeaderCell}>Priority</th>
+                    <th className={commonStyles.tableHeaderCell}>Last Updated</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
-      )}
+                </thead>
+                <tbody>
+                  {tickets.map((ticket) => (
+                    <tr key={ticket.Id} className={`${commonStyles.tableRow} ${ticket.Status === 'Waiting' ? styles.waitingRow : ''}`}>
+                      <td className={commonStyles.tableCell}>
+                        <span
+                          className={styles.ticketNumber}
+                          onClick={() => onNavigate(`/ticket/${ticket.Id}`)}
+                        >
+                          {ticket.TicketNumber}
+                        </span>
+                        {ticket.Status === 'Waiting' && (
+                          <div className={styles.waitingIndicator}>
+                            Needs your response
+                          </div>
+                        )}
+                      </td>
+                      <td className={commonStyles.tableCell}>
+                        <div className={styles.subjectCell} title={`${ticket.Title}\n\n${ticket.Description?.replace(/<[^>]*>/g, '')}`}>
+                          <div className={styles.subjectTitle}>
+                            {ticket.Title}
+                          </div>
+                          <div className={styles.subjectDescription}>
+                            {ticket.Description?.replace(/<[^>]*>/g, '').substring(0, 60)}...
+                          </div>
+                        </div>
+                      </td>
+                      <td className={commonStyles.tableCell}>
+                        <span className={styles.categoryText}>
+                          {ticket.CategoryTitle || 'N/A'}
+                        </span>
+                      </td>
+                      <td className={commonStyles.tableCell}>
+                        <Badge text={ticket.Status} type="status" value={ticket.Status} />
+                      </td>
+                      <td className={commonStyles.tableCell}>
+                        <Badge text={ticket.Priority} type="priority" value={ticket.Priority} />
+                      </td>
+                      <td className={commonStyles.tableCell}>
+                        <span className={styles.dateText}>
+                          {SLACalculator.formatRelativeTime(ticket.Created)}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        )}
+
+      </div>
+      <Footer />
     </div>
   );
 };

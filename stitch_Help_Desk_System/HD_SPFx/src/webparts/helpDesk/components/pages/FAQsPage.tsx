@@ -5,6 +5,7 @@ import { IFAQByCategory } from '../../models';
 import { Card } from '../shared/Card';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
+import { Footer } from '../shared/Footer';
 import styles from './FAQsPage.module.scss';
 
 interface IFAQsPageProps {
@@ -104,191 +105,195 @@ export const FAQsPage: React.FC<IFAQsPageProps> = () => {
   const filteredCount = filteredFAQsByCategory.reduce((sum, cat) => sum + cat.faqs.length, 0);
 
   return (
-    <div className={styles.page}>
-      {/* Hero Section */}
-      <div className={styles.hero}>
-        <h1 className={styles.heroTitle}>
-          ❓ Frequently Asked Questions
-        </h1>
-        <p className={styles.heroSubtitle}>
-          Quick answers to common questions about our help desk system
-        </p>
-      </div>
-
-      {/* Search and Filters */}
-      <div className={styles.filtersSection}>
-        <div className={`${styles.searchGrid} ${selectedCategory ? styles.searchGridWithFilter : styles.searchGridNoFilter}`}>
-          {/* Search Input */}
-          <div className={styles.searchInputContainer}>
-            <input
-              type="text"
-              placeholder="🔍 Search FAQs..."
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              className={styles.searchInput}
-            />
-          </div>
-
-          {/* Clear Filters */}
-          {selectedCategory && (
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className={styles.clearFilterButton}
-            >
-              ✕ Clear Filter
-            </button>
-          )}
+    <div>
+      <div className={styles.page}>
+        {/* Hero Section */}
+        <div className={styles.hero}>
+          <h1 className={styles.heroTitle}>
+            ❓ Frequently Asked Questions
+          </h1>
+          <p className={styles.heroSubtitle}>
+            Quick answers to common questions about our help desk system
+          </p>
         </div>
 
-        {/* Category Filters */}
-        <div className={styles.categoryFilters}>
-          {faqsByCategory.map(category => {
-            const isActive = selectedCategory === category.categoryId;
-            return (
+        {/* Search and Filters */}
+        <div className={styles.filtersSection}>
+          <div className={`${styles.searchGrid} ${selectedCategory ? styles.searchGridWithFilter : styles.searchGridNoFilter}`}>
+            {/* Search Input */}
+            <div className={styles.searchInputContainer}>
+              <input
+                type="text"
+                placeholder="🔍 Search FAQs..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                className={styles.searchInput}
+              />
+            </div>
+
+            {/* Clear Filters */}
+            {selectedCategory && (
               <button
-                key={category.categoryId}
-                onClick={() => setSelectedCategory(isActive ? null : category.categoryId)}
-                className={`${styles.categoryPill} ${isActive ? styles.categoryPillActive : styles.categoryPillInactive}`}
+                onClick={() => setSelectedCategory(null)}
+                className={styles.clearFilterButton}
               >
-                <span>{category.categoryTitle}</span>
-                <span className={`${styles.categoryCount} ${isActive ? styles.categoryCountActive : styles.categoryCountInactive}`}>
-                  {category.faqs.length}
-                </span>
+                ✕ Clear Filter
               </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Results Count */}
-      {(searchText || selectedCategory) && (
-        <div className={styles.resultsBanner}>
-          <span className={styles.resultsText}>
-            📋 Showing <strong>{filteredCount}</strong> of {totalFAQs} FAQs
-            {selectedCategory && ` in ${faqsByCategory.find(c => c.categoryId === selectedCategory)?.categoryTitle}`}
-          </span>
-        </div>
-      )}
-
-      {/* FAQs List */}
-      {filteredFAQsByCategory.length === 0 ? (
-        <Card>
-          <div className={styles.emptyState}>
-            <div className={styles.emptyStateIcon}>🔍</div>
-            <h3 className={styles.emptyStateTitle}>
-              No FAQs Found
-            </h3>
-            <p className={styles.emptyStateMessage}>
-              {searchText
-                ? 'Try adjusting your search terms or filters'
-                : 'No FAQs are available at this time'}
-            </p>
+            )}
           </div>
-        </Card>
-      ) : (
-        <div className={styles.faqsList}>
-          {filteredFAQsByCategory.map(category => (
-            <div key={category.categoryId} className={styles.categorySection}>
-              {/* Category Badge (only show if no category filter is active) */}
-              {!selectedCategory && (
-                <div className={styles.categoryHeader}>
-                  <span className={styles.categoryHeaderTitle}>
-                    {category.categoryTitle}
-                  </span>
-                  <span className={styles.categoryHeaderCount}>
+
+          {/* Category Filters */}
+          <div className={styles.categoryFilters}>
+            {faqsByCategory.map(category => {
+              const isActive = selectedCategory === category.categoryId;
+              return (
+                <button
+                  key={category.categoryId}
+                  onClick={() => setSelectedCategory(isActive ? null : category.categoryId)}
+                  className={`${styles.categoryPill} ${isActive ? styles.categoryPillActive : styles.categoryPillInactive}`}
+                >
+                  <span>{category.categoryTitle}</span>
+                  <span className={`${styles.categoryCount} ${isActive ? styles.categoryCountActive : styles.categoryCountInactive}`}>
                     {category.faqs.length}
                   </span>
-                </div>
-              )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-              {/* FAQ Items */}
-              {category.faqs.map((faq) => {
-                const isExpanded = expandedFAQs.has(faq.Id);
+        {/* Results Count */}
+        {(searchText || selectedCategory) && (
+          <div className={styles.resultsBanner}>
+            <span className={styles.resultsText}>
+              📋 Showing <strong>{filteredCount}</strong> of {totalFAQs} FAQs
+              {selectedCategory && ` in ${faqsByCategory.find(c => c.categoryId === selectedCategory)?.categoryTitle}`}
+            </span>
+          </div>
+        )}
 
-                return (
-                  <div
-                    key={faq.Id}
-                    className={`${styles.faqItem} ${isExpanded ? styles.faqItemExpanded : styles.faqItemCollapsed}`}
-                  >
-                    {/* Question Header */}
+        {/* FAQs List */}
+        {filteredFAQsByCategory.length === 0 ? (
+          <Card>
+            <div className={styles.emptyState}>
+              <div className={styles.emptyStateIcon}>🔍</div>
+              <h3 className={styles.emptyStateTitle}>
+                No FAQs Found
+              </h3>
+              <p className={styles.emptyStateMessage}>
+                {searchText
+                  ? 'Try adjusting your search terms or filters'
+                  : 'No FAQs are available at this time'}
+              </p>
+            </div>
+          </Card>
+        ) : (
+          <div className={styles.faqsList}>
+            {filteredFAQsByCategory.map(category => (
+              <div key={category.categoryId} className={styles.categorySection}>
+                {/* Category Badge (only show if no category filter is active) */}
+                {!selectedCategory && (
+                  <div className={styles.categoryHeader}>
+                    <span className={styles.categoryHeaderTitle}>
+                      {category.categoryTitle}
+                    </span>
+                    <span className={styles.categoryHeaderCount}>
+                      {category.faqs.length}
+                    </span>
+                  </div>
+                )}
+
+                {/* FAQ Items */}
+                {category.faqs.map((faq) => {
+                  const isExpanded = expandedFAQs.has(faq.Id);
+
+                  return (
                     <div
-                      onClick={() => toggleFAQ(faq.Id)}
-                      className={`${styles.faqQuestionHeader} ${isExpanded ? styles.faqQuestionHeaderExpanded : ''}`}
+                      key={faq.Id}
+                      className={`${styles.faqItem} ${isExpanded ? styles.faqItemExpanded : styles.faqItemCollapsed}`}
                     >
-                      <div className={styles.faqQuestionContent}>
-                        <span className={styles.faqQuestionIcon}>
-                          {isExpanded ? '📖' : '❔'}
-                        </span>
-                        <span className={styles.faqQuestionText}>
-                          {faq.Question}
-                        </span>
-                      </div>
+                      {/* Question Header */}
+                      <div
+                        onClick={() => toggleFAQ(faq.Id)}
+                        className={`${styles.faqQuestionHeader} ${isExpanded ? styles.faqQuestionHeaderExpanded : ''}`}
+                      >
+                        <div className={styles.faqQuestionContent}>
+                          <span className={styles.faqQuestionIcon}>
+                            {isExpanded ? '📖' : '❔'}
+                          </span>
+                          <span className={styles.faqQuestionText}>
+                            {faq.Question}
+                          </span>
+                        </div>
 
-                      <div className={`${styles.faqExpandButton} ${isExpanded ? styles.faqExpandButtonActive : styles.faqExpandButtonInactive}`}>
-                        <span className={`${styles.faqExpandArrow} ${isExpanded ? styles.faqExpandArrowRotated : ''}`}>
-                          ▼
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Answer - Expandable */}
-                    {isExpanded && (
-                      <div className={styles.faqAnswerSection}>
-                        {/* Answer Content */}
-                        <div
-                          className={styles.faqAnswerContent}
-                          dangerouslySetInnerHTML={{ __html: faq.Answer }}
-                        />
-
-                        {/* Footer Actions */}
-                        <div className={styles.faqFooterSection}>
-                          {/* Stats */}
-                          <div className={styles.faqMetaInfo}>
-                            {faq.Views !== undefined && (
-                              <span className={styles.faqMetaItem}>
-                                <span>👁️</span>
-                                <span>{faq.Views} views</span>
-                              </span>
-                            )}
-                            {faq.Helpful !== undefined && (
-                              <span className={styles.faqMetaItem}>
-                                <span>👍</span>
-                                <span>{faq.Helpful} helpful</span>
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Helpful Button */}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              void handleMarkHelpful(faq.Id);
-                            }}
-                            className={styles.helpfulButton}
-                          >
-                            <span>👍</span>
-                            <span>Helpful</span>
-                          </button>
+                        <div className={`${styles.faqExpandButton} ${isExpanded ? styles.faqExpandButtonActive : styles.faqExpandButtonInactive}`}>
+                          <span className={`${styles.faqExpandArrow} ${isExpanded ? styles.faqExpandArrowRotated : ''}`}>
+                            ▼
+                          </span>
                         </div>
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* Footer Summary */}
-      {totalFAQs > 0 && !searchText && !selectedCategory && (
-        <div className={styles.footerSummary}>
-          <span className={styles.footerSummaryText}>
-            📚 Total: <strong>{totalFAQs}</strong> FAQs across{' '}
-            <strong>{faqsByCategory.length}</strong> categories
-          </span>
-        </div>
-      )}
+                      {/* Answer - Expandable */}
+                      {isExpanded && (
+                        <div className={styles.faqAnswerSection}>
+                          {/* Answer Content */}
+                          <div
+                            className={styles.faqAnswerContent}
+                            dangerouslySetInnerHTML={{ __html: faq.Answer }}
+                          />
+
+                          {/* Footer Actions */}
+                          <div className={styles.faqFooterSection}>
+                            {/* Stats */}
+                            <div className={styles.faqMetaInfo}>
+                              {faq.Views !== undefined && (
+                                <span className={styles.faqMetaItem}>
+                                  <span>👁️</span>
+                                  <span>{faq.Views} views</span>
+                                </span>
+                              )}
+                              {faq.Helpful !== undefined && (
+                                <span className={styles.faqMetaItem}>
+                                  <span>👍</span>
+                                  <span>{faq.Helpful} helpful</span>
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Helpful Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                void handleMarkHelpful(faq.Id);
+                              }}
+                              className={styles.helpfulButton}
+                            >
+                              <span>👍</span>
+                              <span>Helpful</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Footer Summary */}
+        {totalFAQs > 0 && !searchText && !selectedCategory && (
+          <div className={styles.footerSummary}>
+            <span className={styles.footerSummaryText}>
+              📚 Total: <strong>{totalFAQs}</strong> FAQs across{' '}
+              <strong>{faqsByCategory.length}</strong> categories
+            </span>
+          </div>
+        )}
+
+      </div>
+      <Footer />
     </div>
   );
 };

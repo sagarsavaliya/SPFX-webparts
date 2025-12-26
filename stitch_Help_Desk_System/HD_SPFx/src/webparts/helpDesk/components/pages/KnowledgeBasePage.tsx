@@ -5,6 +5,7 @@ import { IKBArticle, ICategory } from '../../models';
 import { Card } from '../shared/Card';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
+import { Footer } from '../shared/Footer';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './KnowledgeBasePage.module.scss';
 
@@ -271,6 +272,7 @@ export const KnowledgeBasePage: React.FC<IKnowledgeBasePageProps> = ({ onNavigat
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

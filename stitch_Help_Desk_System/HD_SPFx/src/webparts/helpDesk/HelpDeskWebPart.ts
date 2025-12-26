@@ -38,21 +38,19 @@ export default class HelpDeskWebPart extends BaseClientSideWebPart<IHelpDeskWebP
       existingStyle.remove();
     }
 
-    // Add new custom CSS if provided
-    if (this.properties.customCSS && this.properties.customCSS.trim()) {
+    // Only inject CSS if we're NOT in edit mode
+    // Check multiple indicators to ensure we detect edit mode correctly
+    const isEditMode = this.displayMode === 2 || // DisplayMode.Edit = 2
+                       document.body.classList.contains('sp-editing') ||
+                       document.querySelector('[data-automation-id="CanvasCommand"]') !== null ||
+                       window.location.href.includes('Mode=Edit');
+
+    // Only add custom CSS if NOT in edit mode and CSS is provided
+    if (!isEditMode && this.properties.customCSS && this.properties.customCSS.trim()) {
       const style = document.createElement('style');
       style.id = 'helpdesk-custom-css';
       style.type = 'text/css';
-
-      // Only apply custom CSS when NOT in edit mode
-      // In edit mode, the body has specific classes we can detect
-      const cssWithEditModeCheck = `
-        body:not(.sp-editing):not(.od-SuiteNav--inTransition) {
-          ${this.properties.customCSS}
-        }
-      `;
-
-      style.innerHTML = cssWithEditModeCheck;
+      style.innerHTML = this.properties.customCSS;
       document.head.appendChild(style);
     }
   }

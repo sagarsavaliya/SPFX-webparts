@@ -7,6 +7,7 @@ import { Badge } from '../shared/Badge';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Card } from '../shared/Card';
+import { Footer } from '../shared/Footer';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './MyTicketsPage.module.scss';
 import { SLACalculator } from '../../utils/SLACalculator';
@@ -346,6 +347,7 @@ export const MyTicketsPage: React.FC<IMyTicketsPageProps> = ({ onNavigate }) => 
           </div>
         </Card>
       )}
+      <Footer />
     </div>
   );
 };
